@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -3820,8 +3820,120 @@
         </div>
       </section>
 
+      <!-- Secretary Hub Section -->
+      <section id="secretary-hub" class="hidden" style="max-width: 1200px; margin: 6rem auto 0; text-align: center;">
+        <h2 style="font-family: var(--font-heading); margin: 0 0 1rem 0; color: white; font-size: 2.5rem;">
+          Secretary Hub
+        </h2>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1rem;">
+          Generate registration links for students and approve pending registrations.
+        </p>
+
+        <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 3rem;">
+          <button id="show-link-gen-btn" class="hero-btn secondary-btn active"
+            style="padding: 0.6rem 1.5rem; font-size: 0.9rem;">
+            <i class="fas fa-link"></i> Link Generator
+          </button>
+          <button id="show-pending-btn" class="hero-btn secondary-btn"
+            style="padding: 0.6rem 1.5rem; font-size: 0.9rem; position: relative;">
+            <i class="fas fa-clock"></i> Pending Approvals
+            <span id="pending-count-badge" class="hidden"
+              style="position: absolute; top: -10px; right: -10px; background: var(--error); color: white; border-radius: 50%; width: 22px; height: 22px; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; border: 2px solid var(--bg-color);">0</span>
+          </button>
+        </div>
+
+        <!-- Link Generator Content -->
+        <div id="link-gen-container" class="auth-container"
+          style="max-width: 600px; margin: 0 auto; text-align: left; background: rgba(30, 41, 59, 0.4);">
+          <h3 style="margin-top: 0; color: white; font-family: var(--font-heading);">Create Registration Link</h3>
+          <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">
+            Students using this link will have their registrations sent to you for approval.
+          </p>
+
+          <form id="link-gen-form" style="display: flex; flex-direction: column; gap: 1.25rem;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="reg-filter-label"
+                style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Event Category</label>
+              <div class="custom-dropdown-container">
+                <input type="hidden" id="link-category" value="On Stage" required>
+                <div class="custom-dropdown-trigger has-value" id="link-category-trigger">
+                  <span id="link-category-text">On Stage</span>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="custom-dropdown-menu" id="link-category-menu">
+                  <div class="custom-dropdown-item" data-value="On Stage">On Stage</div>
+                  <div class="custom-dropdown-item" data-value="Off Stage">Off Stage</div>
+                </div>
+              </div>
+            </div>
+
+            <div id="generated-link-box" class="hidden"
+              style="margin-top: 1rem; padding: 1.25rem; background: rgba(16, 185, 129, 0.05); border: 1px dashed rgba(16, 185, 129, 0.3); border-radius: 1rem;">
+              <label class="reg-filter-label" style="display: block; margin-bottom: 0.5rem; color: #10b981;">Generated
+                Link</label>
+              <div style="display: flex; gap: 0.5rem;">
+                <input type="text" id="shareable-link-input" readonly class="form-input"
+                  style="flex: 1; font-size: 0.8rem; background: rgba(0,0,0,0.2);">
+                <button type="button" id="copy-link-btn" class="cta-btn"
+                  style="width: auto; margin-top: 0; padding: 0.5rem 1rem; border-radius: 0.75rem;">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </div>
+              <p style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 0.5rem; font-style: italic;">
+                Share this link with students. It will expire after 24 hours.
+              </p>
+            </div>
+
+            <button type="submit" class="cta-btn" id="gen-link-submit-btn">Generate Shareable Link</button>
+          </form>
+        </div>
+
+        <!-- Pending Approvals Content -->
+        <div id="pending-approvals-container" class="hidden" style="text-align: left;">
+          <div id="pending-list"
+            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
+            <div style="grid-column: 1 / -1; padding: 3rem; text-align: center; color: var(--text-secondary);">
+              Checking for pending registrations...
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab Switcher -->
+      <div id="portal-tabs" class="hidden"
+        style="display: flex; justify-content: center; gap: 2rem; margin-top: 4rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem;">
+        <button id="tab-my-regs" class="tab-btn active"
+          style="background: none; border: none; color: white; font-weight: 700; cursor: pointer; font-family: var(--font-heading); font-size: 1.1rem; padding: 0.5rem 1rem; position: relative;">
+          My Registrations
+        </button>
+        <button id="tab-secretary-hub" class="tab-btn"
+          style="background: none; border: none; color: var(--text-secondary); font-weight: 700; cursor: pointer; font-family: var(--font-heading); font-size: 1.1rem; padding: 0.5rem 1rem; position: relative;">
+          Secretary Hub
+        </button>
+      </div>
+
+      <style>
+        .tab-btn.active::after {
+          content: '';
+          position: absolute;
+          bottom: -1rem;
+          left: 0;
+          width: 100%;
+          height: 3px;
+          background: var(--gradient-main);
+          border-radius: 3px 3px 0 0;
+        }
+
+        .hero-btn.active {
+          background: var(--gradient-main);
+          color: white;
+          border-color: transparent;
+          box-shadow: 0 10px 20px -5px rgba(244, 63, 94, 0.4);
+        }
+      </style>
+
       <!-- My Registrations Section -->
-      <section id="my-registrations" style="max-width: 1200px; margin: 6rem auto 0; text-align: center;">
+      <section id="my-registrations" style="max-width: 1200px; margin: 3rem auto 0; text-align: center;">
         <h2 style="font-family: var(--font-heading); margin: 0 0 1rem 0; color: white; font-size: 2.5rem;">
           My Registrations
         </h2>
@@ -4510,7 +4622,7 @@
   <!-- Firebase SDKs -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, collection, addDoc, getDocs, query, where, orderBy, onSnapshot, limit } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, collection, addDoc, setDoc, updateDoc, getDocs, query, where, orderBy, onSnapshot, limit, serverTimestamp as firestoreTimestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
     import { getDatabase, ref, set, push, onDisconnect, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 
@@ -4598,7 +4710,7 @@
     }
 
     // --- System Control & Versioning ---
-    const APP_VERSION = "1.0.3";
+    const APP_VERSION = "1.0.4";
     const escapeHtml = (unsafe) => {
       if (unsafe === null || unsafe === undefined) return "";
       return String(unsafe)
@@ -5937,6 +6049,273 @@
           // Now handled by global event delegation based on classes
         }
 
+        async function initSecretaryHub() {
+          const secretaryHub = document.getElementById('secretary-hub');
+          const portalTabs = document.getElementById('portal-tabs');
+          const myRegsSection = document.getElementById('my-registrations');
+
+          // Check if user is a secretary (has a department that is not Main Admin or User)
+          const isSecretary = userDepartment && userDepartment !== "User" && userDepartment !== "Main Admin";
+
+          if (!isSecretary && !isFirestoreAdmin) {
+            console.log("User is not a secretary or admin, hub hidden.");
+            return;
+          }
+
+          console.log("Initializing Secretary Hub for:", userDepartment);
+
+          // Show tabs
+          if (portalTabs) portalTabs.classList.remove('hidden');
+
+          // Tab Switching Logic
+          const tabMyRegs = document.getElementById('tab-my-regs');
+          const tabSecretary = document.getElementById('tab-secretary-hub');
+
+          const switchTab = (tab) => {
+            if (tab === 'my-regs') {
+              tabMyRegs.classList.add('active');
+              tabSecretary.classList.remove('active');
+              myRegsSection.classList.remove('hidden');
+              secretaryHub.classList.add('hidden');
+              tabMyRegs.style.color = "white";
+              tabSecretary.style.color = "var(--text-secondary)";
+            } else {
+              tabMyRegs.classList.remove('active');
+              tabSecretary.classList.add('active');
+              myRegsSection.classList.add('hidden');
+              secretaryHub.classList.remove('hidden');
+              tabMyRegs.style.color = "var(--text-secondary)";
+              tabSecretary.style.color = "white";
+            }
+          };
+
+          if (tabMyRegs) tabMyRegs.onclick = () => switchTab('my-regs');
+          if (tabSecretary) tabSecretary.onclick = () => switchTab('secretary');
+
+          // Internal Secretary Hub Switching (Link Gen vs Pending)
+          const btnLinkGen = document.getElementById('show-link-gen-btn');
+          const btnPending = document.getElementById('show-pending-btn');
+          const containerLinkGen = document.getElementById('link-gen-container');
+          const containerPending = document.getElementById('pending-approvals-container');
+
+          if (btnLinkGen) btnLinkGen.onclick = () => {
+            btnLinkGen.classList.add('active');
+            btnPending.classList.remove('active');
+            containerLinkGen.classList.remove('hidden');
+            containerPending.classList.add('hidden');
+          };
+
+          if (btnPending) btnPending.onclick = () => {
+            btnPending.classList.add('active');
+            btnLinkGen.classList.remove('active');
+            containerPending.classList.remove('hidden');
+            containerLinkGen.classList.add('hidden');
+            loadPendingRegistrations();
+          };
+
+          // Link Generation Logic
+          const linkForm = document.getElementById('link-gen-form');
+          const linkCategoryInput = document.getElementById('link-category');
+
+          if (linkForm) linkForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('gen-link-submit-btn');
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = "Generating...";
+
+            try {
+              const category = linkCategoryInput.value;
+              const token = crypto.randomUUID().substring(0, 8); // Shorter token for URLs
+              const expiresAt = new Date();
+              expiresAt.setHours(expiresAt.getHours() + 24);
+
+              await setDoc(doc(db, "registration_links", token), {
+                token: token,
+                createdBy: auth.currentUser.email,
+                department: userDepartment,
+                category: category,
+                academicYear: systemYear,
+                expiresAt: expiresAt,
+                createdAt: firestoreTimestamp(),
+                status: 'active'
+              });
+
+              // Correct path for Firebase Hosting (serves content of /y at root)
+              const shareLink = `${window.location.protocol}//${window.location.host}/student.html?token=${token}`;
+              const linkBox = document.getElementById('generated-link-box');
+              const linkInput = document.getElementById('shareable-link-input');
+
+              if (linkInput) linkInput.value = shareLink;
+              if (linkBox) linkBox.classList.remove('hidden');
+
+              btn.textContent = "Regenerate Link";
+              btn.disabled = false;
+
+              showCustomAlert("Success!", "Registration link generated successfully.", "success");
+            } catch (error) {
+              console.error("Link generation failed:", error);
+              showCustomAlert("Error", "Failed to generate link: " + error.message, "error");
+              btn.disabled = false;
+              btn.textContent = originalText;
+            }
+          };
+
+          const copyBtn = document.getElementById('copy-link-btn');
+          if (copyBtn) copyBtn.onclick = () => {
+            const linkInput = document.getElementById('shareable-link-input');
+            if (linkInput) {
+              linkInput.select();
+              navigator.clipboard.writeText(linkInput.value);
+              copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+              setTimeout(() => { copyBtn.innerHTML = '<i class="fas fa-copy"></i>'; }, 2000);
+            }
+          };
+
+          // Pending Registrations Logic
+          let pendingUnsubscribe = null;
+          function loadPendingRegistrations() {
+            if (pendingUnsubscribe) pendingUnsubscribe();
+
+            // Query for registrations pending for THIS secretary
+            const q = query(
+              collection(db, "pending_registrations"),
+              where("academicYear", "==", systemYear),
+              where("departmentSecretaryEmail", "==", auth.currentUser.email),
+              where("status", "==", "pending")
+            );
+
+            pendingUnsubscribe = onSnapshot(q, (snapshot) => {
+              const pendingList = document.getElementById('pending-list');
+              const countBadge = document.getElementById('pending-count-badge');
+
+              if (!pendingList) return;
+
+              if (snapshot.empty) {
+                pendingList.innerHTML = `
+                  <div style="grid-column: 1 / -1; padding: 3rem; text-align: center; color: var(--text-secondary);">
+                    <i class="fas fa-check-circle" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                    <p>No pending registrations to review.</p>
+                  </div>
+                `;
+                if (countBadge) countBadge.classList.add('hidden');
+                return;
+              }
+
+              if (countBadge) {
+                countBadge.textContent = snapshot.size;
+                countBadge.classList.remove('hidden');
+              }
+
+              let html = '';
+              snapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+                const id = docSnap.id;
+                html += `
+                  <div class="registration-card" style="border-left: 4px solid var(--accent-color); background: rgba(255,255,255,0.03);">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                      <div>
+                        <h4 style="margin: 0; color: white; font-size: 1.1rem;">${escapeHtml(data.studentName)}</h4>
+                        <span style="font-size: 0.8rem; color: var(--text-secondary);">${escapeHtml(data.course)} | Year ${data.year}</span>
+                      </div>
+                      <span class="category-badge ${data.category === 'On Stage' ? 'on-stage' : 'off-stage'}" style="font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 1rem; background: rgba(217, 70, 239, 0.1); color: var(--accent-color); border: 1px solid rgba(217, 70, 239, 0.2);">${data.category}</span>
+                    </div>
+                    <div style="margin-bottom: 1.5rem; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 0.75rem;">
+                      <div style="font-size: 0.9rem; font-weight: 700; color: white; margin-bottom: 0.4rem;">${escapeHtml(data.program)}</div>
+                      <div style="font-size: 0.8rem; color: var(--text-secondary); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                        <i class="fas fa-id-card" style="width: 14px;"></i> Roll No: ${escapeHtml(data.rollNumber)}
+                      </div>
+                      <div style="font-size: 0.8rem; color: var(--text-secondary); display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-phone" style="width: 14px;"></i> Phone: ${escapeHtml(data.phone)}
+                      </div>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem;">
+                      <button onclick="approveRegistration('${id}')" class="cta-btn" style="flex: 1; padding: 0.6rem; font-size: 0.85rem; background: #10b981; margin-top: 0; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);">Approve</button>
+                      <button onclick="rejectRegistration('${id}')" class="cta-btn" style="flex: 1; padding: 0.6rem; font-size: 0.85rem; background: #ef4444; margin-top: 0; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);">Reject</button>
+                    </div>
+                  </div>
+                `;
+              });
+              pendingList.innerHTML = html;
+            });
+          }
+
+          // Initial check for pending count
+          const countQ = query(
+            collection(db, "pending_registrations"),
+            where("academicYear", "==", systemYear),
+            where("departmentSecretaryEmail", "==", auth.currentUser.email),
+            where("status", "==", "pending")
+          );
+          onSnapshot(countQ, (snap) => {
+            const countBadge = document.getElementById('pending-count-badge');
+            if (countBadge) {
+              if (snap.size > 0) {
+                countBadge.textContent = snap.size;
+                countBadge.classList.remove('hidden');
+              } else {
+                countBadge.classList.add('hidden');
+              }
+            }
+          });
+        }
+
+        window.approveRegistration = async (id) => {
+          if (!id) return;
+          if (!confirm("Are you sure you want to APPROVE this registration?")) return;
+
+          try {
+            const docRef = doc(db, "pending_registrations", id);
+            const snap = await getDoc(docRef);
+            if (!snap.exists()) throw new Error("Registration not found");
+
+            const data = snap.data();
+
+            // Prepare data for main registrations
+            const regData = {
+              ...data,
+              status: 'approved',
+              registeredAt: firestoreTimestamp(),
+              registeredBy: auth.currentUser.email,
+              linkGeneratedBy: data.departmentSecretaryEmail // original secretary
+            };
+            delete regData.departmentSecretaryEmail;
+
+            // Add to main registrations
+            const mainRegRef = doc(collection(db, "registrations"));
+            await setDoc(mainRegRef, regData);
+
+            // Update pending status to 'approved'
+            await updateDoc(docRef, {
+              status: 'approved',
+              processedAt: firestoreTimestamp(),
+              processedBy: auth.currentUser.email
+            });
+
+            showCustomAlert("Approved!", "Registration has been approved and added to the official list.", "success");
+          } catch (error) {
+            console.error("Approval failed:", error);
+            showCustomAlert("Error", "Failed to approve: " + error.message, "error");
+          }
+        };
+
+        window.rejectRegistration = async (id) => {
+          if (!id) return;
+          if (!confirm("Are you sure you want to REJECT this registration?")) return;
+
+          try {
+            await updateDoc(doc(db, "pending_registrations", id), {
+              status: 'rejected',
+              processedAt: firestoreTimestamp(),
+              processedBy: auth.currentUser.email
+            });
+            showCustomAlert("Rejected", "Registration has been rejected.", "info");
+          } catch (error) {
+            console.error("Rejection failed:", error);
+            showCustomAlert("Error", "Failed to reject: " + error.message, "error");
+          }
+        };
+
         setupDropdown('dept-trigger', 'dept-menu', 'reg-dept', 'dept-selected-text');
         setupDropdown('year-trigger', 'year-menu', 'reg-year', 'year-selected-text');
         setupDropdown('gender-trigger', 'gender-menu', 'reg-gender', 'gender-selected-text');
@@ -7190,6 +7569,7 @@
         // Load registrations when app initializes (AWAITED)
         fetchSystemYear().then(() => {
           loadUserRegistrations();
+          initSecretaryHub();
         });
 
         // --- PDF Export Logic (Moved) ---

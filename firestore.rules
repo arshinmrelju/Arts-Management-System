@@ -11,7 +11,7 @@ service cloud.firestore {
     function isAdmin() {
       let email = request.auth.token.email.lower();
       return isAuthenticated() && (
-        email in ["collageunionprc@gmail.com", "collegeunionprc@gmail.com", "shobinmcj@gmail.com"] ||
+        email in ["collageunionprc@gmail.com", "collegeunionprc@gmail.com", "shobinmcj@gmail.com", "arshinmrelju@gmail.com", "artsfest@prc.ac.in"] ||
         exists(/databases/$(database)/documents/admin_users/$(request.auth.uid)) ||
         exists(/databases/$(database)/documents/admin_users/$(email))
       );
@@ -87,6 +87,17 @@ service cloud.firestore {
       allow read: if isAdmin();
       allow create: if isAuthenticated();
       allow update, delete: if isAdmin();
+    }
+
+    match /registration_links/{token} {
+      allow read: if true;
+      allow write: if isAdmin() || isWhitelisted();
+    }
+
+    match /pending_registrations/{docId} {
+      allow create: if true;
+      allow read, update: if isAdmin() || (isAuthenticated() && (request.auth.token.email.lower() == resource.data.departmentSecretaryEmail.lower() || request.auth.token.email.lower() == resource.data.linkGeneratedBy.lower()));
+      allow delete: if isAdmin();
     }
 
     // --- CATCH-ALL ---

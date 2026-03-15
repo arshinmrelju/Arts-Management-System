@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration | College Union PRC</title>
+  <link rel="icon" type="image/png" href="/assets/favicon-square.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg-color: #050a14;
+      --card-bg: rgba(20, 25, 40, 0.6);
+      --text-primary: #ffffff;
+      --text-secondary: #94a3b8;
+      --accent-color: #8b5cf6;
+      --accent-hover: #7c3aed;
+      --gradient-main: linear-gradient(135deg, #6366f1, #8b5cf6);
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --error: #ef4444;
+      --success: #10b981;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      margin: 0;
+      padding: 1rem;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -10%; left: -10%;
+      width: 50vw; height: 50vw;
+      background: radial-gradient(circle, #7c3aed, transparent);
+      filter: blur(80px);
+      z-index: -1;
+      opacity: 0.4;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(30px);
+      padding: 2.5rem;
+      border-radius: 2rem;
+      box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 2rem;
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.5rem;
+      background: linear-gradient(to right, #f472b6, #a78bfa, #db2777);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logo img { height: 40px; width: auto; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2)); }
+
+    h2 { margin: 0 0 1.5rem; text-align: center; font-family: var(--font-heading); font-weight: 700; }
+
+    .form-group { margin-bottom: 1.25rem; }
+    .form-label {
+      display: block;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.875rem;
+      border-radius: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+    }
+
+    .cta-btn {
+      width: 100%;
+      background: var(--gradient-main);
+      color: white;
+      padding: 1rem;
+      border-radius: 3rem;
+      border: none;
+      font-weight: 700;
+      font-family: var(--font-heading);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      margin-top: 1rem;
+    }
+
+    .cta-btn:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 30px -10px rgba(244, 63, 94, 0.6);
+      filter: brightness(1.1);
+    }
+
+    .cta-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    #status-msg { margin-top: 1rem; text-align: center; font-size: 0.875rem; min-height: 1.25rem; }
+
+    .hidden { display: none !important; }
+
+    .custom-dropdown-container { position: relative; }
+    .custom-dropdown-trigger {
+      padding: 0.875rem;
+      border-radius: 0.75rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.6);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    .custom-dropdown-trigger.has-value { color: white; font-weight: 500; }
+    .custom-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      width: 100%;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 0.75rem;
+      z-index: 100;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+    .custom-dropdown-menu.show { display: block; }
+    .custom-dropdown-item {
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+    .custom-dropdown-item:hover { background: rgba(255,255,255,0.1); color: white; }
+
+    /* Success Screen */
+    #success-screen { text-align: center; }
+    .success-icon {
+      width: 80px; height: 80px;
+      background: rgba(16, 185, 129, 0.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem;
+      border: 2px solid var(--success);
+      color: var(--success);
+      font-size: 2.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" id="loading-screen">
+    <div style="text-align: center; padding: 2rem;">
+      <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--accent-color);"></i>
+      <p style="margin-top: 1rem; color: var(--text-secondary);">Validating Registration Link...</p>
+    </div>
+  </div>
+
+  <div class="container hidden" id="error-screen">
+    <div style="text-align: center; padding: 2rem;">
+      <i class="fas fa-exclamation-triangle fa-2x" style="color: var(--error);"></i>
+      <p id="error-msg" style="margin-top: 1rem; color: var(--text-secondary);">Invalid or Expired Link</p>
+      <button onclick="window.location.reload()" class="cta-btn" style="background: rgba(255,255,255,0.1);">Try Again</button>
+    </div>
+  </div>
+
+  <div class="container hidden" id="registration-screen">
+    <div class="logo">
+      <img src="assets/Pazhassiraja_College_Pulpally_Logo.png" alt="PRC Logo">
+      <span>COLLEGE UNION PRC</span>
+    </div>
+    <h2>Student Registration</h2>
+    <p id="dept-indicator" style="text-align: center; color: var(--accent-color); font-weight: 600; margin-bottom: 2rem;"></p>
+
+    <form id="student-reg-form">
+      <div class="form-group">
+        <label class="form-label" for="reg-name">Full Name</label>
+        <input type="text" id="reg-name" required class="form-input" placeholder="ENTER YOUR FULL NAME" style="text-transform: uppercase;">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Course / Program</label>
+        <div class="custom-dropdown-container">
+          <input type="hidden" id="reg-course" required>
+          <div class="custom-dropdown-trigger" id="course-trigger">
+            <span id="course-selected-text">Select Course</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="custom-dropdown-menu" id="course-menu"></div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 1rem;">
+        <div class="form-group" style="flex: 1;">
+          <label class="form-label" for="reg-roll">Roll No</label>
+          <input type="text" id="reg-roll" required class="form-input" placeholder="Roll No">
+        </div>
+        <div class="form-group" style="flex: 1;">
+          <label class="form-label">Year</label>
+          <div class="custom-dropdown-container">
+            <input type="hidden" id="reg-year" required>
+            <div class="custom-dropdown-trigger" id="year-trigger">
+              <span id="year-selected-text">Select Year</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="custom-dropdown-menu" id="year-menu">
+              <div class="custom-dropdown-item" data-value="1">1st Year</div>
+              <div class="custom-dropdown-item" data-value="2">2nd Year</div>
+              <div class="custom-dropdown-item" data-value="3">3rd Year</div>
+              <div class="custom-dropdown-item" data-value="4">4th Year</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="reg-phone">Phone Number</label>
+        <input type="tel" id="reg-phone" required class="form-input" placeholder="+91 XXXXX XXXXX">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Program / Event</label>
+        <div class="custom-dropdown-container">
+          <input type="hidden" id="reg-event" required>
+          <div class="custom-dropdown-trigger" id="event-trigger">
+            <span id="event-selected-text">Select Event</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="custom-dropdown-menu" id="event-menu"></div>
+        </div>
+      </div>
+
+      <button type="submit" class="cta-btn" id="submit-btn">Submit for Approval</button>
+      <div id="status-msg"></div>
+    </form>
+  </div>
+
+  <div class="container hidden" id="success-screen">
+    <div class="success-icon">
+      <i class="fas fa-check"></i>
+    </div>
+    <h2>Registration Submitted!</h2>
+    <p style="color: var(--text-secondary); line-height: 1.6;">
+      Your registration has been sent to your Department Secretary for approval. 
+      You will be officially registered once they approve it.
+    </p>
+    <div id="summary-card" style="margin-top: 2rem; background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 1rem; text-align: left; border: 1px solid rgba(255,255,255,0.05);">
+    </div>
+    <button onclick="window.location.reload()" class="cta-btn" style="background: rgba(255,255,255,0.1); margin-top: 2rem;">Close</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, collection, addDoc, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+    import { firebaseConfig } from "./assets/core/firebase-config.js";
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let linkData = null;
+    let systemYear = "";
+
+    async function init() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('token');
+
+      if (!token) {
+        showError("Invalid link. Please use a link provided by your Secretary.");
+        return;
+      }
+
+      try {
+        // Fetch System Year
+        const yearSnap = await getDoc(doc(db, "system_config", "current_year"));
+        systemYear = yearSnap.exists() ? yearSnap.data().year : "2025-26";
+
+        // Validate Token
+        const linkSnap = await getDoc(doc(db, "registration_links", token));
+        if (!linkSnap.exists() || linkSnap.data().status === 'expired') {
+          showError("This registration link has expired or is invalid.");
+          return;
+        }
+
+        linkData = linkSnap.data();
+        document.getElementById('dept-indicator').textContent = linkData.department;
+        
+        // Populate Course & Event Dropdowns based on link data
+        setupCourseDropdown(linkData.allowedCourses || []);
+        setupEventDropdown(linkData.category);
+
+        document.getElementById('loading-screen').classList.add('hidden');
+        document.getElementById('registration-screen').classList.remove('hidden');
+
+      } catch (err) {
+        console.error(err);
+        showError("Failed to load registration data. Please try again.");
+      }
+    }
+
+    function showError(msg) {
+      document.getElementById('loading-screen').classList.add('hidden');
+      document.getElementById('error-screen').classList.remove('hidden');
+      document.getElementById('error-msg').textContent = msg;
+    }
+
+    function setupCourseDropdown(courses) {
+      const menu = document.getElementById('course-menu');
+      menu.innerHTML = courses.map(c => `<div class="custom-dropdown-item" data-value="${c}">${c}</div>`).join('');
+      setupDropdown('course-trigger', 'course-menu', 'reg-course', 'course-selected-text');
+    }
+
+    async function setupEventDropdown(category) {
+      // In a real app, we'd fetch these. For now, we'll use a subset or fetch from Firestore if available.
+      // We'll mimic the index.html structure but simplified.
+      const menu = document.getElementById('event-menu');
+      
+      // Basic list for now - ideally these should be fetched from program_dates
+      let events = [];
+      try {
+        const q = query(collection(db, "program_dates"), where("academicYear", "==", systemYear));
+        const snap = await getDocs(q);
+        snap.forEach(doc => {
+          const data = doc.data();
+          // Filter by category
+          if (data.category === category) {
+            events.push(doc.id);
+          }
+        });
+      } catch (e) { console.warn("Failed to fetch events:", e); }
+
+      if (events.length === 0) {
+        events = ["General Entry"];
+      }
+
+      menu.innerHTML = events.sort().map(e => `<div class="custom-dropdown-item" data-value="${e}">${e}</div>`).join('');
+      setupDropdown('event-trigger', 'event-menu', 'reg-event', 'event-selected-text');
+    }
+
+    function setupDropdown(triggerId, menuId, inputId, textId) {
+      const trigger = document.getElementById(triggerId);
+      const menu = document.getElementById(menuId);
+      const input = document.getElementById(inputId);
+      const text = document.getElementById(textId);
+
+      trigger.onclick = (e) => {
+        e.stopPropagation();
+        const isShow = menu.classList.contains('show');
+        document.querySelectorAll('.custom-dropdown-menu').forEach(m => m.classList.remove('show'));
+        if (!isShow) menu.classList.add('show');
+      };
+
+      menu.onclick = (e) => {
+        if (e.target.classList.contains('custom-dropdown-item')) {
+          const val = e.target.getAttribute('data-value');
+          input.value = val;
+          text.textContent = e.target.textContent;
+          trigger.classList.add('has-value');
+          menu.classList.remove('show');
+        }
+      };
+    }
+
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.custom-dropdown-menu').forEach(m => m.classList.remove('show'));
+    });
+
+    setupDropdown('year-trigger', 'year-menu', 'reg-year', 'year-selected-text');
+
+    const form = document.getElementById('student-reg-form');
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      const status = document.getElementById('status-msg');
+
+      btn.disabled = true;
+      status.textContent = "Submitting...";
+      status.style.color = "var(--text-secondary)";
+
+      try {
+        const formData = {
+          studentName: document.getElementById('reg-name').value.toUpperCase(),
+          department: document.getElementById('reg-course').value,
+          rollNumber: document.getElementById('reg-roll').value,
+          year: document.getElementById('reg-year').value,
+          phone: document.getElementById('reg-phone').value,
+          program: document.getElementById('reg-event').value,
+          category: linkData.category,
+          academicYear: systemYear,
+          registeredBy: "student_link",
+          linkToken: new URLSearchParams(window.location.search).get('token'),
+          departmentSecretaryEmail: linkData.createdBy, // Must match index.html query
+          status: 'pending',
+          submittedAt: serverTimestamp()
+        };
+
+        await addDoc(collection(db, "pending_registrations"), formData);
+
+        // Show Success
+        document.getElementById('registration-screen').classList.add('hidden');
+        document.getElementById('success-screen').classList.remove('hidden');
+
+        document.getElementById('summary-card').innerHTML = `
+          <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Details:</div>
+          <div style="font-weight: 700; color: white; margin-bottom: 0.25rem;">${formData.studentName}</div>
+          <div style="font-size: 0.85rem; color: var(--accent-color);">${formData.program}</div>
+          <div style="font-size: 0.8rem; margin-top: 0.5rem; color: var(--text-secondary);">${formData.department} \u2022 ${formData.year} Year</div>
+        `;
+
+      } catch (err) {
+        console.error(err);
+        status.textContent = "Error submitting registration. Please try again.";
+        status.style.color = "var(--error)";
+        btn.disabled = false;
+      }
+    };
+
+    init();
+  </script>
+</body>
+
+</html>
