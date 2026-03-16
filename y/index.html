@@ -37,7 +37,7 @@
   <meta property="og:title" content="Pazhassiraja College Fine Arts">
   <meta property="og:description"
     content="Celebrate creativity and talent at the Pazhassiraja College Fine Arts Festival.">
-  <meta property="og:image" content="assets/Pazhassiraja_College_Pulpally_Logo.png">
+  <meta property="og:image" content="/assets/Pazhassiraja_College_Pulpally_Logo.png">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
@@ -45,7 +45,7 @@
   <meta property="twitter:title" content="Pazhassiraja College Fine Arts">
   <meta property="twitter:description"
     content="Celebrate creativity and talent at the Pazhassiraja College Fine Arts Festival.">
-  <meta property="twitter:image" content="assets/Pazhassiraja_College_Pulpally_Logo.png">
+  <meta property="twitter:image" content="/assets/Pazhassiraja_College_Pulpally_Logo.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -666,6 +666,19 @@
       transform: translateY(-3px) scale(1.02);
       box-shadow: 0 20px 30px -10px rgba(244, 63, 94, 0.6);
       filter: brightness(1.1);
+    }
+
+    .cta-btn.secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: none;
+      color: white;
+    }
+
+    .cta-btn.secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
     }
 
     /* Event Cards */
@@ -3626,7 +3639,7 @@
             <div class="auth-badge" id="auth-year-badge">Arts Fest 2025-26</div>
 
             <div class="logo">
-              <img src="assets/Pazhassiraja_College_Pulpally_Logo.png" alt="College Logo">
+              <img src="/assets/Pazhassiraja_College_Pulpally_Logo.png" alt="College Logo">
             </div>
 
             <div class="brand-hero-title">College Union PRC</div>
@@ -3820,6 +3833,39 @@
         </div>
       </section>
 
+      <!-- Tab Switcher -->
+      <div id="portal-tabs" class="hidden"
+        style="display: flex; justify-content: center; gap: 2rem; margin-top: 4rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem;">
+        <button id="tab-my-regs" class="tab-btn active"
+          style="background: none; border: none; color: white; font-weight: 700; cursor: pointer; font-family: var(--font-heading); font-size: 1.1rem; padding: 0.5rem 1rem; position: relative;">
+          My Registrations
+        </button>
+        <button id="tab-secretary-hub" class="tab-btn"
+          style="background: none; border: none; color: var(--text-secondary); font-weight: 700; cursor: pointer; font-family: var(--font-heading); font-size: 1.1rem; padding: 0.5rem 1rem; position: relative;">
+          Secretary Hub
+        </button>
+      </div>
+
+      <style>
+        .tab-btn.active::after {
+          content: '';
+          position: absolute;
+          bottom: -1rem;
+          left: 0;
+          width: 100%;
+          height: 3px;
+          background: var(--gradient-main);
+          border-radius: 3px 3px 0 0;
+        }
+
+        .hero-btn.active {
+          background: var(--gradient-main);
+          color: white;
+          border-color: transparent;
+          box-shadow: 0 10px 20px -5px rgba(244, 63, 94, 0.4);
+        }
+      </style>
+
       <!-- Secretary Hub Section -->
       <section id="secretary-hub" class="hidden" style="max-width: 1200px; margin: 6rem auto 0; text-align: center;">
         <h2 style="font-family: var(--font-heading); margin: 0 0 1rem 0; color: white; font-size: 2.5rem;">
@@ -3829,10 +3875,14 @@
           Generate registration links for students and approve pending registrations.
         </p>
 
-        <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 3rem;">
+        <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 3rem; flex-wrap: wrap;">
           <button id="show-link-gen-btn" class="hero-btn secondary-btn active"
             style="padding: 0.6rem 1.5rem; font-size: 0.9rem;">
             <i class="fas fa-link"></i> Link Generator
+          </button>
+          <button id="show-link-history-btn" class="hero-btn secondary-btn"
+            style="padding: 0.6rem 1.5rem; font-size: 0.9rem;">
+            <i class="fas fa-history"></i> Link History
           </button>
           <button id="show-pending-btn" class="hero-btn secondary-btn"
             style="padding: 0.6rem 1.5rem; font-size: 0.9rem; position: relative;">
@@ -3889,6 +3939,17 @@
         </div>
 
         <!-- Pending Approvals Content -->
+        <!-- Link History Content -->
+        <div id="link-history-container" class="hidden" style="text-align: left;">
+          <div id="history-list"
+            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
+            <div style="grid-column: 1 / -1; padding: 3rem; text-align: center; color: var(--text-secondary);">
+              Loading link history...
+            </div>
+          </div>
+        </div>
+
+        <!-- Pending Approvals Content -->
         <div id="pending-approvals-container" class="hidden" style="text-align: left;">
           <div id="pending-list"
             style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
@@ -3898,39 +3959,6 @@
           </div>
         </div>
       </section>
-
-      <!-- Tab Switcher -->
-      <div id="portal-tabs" class="hidden"
-        style="display: flex; justify-content: center; gap: 2rem; margin-top: 4rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem;">
-        <button id="tab-my-regs" class="tab-btn active"
-          style="background: none; border: none; color: white; font-weight: 700; cursor: pointer; font-family: var(--font-heading); font-size: 1.1rem; padding: 0.5rem 1rem; position: relative;">
-          My Registrations
-        </button>
-        <button id="tab-secretary-hub" class="tab-btn"
-          style="background: none; border: none; color: var(--text-secondary); font-weight: 700; cursor: pointer; font-family: var(--font-heading); font-size: 1.1rem; padding: 0.5rem 1rem; position: relative;">
-          Secretary Hub
-        </button>
-      </div>
-
-      <style>
-        .tab-btn.active::after {
-          content: '';
-          position: absolute;
-          bottom: -1rem;
-          left: 0;
-          width: 100%;
-          height: 3px;
-          background: var(--gradient-main);
-          border-radius: 3px 3px 0 0;
-        }
-
-        .hero-btn.active {
-          background: var(--gradient-main);
-          color: white;
-          border-color: transparent;
-          box-shadow: 0 10px 20px -5px rgba(244, 63, 94, 0.4);
-        }
-      </style>
 
       <!-- My Registrations Section -->
       <section id="my-registrations" style="max-width: 1200px; margin: 3rem auto 0; text-align: center;">
@@ -6092,24 +6120,40 @@
           if (tabMyRegs) tabMyRegs.onclick = () => switchTab('my-regs');
           if (tabSecretary) tabSecretary.onclick = () => switchTab('secretary');
 
-          // Internal Secretary Hub Switching (Link Gen vs Pending)
+          // Internal Secretary Hub Switching (Link Gen vs History vs Pending)
           const btnLinkGen = document.getElementById('show-link-gen-btn');
+          const btnHistory = document.getElementById('show-link-history-btn');
           const btnPending = document.getElementById('show-pending-btn');
           const containerLinkGen = document.getElementById('link-gen-container');
+          const containerHistory = document.getElementById('link-history-container');
           const containerPending = document.getElementById('pending-approvals-container');
 
           if (btnLinkGen) btnLinkGen.onclick = () => {
             btnLinkGen.classList.add('active');
+            btnHistory.classList.remove('active');
             btnPending.classList.remove('active');
             containerLinkGen.classList.remove('hidden');
+            containerHistory.classList.add('hidden');
             containerPending.classList.add('hidden');
+          };
+
+          if (btnHistory) btnHistory.onclick = () => {
+            btnHistory.classList.add('active');
+            btnLinkGen.classList.remove('active');
+            btnPending.classList.remove('active');
+            containerHistory.classList.remove('hidden');
+            containerLinkGen.classList.add('hidden');
+            containerPending.classList.add('hidden');
+            loadLinkHistory();
           };
 
           if (btnPending) btnPending.onclick = () => {
             btnPending.classList.add('active');
             btnLinkGen.classList.remove('active');
+            btnHistory.classList.remove('active');
             containerPending.classList.remove('hidden');
             containerLinkGen.classList.add('hidden');
+            containerHistory.classList.add('hidden');
             loadPendingRegistrations();
           };
 
@@ -6142,7 +6186,8 @@
               });
 
               // Correct path for Firebase Hosting (serves content of /y at root)
-              const shareLink = `${window.location.protocol}//${window.location.host}/student.html?token=${token}`;
+              // Professional clean URL format
+              const shareLink = `${window.location.protocol}//${window.location.host}/student/${token}`;
               const linkBox = document.getElementById('generated-link-box');
               const linkInput = document.getElementById('shareable-link-input');
 
@@ -6313,6 +6358,95 @@
           } catch (error) {
             console.error("Rejection failed:", error);
             showCustomAlert("Error", "Failed to reject: " + error.message, "error");
+          }
+        };
+
+        // --- Link History Logic ---
+        let historyUnsubscribe = null;
+        function loadLinkHistory() {
+          if (historyUnsubscribe) historyUnsubscribe();
+
+          const q = query(
+            collection(db, "registration_links"),
+            where("academicYear", "==", systemYear),
+            where("createdBy", "==", auth.currentUser.email),
+            orderBy("createdAt", "desc")
+          );
+
+          historyUnsubscribe = onSnapshot(q, (snapshot) => {
+            const historyList = document.getElementById('history-list');
+            if (!historyList) return;
+
+            if (snapshot.empty) {
+              historyList.innerHTML = `
+                <div style="grid-column: 1 / -1; padding: 3rem; text-align: center; color: var(--text-secondary);">
+                  <i class="fas fa-history" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                  <p>No links generated yet.</p>
+                </div>
+              `;
+              return;
+            }
+
+            let html = '';
+            snapshot.forEach((docSnap) => {
+              const data = docSnap.data();
+              const token = docSnap.id;
+              const createdAt = data.createdAt ? data.createdAt.toDate().toLocaleString() : 'N/A';
+              const expiresAt = data.expiresAt ? data.expiresAt.toDate().toLocaleString() : 'N/A';
+              const isExpired = data.expiresAt ? data.expiresAt.toDate() < new Date() : false;
+              const status = data.status || 'active';
+
+              html += `
+                <div class="registration-card" style="border-left: 4px solid ${status === 'active' && !isExpired ? '#10b981' : '#ef4444'}; background: rgba(255,255,255,0.03);">
+                  <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                    <div>
+                      <h4 style="margin: 0; color: white; font-size: 1.1rem;">${escapeHtml(data.category)} Link</h4>
+                      <span style="font-size: 0.8rem; color: var(--text-secondary);">Created: ${createdAt}</span>
+                    </div>
+                    <span class="category-badge" style="font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 1rem; background: ${status === 'active' && !isExpired ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)'}; color: ${status === 'active' && !isExpired ? '#10b981' : '#ef4444'}; border: 1px solid ${status === 'active' && !isExpired ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)'};">
+                      ${isExpired ? 'EXPIRED' : status.toUpperCase()}
+                    </span>
+                  </div>
+                  <div style="margin-bottom: 1.5rem; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 0.75rem;">
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.4rem;">Token: <code style="color: var(--accent-color);">${token}</code></div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">Expires: ${expiresAt}</div>
+                  </div>
+                  <div style="display: flex; gap: 0.75rem;">
+                    <button onclick="copyHistoryLink('${token}')" class="cta-btn secondary" style="flex: 1; padding: 0.6rem; font-size: 0.85rem; margin-top: 0;">Copy Link</button>
+                    ${status === 'active' ? `<button onclick="removeLink('${token}')" class="cta-btn" style="flex: 1; padding: 0.6rem; font-size: 0.85rem; background: #ef4444; margin-top: 0; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);">Remove</button>` : ''}
+                  </div>
+                </div>
+              `;
+            });
+            historyList.innerHTML = html;
+          }, (error) => {
+            console.error("History Listener Error:", error);
+            const historyList = document.getElementById('history-list');
+            if (historyList) historyList.innerHTML = `<div style="grid-column: 1 / -1; padding: 3rem; text-align: center; color: #ef4444;">Error loading history: ${error.message}</div>`;
+          });
+        }
+
+        window.copyHistoryLink = (token) => {
+          const shareLink = `${window.location.protocol}//${window.location.host}/student/${token}`;
+          navigator.clipboard.writeText(shareLink);
+          showCustomAlert("Copied!", "Link copied to clipboard.", "success");
+        };
+
+        window.removeLink = async (token) => {
+          if (!token) return;
+          if (!confirm("Are you sure you want to REMOVE this registration link? This will invalidate the link for any students who have it.")) return;
+
+          try {
+            const linkRef = doc(db, "registration_links", token);
+            await updateDoc(linkRef, {
+              status: 'removed',
+              removedAt: firestoreTimestamp(),
+              removedBy: auth.currentUser.email
+            });
+            showCustomAlert("Removed", "Registration link has been invalidated.", "info");
+          } catch (error) {
+            console.error("Removal failed:", error);
+            showCustomAlert("Error", "Failed to remove link: " + error.message, "error");
           }
         };
 
@@ -7878,7 +8012,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-    import { firebaseConfig } from "./assets/core/firebase-config.js";
+    import { firebaseConfig } from "/assets/core/firebase-config.js";
 
     // Use a secondary app name to avoid conflicts if the main app is already initialized
     const app2 = initializeApp(firebaseConfig, "UI_Config_App");

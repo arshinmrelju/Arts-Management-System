@@ -8,7 +8,10 @@
   <link rel="icon" type="image/png" href="/assets/favicon-square.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=Playfair+Display:wght@700&family=Montserrat:wght@700&display=swap"
+    rel="stylesheet">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
@@ -25,7 +28,10 @@
       --success: #10b981;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: var(--font-body);
       background-color: var(--bg-color);
@@ -39,34 +45,127 @@
       overflow-x: hidden;
     }
 
-    body::before {
+    body::before,
+    body::after {
       content: '';
       position: fixed;
-      top: -10%; left: -10%;
-      width: 50vw; height: 50vw;
-      background: radial-gradient(circle, #7c3aed, transparent);
+      width: 50vw;
+      height: 50vw;
+      border-radius: 50%;
       filter: blur(80px);
       z-index: -1;
       opacity: 0.4;
+      animation: float 20s infinite alternate ease-in-out;
+    }
+
+    body::before {
+      top: -10%;
+      left: -10%;
+      background: radial-gradient(circle, #7c3aed, transparent);
+    }
+
+    body::after {
+      bottom: -10%;
+      right: -10%;
+      background: radial-gradient(circle, #db2777, transparent);
+      animation-delay: -10s;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      100% {
+        transform: translate(30px, 50px) scale(1.1);
+      }
+    }
+
+    @keyframes rotateSlow {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.98);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes shine {
+      0% {
+        left: -100%;
+        transition: all 0.7s;
+      }
+
+      20% {
+        left: 100%;
+        transition: all 0.7s;
+      }
+
+      100% {
+        left: 100%;
+        transition: all 0.7s;
+      }
+    }
+
+
+    .mandala-decoration {
+      position: fixed;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.1;
     }
 
     .container {
       width: 100%;
       max-width: 500px;
-      background: rgba(15, 23, 42, 0.85);
+      background: rgba(15, 23, 42, 0.75);
       backdrop-filter: blur(30px);
-      padding: 2.5rem;
-      border-radius: 2rem;
-      box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.8);
+      -webkit-backdrop-filter: blur(30px);
+      padding: 3rem 2.5rem 2.25rem;
+      border-radius: 2.5rem;
+      box-shadow:
+        0 50px 100px -20px rgba(0, 0, 0, 0.8),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.05);
+      animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+      margin: 2rem auto;
+      position: relative;
+      overflow: hidden;
     }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    }
+
+
+
 
     .logo {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
+
       font-family: var(--font-heading);
       font-weight: 800;
       font-size: 1.5rem;
@@ -76,11 +175,25 @@
       -webkit-text-fill-color: transparent;
     }
 
-    .logo img { height: 40px; width: auto; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2)); }
+    .logo img {
+      height: 40px;
+      width: auto;
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+    }
 
-    h2 { margin: 0 0 1.5rem; text-align: center; font-family: var(--font-heading); font-weight: 700; }
+    h2 {
+      margin: 0 0 0.75rem;
+      text-align: center;
+      font-family: var(--font-heading);
+      font-weight: 700;
+    }
 
-    .form-group { margin-bottom: 1.25rem; }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+
     .form-label {
       display: block;
       color: var(--text-secondary);
@@ -88,56 +201,100 @@
       font-size: 0.75rem;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.1em;
+      transition: color 0.3s ease;
     }
+
+    .form-group:focus-within .form-label {
+      color: var(--accent-color);
+    }
+
 
     .form-input {
       width: 100%;
-      padding: 0.875rem;
+      padding: 0.875rem 1rem;
       border-radius: 0.75rem;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.03);
       color: white;
       font-family: var(--font-body);
       font-size: 0.95rem;
       transition: all 0.3s ease;
+      outline: none;
     }
 
     .form-input:focus {
-      outline: none;
+      background: rgba(255, 255, 255, 0.08);
       border-color: var(--accent-color);
-      box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+      box-shadow: 0 0 25px rgba(139, 92, 246, 0.2);
+      transform: scale(1.01);
     }
+
+
 
     .cta-btn {
       width: 100%;
       background: var(--gradient-main);
       color: white;
-      padding: 1rem;
-      border-radius: 3rem;
+      padding: 1.25rem;
+      border-radius: 1.25rem;
       border: none;
       font-weight: 700;
       font-family: var(--font-heading);
-      letter-spacing: 0.05em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.5);
+      transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
       margin-top: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -100%;
+      width: 50%;
+      height: 200%;
+      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transform: rotate(25deg);
+      transition: none;
+    }
+
+    .cta-btn:hover:not(:disabled)::after {
+      animation: shine 1.5s infinite;
     }
 
     .cta-btn:hover:not(:disabled) {
-      transform: translateY(-3px);
-      box-shadow: 0 20px 30px -10px rgba(244, 63, 94, 0.6);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 25px 50px -10px rgba(99, 102, 241, 0.6);
       filter: brightness(1.1);
     }
 
-    .cta-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    #status-msg { margin-top: 1rem; text-align: center; font-size: 0.875rem; min-height: 1.25rem; }
 
-    .hidden { display: none !important; }
+    .cta-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
 
-    .custom-dropdown-container { position: relative; }
+    #status-msg {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.875rem;
+      min-height: 1.25rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .custom-dropdown-container {
+      position: relative;
+    }
+
     .custom-dropdown-trigger {
       padding: 0.875rem;
       border-radius: 0.75rem;
@@ -150,7 +307,12 @@
       align-items: center;
       transition: all 0.3s ease;
     }
-    .custom-dropdown-trigger.has-value { color: white; font-weight: 500; }
+
+    .custom-dropdown-trigger.has-value {
+      color: white;
+      font-weight: 500;
+    }
+
     .custom-dropdown-menu {
       display: none;
       position: absolute;
@@ -159,37 +321,136 @@
       width: 100%;
       background: rgba(15, 23, 42, 0.95);
       backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 0.75rem;
       z-index: 100;
       max-height: 250px;
       overflow-y: auto;
     }
-    .custom-dropdown-menu.show { display: block; }
+
+    .custom-dropdown-menu.show {
+      display: block;
+    }
+
     .custom-dropdown-item {
       padding: 0.75rem 1rem;
       cursor: pointer;
       color: var(--text-secondary);
       transition: all 0.2s;
     }
-    .custom-dropdown-item:hover { background: rgba(255,255,255,0.1); color: white; }
+
+    .custom-dropdown-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
 
     /* Success Screen */
-    #success-screen { text-align: center; }
+    #success-screen {
+      text-align: center;
+    }
+
     .success-icon {
-      width: 80px; height: 80px;
+      width: 90px;
+      height: 90px;
       background: rgba(16, 185, 129, 0.1);
       border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
       border: 2px solid var(--success);
       color: var(--success);
-      font-size: 2.5rem;
+      font-size: 3rem;
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
+    }
+
+
+    /* Group Members Management Styles */
+    .member-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr auto;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .member-input {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      padding: 0.5rem;
+      border-radius: 0.4rem;
+      font-size: 0.8rem;
+      width: 100%;
+    }
+
+    .remove-member-btn {
+      color: var(--error);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.25rem;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .remove-member-btn:hover {
+      opacity: 1;
+    }
+
+    .custom-dropdown-arrow {
+      transition: transform 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .custom-dropdown-trigger.active .custom-dropdown-arrow {
+      transform: rotate(180deg);
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 2rem 1.5rem;
+        margin: 1rem auto;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .logo {
+        margin-bottom: 2rem;
+      }
     }
   </style>
+
+
 </head>
 
 <body>
+  <!-- Decorative Background Elements -->
+  <div
+    style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: -1;">
+    <svg class="mandala-decoration"
+      style="top: -10vw; right: -10vw; width: 40vw; height: 40vw; fill: #4f46e5; animation: rotateSlow 80s linear infinite;"
+      viewBox="0 0 200 200">
+      <path
+        d="M100 0C100 0 110 50 150 50C190 50 200 100 200 100C200 100 150 110 150 150C150 190 100 200 100 200C100 200 90 150 50 150C10 150 0 100 0 100C0 100 50 90 50 50C50 10 100 0 100 0Z" />
+    </svg>
+    <svg class="mandala-decoration"
+      style="bottom: -15vw; left: -15vw; width: 50vw; height: 50vw; fill: #db2777; animation: rotateSlow 120s linear reverse infinite; opacity: 0.07;"
+      viewBox="0 0 200 200">
+      <path
+        d="M100 0C100 0 110 50 150 50C190 50 200 100 200 100C200 100 150 110 150 150C150 190 100 200 100 200C100 200 90 150 50 150C10 150 0 100 0 100C0 100 50 90 50 50C50 10 100 0 100 0Z" />
+    </svg>
+  </div>
+
   <div class="container" id="loading-screen">
     <div style="text-align: center; padding: 2rem;">
       <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--accent-color);"></i>
@@ -201,23 +462,66 @@
     <div style="text-align: center; padding: 2rem;">
       <i class="fas fa-exclamation-triangle fa-2x" style="color: var(--error);"></i>
       <p id="error-msg" style="margin-top: 1rem; color: var(--text-secondary);">Invalid or Expired Link</p>
-      <button onclick="window.location.reload()" class="cta-btn" style="background: rgba(255,255,255,0.1);">Try Again</button>
+      <button onclick="window.location.reload()" class="cta-btn" style="background: rgba(255,255,255,0.1);">Try
+        Again</button>
     </div>
   </div>
 
   <div class="container hidden" id="registration-screen">
     <div class="logo">
-      <img src="assets/Pazhassiraja_College_Pulpally_Logo.png" alt="PRC Logo">
+      <img src="/assets/Pazhassiraja_College_Pulpally_Logo.png" alt="PRC Logo">
       <span>COLLEGE UNION PRC</span>
     </div>
     <h2>Student Registration</h2>
-    <p id="dept-indicator" style="text-align: center; color: var(--accent-color); font-weight: 600; margin-bottom: 2rem;"></p>
+    <p id="dept-indicator"
+      style="text-align: center; color: var(--accent-color); font-weight: 600; margin-bottom: 2.5rem; letter-spacing: 0.05em; font-size: 0.85rem; opacity: 0.9;">
+    </p>
+
 
     <form id="student-reg-form">
-      <div class="form-group">
-        <label class="form-label" for="reg-name">Full Name</label>
-        <input type="text" id="reg-name" required class="form-input" placeholder="ENTER YOUR FULL NAME" style="text-transform: uppercase;">
+      <div id="reg-type-container" class="form-group hidden">
+        <label class="form-label">Registration Type</label>
+        <div class="custom-dropdown-container">
+          <input type="hidden" id="reg-type" value="Individual">
+          <div class="custom-dropdown-trigger has-value" id="type-trigger">
+            <span id="type-selected-text">Individual</span>
+            <span class="custom-dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="custom-dropdown-menu" id="type-menu">
+            <div class="custom-dropdown-item" data-value="Individual">Individual</div>
+            <div class="custom-dropdown-item" data-value="Group">Group</div>
+          </div>
+        </div>
       </div>
+
+      <div id="group-name-container" class="form-group hidden">
+
+        <label class="form-label" for="reg-group-name">Group Name</label>
+        <input type="text" id="reg-group-name" class="form-input" placeholder="e.g. MARGAMKALI ENGLISH"
+          style="text-transform: uppercase;">
+      </div>
+
+      <div class="form-group" id="name-container">
+        <label class="form-label" for="reg-name" id="name-label">Full Name</label>
+        <input type="text" id="reg-name" required class="form-input" placeholder="ENTER YOUR FULL NAME"
+          style="text-transform: uppercase;">
+      </div>
+
+      <div id="group-members-container" class="hidden"
+        style="margin-top: 2.5rem; border: 1px solid rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; background: rgba(15, 23, 42, 0.4);">
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <label class="form-label" style="margin-bottom: 0;">Group Members <span
+              style="color: var(--error);">*</span></label>
+          <span id="member-count" style="font-size: 0.7rem; color: var(--text-secondary);">0 Members</span>
+        </div>
+        <div id="members-list" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
+        <button type="button" id="add-member-btn" class="form-input"
+          style="margin-top: 1rem; background: rgba(139, 92, 246, 0.05); color: var(--accent-color); border: 1px dashed rgba(139, 92, 246, 0.3); width: 100%; cursor: pointer; padding: 0.75rem; font-weight: 600; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+          <i class="fas fa-plus-circle"></i> Add Member Detail
+        </button>
+      </div>
+
 
       <div class="form-group">
         <label class="form-label">Course / Program</label>
@@ -225,13 +529,15 @@
           <input type="hidden" id="reg-course" required>
           <div class="custom-dropdown-trigger" id="course-trigger">
             <span id="course-selected-text">Select Course</span>
-            <i class="fas fa-chevron-down"></i>
+            <span class="custom-dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
+
           </div>
           <div class="custom-dropdown-menu" id="course-menu"></div>
         </div>
       </div>
 
-      <div style="display: flex; gap: 1rem;">
+      <div style="display: flex; gap: 1.5rem;">
+
         <div class="form-group" style="flex: 1;">
           <label class="form-label" for="reg-roll">Roll No</label>
           <input type="text" id="reg-roll" required class="form-input" placeholder="Roll No">
@@ -242,7 +548,8 @@
             <input type="hidden" id="reg-year" required>
             <div class="custom-dropdown-trigger" id="year-trigger">
               <span id="year-selected-text">Select Year</span>
-              <i class="fas fa-chevron-down"></i>
+              <span class="custom-dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
+
             </div>
             <div class="custom-dropdown-menu" id="year-menu">
               <div class="custom-dropdown-item" data-value="1">1st Year</div>
@@ -259,13 +566,31 @@
         <input type="tel" id="reg-phone" required class="form-input" placeholder="+91 XXXXX XXXXX">
       </div>
 
+      <div class="form-group" id="gender-container">
+        <label class="form-label">Gender</label>
+        <div class="custom-dropdown-container">
+          <input type="hidden" id="reg-gender" required>
+          <div class="custom-dropdown-trigger" id="gender-trigger">
+            <span id="gender-selected-text">Select Gender</span>
+            <span class="custom-dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="custom-dropdown-menu" id="gender-menu">
+            <div class="custom-dropdown-item" data-value="Male">Male</div>
+            <div class="custom-dropdown-item" data-value="Female">Female</div>
+            <div class="custom-dropdown-item" data-value="Other">Other</div>
+          </div>
+        </div>
+      </div>
+
+
       <div class="form-group">
         <label class="form-label">Program / Event</label>
         <div class="custom-dropdown-container">
           <input type="hidden" id="reg-event" required>
           <div class="custom-dropdown-trigger" id="event-trigger">
             <span id="event-selected-text">Select Event</span>
-            <i class="fas fa-chevron-down"></i>
+            <span class="custom-dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
+
           </div>
           <div class="custom-dropdown-menu" id="event-menu"></div>
         </div>
@@ -280,30 +605,88 @@
     <div class="success-icon">
       <i class="fas fa-check"></i>
     </div>
-    <h2>Registration Submitted!</h2>
-    <p style="color: var(--text-secondary); line-height: 1.6;">
-      Your registration has been sent to your Department Secretary for approval. 
+    <h2 style="margin-bottom: 1rem;">Registration Submitted!</h2>
+    <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 2.5rem;">
+      Your registration has been sent to your Department Secretary for approval.
       You will be officially registered once they approve it.
     </p>
-    <div id="summary-card" style="margin-top: 2rem; background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 1rem; text-align: left; border: 1px solid rgba(255,255,255,0.05);">
+
+    <div
+      style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 1.5rem; padding: 2rem; position: relative; overflow: hidden;">
+      <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--success);"></div>
+      <div
+        style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); margin-bottom: 1rem; font-weight: 700;">
+        Summary Details</div>
+      <div id="summary-card" style="text-align: left;"></div>
     </div>
-    <button onclick="window.location.reload()" class="cta-btn" style="background: rgba(255,255,255,0.1); margin-top: 2rem;">Close</button>
+
+    <button onclick="window.location.reload()" class="cta-btn"
+      style="background: rgba(255,255,255,0.08); margin-top: 2.5rem; border: 1px solid rgba(255,255,255,0.1); box-shadow: none;">Close
+      & Return</button>
   </div>
+
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
     import { getFirestore, doc, getDoc, collection, addDoc, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-    import { firebaseConfig } from "./assets/core/firebase-config.js";
+
+    import { firebaseConfig } from "/assets/core/firebase-config.js";
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
     let linkData = null;
     let systemYear = "";
+    let programDates = {};
+
+    const departmentCourseMap = {
+      "Dep. of Economics": ["B.A Economics", "B.A Econometrics and Data Management", "M.A Economics"],
+      "Dep. of English": ["B.A English Language and Literature"],
+      "Dep. of History": ["B.A History"],
+      "Dep. of Microbiology": ["B.Sc Microbiology", "M.Sc Microbiology"],
+      "Dep. of Travel and Tourism": ["Bachelor of Travel and Tourism Management (BTTM)", "Master of Travel and Tourism Management (MTTM)"],
+      "Tourism": ["Bachelor of Travel and Tourism Management (BTTM)", "Master of Travel and Tourism Management (MTTM)"],
+      "Dep. of Journalism and Mass Communication": ["B.A Journalism and Mass Communication", "M.A Journalism & Mass Communication"],
+      "Dep. of Biochemistry": ["B.Sc Biochemistry", "M.Sc Biochemistry"],
+      "Dep. of Commerce": ["BBA", "M.COM"]
+    };
+
+    const OFF_STAGE_EVENTS = [
+      "Essay Writing (English)", "Essay Writing (Arabic)", "Essay Writing (Hindi)", "Essay Writing (Malayalam)", "Essay Writing (Tamil)", "Essay Writing (Urdu)",
+      "Story Writing (English)", "Story Writing (Arabic)", "Story Writing (Hindi)", "Story Writing (Malayalam)", "Story Writing (Tamil)", "Story Writing (Urdu)",
+      "Versification (English)", "Versification (Arabic)", "Versification (Hindi)", "Versification (Malayalam)", "Versification (Tamil)", "Versification (Urdu)",
+      "Extempore (English)", "Extempore (Hindi)", "Extempore (Malayalam)", "Extempore (Tamil)",
+      "Aksharashlokam", "Kavyakeli", "Water Colour", "Oil Colour", "Cartoon Drawing", "Pencil Drawing", "Clay Modeling", "Collage", "Embroidery", "Poster Making", "Rangoli", "Spot Photography"
+    ];
+
+    const ON_STAGE_INDIVIDUAL_EVENTS = [
+      "Light Music Boys", "Light Music Girls", "Classical Music Boys", "Classical Music Girls", "Mappila Pattu Boys", "Mappila Pattu Girls", "Western Song",
+      "Poem Recitation (Malayalam)", "Poem Recitation (English)", "Poem Recitation (Hindi)", "Poem Recitation (Arabic)", "Poem Recitation (Tamil)", "Poem Recitation (Urdu)",
+      "Percussion Instruments Eastern", "String Instruments Eastern", "String Instruments Western", "Bharatanatyam", "Mohiniyattam",
+      "Classical Dance (Odissi)", "Classical Dance (Kathak)", "Classical Dance (Manipuri)", "Classical Dance (Kuchipudi)", "Folk Dance Boys", "Folk Dance Girls", "Kerala Natanam", "Monoact", "Mimicry", "Kadha Presangam"
+    ];
+
+    const ON_STAGE_GROUP_EVENTS = [
+      "Group Song (Indian)", "Group Song (Western)", "Mappila Paattu Group", "Folk Music Group", "Patriotic Song Group", "Ganamela", "Folk Dance Group", "Thiruvathira", "Kolkali", "Daf Mutt", "Oppana", "Vattapatt", "Margamkali", "Drama", "Mime", "Skit"
+    ];
 
     async function init() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const token = urlParams.get('token');
+
+
+      const getLinkToken = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const queryToken = urlParams.get('token');
+        if (queryToken) return queryToken;
+
+        const pathParts = window.location.pathname.split('/').filter(p => p);
+        const studentIdx = pathParts.indexOf('student');
+        if (studentIdx !== -1 && pathParts[studentIdx + 1]) {
+          return pathParts[studentIdx + 1];
+        }
+        return null;
+      };
+
+      const token = getLinkToken();
 
       if (!token) {
         showError("Invalid link. Please use a link provided by your Secretary.");
@@ -315,19 +698,35 @@
         const yearSnap = await getDoc(doc(db, "system_config", "current_year"));
         systemYear = yearSnap.exists() ? yearSnap.data().year : "2025-26";
 
+        // Fetch Program Dates for validation
+        const qDates = query(collection(db, "program_dates"), where("academicYear", "==", systemYear));
+        const datesSnap = await getDocs(qDates);
+        datesSnap.forEach(doc => { programDates[doc.id] = doc.data(); });
+
         // Validate Token
         const linkSnap = await getDoc(doc(db, "registration_links", token));
-        if (!linkSnap.exists() || linkSnap.data().status === 'expired') {
-          showError("This registration link has expired or is invalid.");
+        const linkDataFull = linkSnap.data();
+        if (!linkSnap.exists() || linkDataFull.status !== 'active') {
+          showError("This registration link has been invalidated or expired.");
           return;
         }
 
         linkData = linkSnap.data();
-        document.getElementById('dept-indicator').textContent = linkData.department;
-        
-        // Populate Course & Event Dropdowns based on link data
-        setupCourseDropdown(linkData.allowedCourses || []);
-        setupEventDropdown(linkData.category);
+        document.getElementById('dept-indicator').textContent = `${linkData.department} | ${linkData.category}`;
+
+        // Show Reg Type if Category is On Stage
+        if (linkData.category === "On Stage") {
+          document.getElementById('reg-type-container').classList.remove('hidden');
+        }
+
+        // Setup Dropdowns
+        setupCourseDropdown(linkData.allowedCourses || [], linkData.department);
+        setupGenderDropdown();
+        setupRegTypeToggle();
+
+
+        // Initial Fetch of Programs
+        updateProgramList();
 
         document.getElementById('loading-screen').classList.add('hidden');
         document.getElementById('registration-screen').classList.remove('hidden');
@@ -344,38 +743,108 @@
       document.getElementById('error-msg').textContent = msg;
     }
 
-    function setupCourseDropdown(courses) {
+    function setupCourseDropdown(allowedCourses, department) {
       const menu = document.getElementById('course-menu');
-      menu.innerHTML = courses.map(c => `<div class="custom-dropdown-item" data-value="${c}">${c}</div>`).join('');
-      setupDropdown('course-trigger', 'course-menu', 'reg-course', 'course-selected-text');
-    }
+      let courses = allowedCourses.length > 0 ? allowedCourses : (departmentCourseMap[department] || []);
 
-    async function setupEventDropdown(category) {
-      // In a real app, we'd fetch these. For now, we'll use a subset or fetch from Firestore if available.
-      // We'll mimic the index.html structure but simplified.
-      const menu = document.getElementById('event-menu');
-      
-      // Basic list for now - ideally these should be fetched from program_dates
-      let events = [];
-      try {
-        const q = query(collection(db, "program_dates"), where("academicYear", "==", systemYear));
-        const snap = await getDocs(q);
-        snap.forEach(doc => {
-          const data = doc.data();
-          // Filter by category
-          if (data.category === category) {
-            events.push(doc.id);
-          }
-        });
-      } catch (e) { console.warn("Failed to fetch events:", e); }
-
-      if (events.length === 0) {
-        events = ["General Entry"];
+      if (courses.length === 0 && department) {
+        courses = [department];
       }
 
-      menu.innerHTML = events.sort().map(e => `<div class="custom-dropdown-item" data-value="${e}">${e}</div>`).join('');
+      if (courses.length === 0) {
+        // Ultimate fallback if somehow everything is empty
+        courses = ["General Entry"];
+      }
+
+      menu.innerHTML = courses.sort().map(c => `<div class="custom-dropdown-item" data-value="${c}">${c}</div>`).join('');
+      setupDropdown('course-trigger', 'course-menu', 'reg-course', 'course-selected-text');
+
+      // Auto-select if only one option
+      if (courses.length === 1) {
+        const input = document.getElementById('reg-course');
+        const text = document.getElementById('course-selected-text');
+        const trigger = document.getElementById('course-trigger');
+        input.value = courses[0];
+        input.setAttribute('value', courses[0]);
+        text.textContent = courses[0];
+        trigger.classList.add('has-value');
+      }
+    }
+
+
+    function setupGenderDropdown() {
+      setupDropdown('gender-trigger', 'gender-menu', 'reg-gender', 'gender-selected-text');
+    }
+
+    function setupRegTypeToggle() {
+      const typeInput = document.getElementById('reg-type');
+      const typeTrigger = document.getElementById('type-trigger');
+      const typeMenu = document.getElementById('type-menu');
+      const typeText = document.getElementById('type-selected-text');
+
+      setupDropdown('type-trigger', 'type-menu', 'reg-type', 'type-selected-text');
+
+      // Add listener to update UI when regType changes
+      const observer = new MutationObserver(() => {
+        const val = typeInput.value;
+        const groupNameContainer = document.getElementById('group-name-container');
+        const groupMembersContainer = document.getElementById('group-members-container');
+        const nameContainer = document.getElementById('name-container');
+        const genderContainer = document.getElementById('gender-container');
+        const nameLabel = document.getElementById('name-label');
+        const nameInput = document.getElementById('reg-name');
+
+        if (val === "Group") {
+          groupNameContainer.classList.remove('hidden');
+          groupMembersContainer.classList.remove('hidden');
+          nameContainer.classList.add('hidden');
+          genderContainer.classList.add('hidden');
+          nameInput.required = false;
+          // In Group mode, we need at least one member
+        } else {
+          groupNameContainer.classList.add('hidden');
+          groupMembersContainer.classList.add('hidden');
+          nameContainer.classList.remove('hidden');
+          genderContainer.classList.remove('hidden');
+          nameInput.required = true;
+          nameLabel.textContent = "Full Name";
+        }
+        updateProgramList();
+      });
+
+      observer.observe(typeInput, { attributes: true, attributeFilter: ['value'] });
+    }
+
+    async function updateProgramList() {
+      const category = linkData.category;
+      const regType = document.getElementById('reg-type').value;
+      const menu = document.getElementById('event-menu');
+
+      // Get dynamic custom programs from Firestore matching category
+      const dynamicPrograms = Object.values(programDates)
+        .filter(p => (p.isCustom || !p.programName) && p.category === category)
+        .map(p => p.programName || p.id);
+
+      let eventsToShow = [];
+
+      if (category === "Off Stage") {
+        eventsToShow = [...OFF_STAGE_EVENTS, ...dynamicPrograms];
+      } else if (category === "On Stage") {
+        if (regType === "Individual") {
+          eventsToShow = [...ON_STAGE_INDIVIDUAL_EVENTS, ...dynamicPrograms];
+        } else if (regType === "Group") {
+          eventsToShow = [...ON_STAGE_GROUP_EVENTS, ...dynamicPrograms];
+        } else {
+          eventsToShow = [...ON_STAGE_INDIVIDUAL_EVENTS, ...ON_STAGE_GROUP_EVENTS, ...dynamicPrograms];
+        }
+      }
+
+      if (eventsToShow.length === 0) eventsToShow = ["General Entry"];
+
+      menu.innerHTML = [...new Set(eventsToShow)].sort().map(e => `<div class="custom-dropdown-item" data-value="${e}">${e}</div>`).join('');
       setupDropdown('event-trigger', 'event-menu', 'reg-event', 'event-selected-text');
     }
+
 
     function setupDropdown(triggerId, menuId, inputId, textId) {
       const trigger = document.getElementById(triggerId);
@@ -387,22 +856,62 @@
         e.stopPropagation();
         const isShow = menu.classList.contains('show');
         document.querySelectorAll('.custom-dropdown-menu').forEach(m => m.classList.remove('show'));
-        if (!isShow) menu.classList.add('show');
+        document.querySelectorAll('.custom-dropdown-trigger').forEach(t => t.classList.remove('active'));
+        if (!isShow) {
+          menu.classList.add('show');
+          trigger.classList.add('active');
+        }
       };
 
       menu.onclick = (e) => {
         if (e.target.classList.contains('custom-dropdown-item')) {
           const val = e.target.getAttribute('data-value');
           input.value = val;
+          input.setAttribute('value', val); // For observer
           text.textContent = e.target.textContent;
           trigger.classList.add('has-value');
           menu.classList.remove('show');
+          trigger.classList.remove('active');
+
+          // Trigger manual change event if needed
+          const event = new Event('change');
+          input.dispatchEvent(event);
         }
       };
     }
 
+    // Member Management
+    document.getElementById('add-member-btn').onclick = () => {
+      const container = document.getElementById('members-list');
+      const div = document.createElement('div');
+      div.className = 'member-row';
+      div.innerHTML = `
+        <input type="text" class="member-input member-name" placeholder="Name" required style="text-transform: uppercase;">
+        <input type="text" class="member-input member-roll" placeholder="Roll No" required>
+        <select class="member-input member-year" required>
+          <option value="1">1st Yr</option>
+          <option value="2">2nd Yr</option>
+          <option value="3">3rd Yr</option>
+          <option value="4">4th Yr</option>
+        </select>
+        <button type="button" class="remove-member-btn"><i class="fas fa-times"></i></button>
+      `;
+      div.querySelector('.remove-member-btn').onclick = () => {
+        div.remove();
+        updateMemberCount();
+      };
+      container.appendChild(div);
+      updateMemberCount();
+    };
+
+    function updateMemberCount() {
+      const count = document.querySelectorAll('.member-row').length;
+      document.getElementById('member-count').textContent = `${count} Member${count !== 1 ? 's' : ''}`;
+    }
+
     document.addEventListener('click', () => {
       document.querySelectorAll('.custom-dropdown-menu').forEach(m => m.classList.remove('show'));
+      document.querySelectorAll('.custom-dropdown-trigger').forEach(t => t.classList.remove('active'));
     });
 
     setupDropdown('year-trigger', 'year-menu', 'reg-year', 'year-selected-text');
@@ -413,26 +922,52 @@
       const btn = document.getElementById('submit-btn');
       const status = document.getElementById('status-msg');
 
+      const regType = document.getElementById('reg-type').value;
+      const members = [];
+      if (regType === "Group") {
+        const rows = document.querySelectorAll('.member-row');
+        rows.forEach(row => {
+          members.push({
+            name: row.querySelector('.member-name').value.toUpperCase(),
+            roll: row.querySelector('.member-roll').value,
+            year: row.querySelector('.member-year').value
+          });
+        });
+        if (members.length === 0) {
+          status.textContent = "Please add at least one group member.";
+          status.style.color = "var(--error)";
+          return;
+        }
+      }
+
       btn.disabled = true;
       status.textContent = "Submitting...";
       status.style.color = "var(--text-secondary)";
 
       try {
         const formData = {
-          studentName: document.getElementById('reg-name').value.toUpperCase(),
+          studentName: regType === "Group" ? "" : document.getElementById('reg-name').value.toUpperCase(),
           department: document.getElementById('reg-course').value,
-          rollNumber: document.getElementById('reg-roll').value,
-          year: document.getElementById('reg-year').value,
+          rollNumber: regType === "Group" ? "" : document.getElementById('reg-roll').value,
+          year: regType === "Group" ? "" : document.getElementById('reg-year').value,
+          gender: regType === "Group" ? "" : document.getElementById('reg-gender').value,
           phone: document.getElementById('reg-phone').value,
           program: document.getElementById('reg-event').value,
           category: linkData.category,
+          regType: regType,
+          groupName: regType === "Group" ? document.getElementById('reg-group-name').value.toUpperCase() : "",
+          groupMembers: members,
           academicYear: systemYear,
           registeredBy: "student_link",
-          linkToken: new URLSearchParams(window.location.search).get('token'),
-          departmentSecretaryEmail: linkData.createdBy, // Must match index.html query
+          linkToken: getLinkToken(),
+          departmentSecretaryEmail: linkData.createdBy,
           status: 'pending',
           submittedAt: serverTimestamp()
         };
+
+        if (!formData.department || !formData.phone || !formData.program || (regType === "Individual" && (!formData.studentName || !formData.year || !formData.gender))) {
+          throw new Error("Please fill all required fields.");
+        }
 
         await addDoc(collection(db, "pending_registrations"), formData);
 
@@ -440,16 +975,22 @@
         document.getElementById('registration-screen').classList.add('hidden');
         document.getElementById('success-screen').classList.remove('hidden');
 
+        const successDetails = regType === "Group"
+          ? `<div style="font-weight: 700; color: white; margin-bottom: 0.25rem;">${formData.groupName} (Group)</div>
+             <div style="font-size: 0.8rem; color: var(--text-secondary);">${members.length} Members</div>`
+          : `<div style="font-weight: 700; color: white; margin-bottom: 0.25rem;">${formData.studentName}</div>
+             <div style="font-size: 0.8rem; color: var(--text-secondary);">${formData.department} \u2022 ${formData.year} Year</div>`;
+
         document.getElementById('summary-card').innerHTML = `
-          <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Details:</div>
-          <div style="font-weight: 700; color: white; margin-bottom: 0.25rem;">${formData.studentName}</div>
-          <div style="font-size: 0.85rem; color: var(--accent-color);">${formData.program}</div>
-          <div style="font-size: 0.8rem; margin-top: 0.5rem; color: var(--text-secondary);">${formData.department} \u2022 ${formData.year} Year</div>
+          <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Registration Summary:</div>
+          ${successDetails}
+          <div style="font-size: 0.85rem; color: var(--accent-color); margin-top: 0.5rem;">${formData.program}</div>
+          <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 1rem; font-style: italic;">Status: Pending Approval</div>
         `;
 
       } catch (err) {
         console.error(err);
-        status.textContent = "Error submitting registration. Please try again.";
+        status.textContent = err.message || "Error submitting registration. Please try again.";
         status.style.color = "var(--error)";
         btn.disabled = false;
       }
@@ -457,6 +998,7 @@
 
     init();
   </script>
+
 </body>
 
 </html>
