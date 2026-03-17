@@ -6880,7 +6880,7 @@
               groupName: document.getElementById('reg-group-name')?.value || "",
               groupMembers: groupMembers,
               registeredBy: (auth.currentUser?.email || "guest").toLowerCase(),
-              registeredAt: new Date().toISOString()
+              registeredAt: firestoreTimestamp()
             };
 
             await Promise.race([
@@ -7083,9 +7083,20 @@
         // Initial fetch
         fetchProgramDates().catch(err => console.warn('Error loading program dates:', err));
 
-        function formatDate(isoString) {
-          if (!isoString) return 'N/A';
-          const date = new Date(isoString);
+        function formatDate(dateObj) {
+          if (!dateObj) return 'N/A';
+          
+          let date;
+          // Handle Firestore Timestamp
+          if (dateObj && typeof dateObj.toDate === 'function') {
+            date = dateObj.toDate();
+          } else {
+            // Handle ISO string or other date formats
+            date = new Date(dateObj);
+          }
+
+          if (isNaN(date.getTime())) return 'N/A';
+
           const options = {
             year: 'numeric',
             month: 'short',
@@ -7588,12 +7599,15 @@
 
               // Sort by registeredAt date (newest first)
               registrations.sort((a, b) => {
-                const dateA = new Date(a.registeredAt || 0);
-                const dateB = new Date(b.registeredAt || 0);
-                return dateB - dateA;
+                const getTime = (val) => {
+                  if (val && typeof val.toDate === 'function') return val.toDate().getTime();
+                  if (val) return new Date(val).getTime();
+                  return 0;
+                };
+                return getTime(b.registeredAt) - getTime(a.registeredAt);
               });
 
-              console.log(`Found ${registrations.length} registrations${isFallback ? ' (Fallback Mode)' : ''}`);
+              console.log(`[Diagnostic] Processed ${registrations.length} registrations. Sample:`, registrations[0]);
 
               // Calculate Counts
               const onStageCount = registrations.filter(r => r.category === "On Stage").length;

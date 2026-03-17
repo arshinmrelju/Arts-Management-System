@@ -399,7 +399,16 @@ const renderTable = () => {
     }
 
     filtered.forEach(student => {
-        const date = student.registeredAt ? new Date(student.registeredAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A';
+        const registeredAt = student.registeredAt;
+        let date = 'N/A';
+        if (registeredAt) {
+            try {
+                const d = (typeof registeredAt === 'object' && registeredAt.toDate) ? registeredAt.toDate() : new Date(registeredAt);
+                date = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            } catch (e) {
+                console.error("Error formatting date for row:", e);
+            }
+        }
         const tr = document.createElement('tr');
         tr.style.cursor = 'pointer';
         tr.onclick = (e) => {
@@ -1765,9 +1774,14 @@ const fetchRegistrations = async () => {
 
         // Sort by date (newest first) client-side
         allRegistrations.sort((a, b) => {
-            const dateA = a.registeredAt ? new Date(a.registeredAt) : new Date(0);
-            const dateB = b.registeredAt ? new Date(b.registeredAt) : new Date(0);
-            return dateB - dateA;
+            try {
+                const dateA = a.registeredAt ? (a.registeredAt.toDate ? a.registeredAt.toDate() : new Date(a.registeredAt)) : new Date(0);
+                const dateB = b.registeredAt ? (b.registeredAt.toDate ? b.registeredAt.toDate() : new Date(b.registeredAt)) : new Date(0);
+                return dateB - dateA;
+            } catch (e) {
+                console.error("Sorting error:", e);
+                return 0;
+            }
         });
 
         // Ensure program dates are loaded for the schedule column
@@ -1915,7 +1929,15 @@ window.viewRegistration = (id) => {
     if (!student) return;
 
     const content = document.getElementById('view-reg-content');
-    const date = student.registeredAt ? new Date(student.registeredAt).toLocaleString() : 'N/A';
+    let date = 'N/A';
+    if (student.registeredAt) {
+        try {
+            const d = (typeof student.registeredAt === 'object' && student.registeredAt.toDate) ? student.registeredAt.toDate() : new Date(student.registeredAt);
+            date = d.toLocaleString();
+        } catch (e) {
+            console.error("Error formatting date for modal:", e);
+        }
+    }
 
     let membersHtml = '';
     if (student.regType === 'Group' && student.groupMembers && student.groupMembers.length > 0) {

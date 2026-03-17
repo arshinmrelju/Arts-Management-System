@@ -26,8 +26,12 @@
           "destination": "/appeal.html"
         },
         {
-          "source": "/leaderboard{,/**}",
-          "destination": "/leaderboard.html"
+          "source": "/student/**",
+          "destination": "/student.html"
+        },
+        {
+          "source": "/leaderboard",
+          "destination": "/index.html"
         }
       ],
       "ignore": [

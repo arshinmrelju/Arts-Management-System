@@ -467,6 +467,18 @@
     </div>
   </div>
 
+  <div class="container hidden" id="closed-screen">
+    <div style="text-align: center; padding: 2rem;">
+      <i class="fas fa-lock fa-3x" style="color: var(--error); margin-bottom: 2rem; display: block;"></i>
+      <h2 style="color: white; margin-bottom: 1rem;">Registration Closed</h2>
+      <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 2rem;">
+        The registration window for this category is currently closed by the administration. 
+        Please contact your Department Secretary for more information.
+      </p>
+      <button onclick="window.location.href='/'" class="cta-btn" style="background: rgba(255,255,255,0.1);">Return to Home</button>
+    </div>
+  </div>
+
   <div class="container hidden" id="registration-screen">
     <div class="logo">
       <img src="/assets/Pazhassiraja_College_Pulpally_Logo.png" alt="PRC Logo">
@@ -639,6 +651,19 @@
     let systemYear = "";
     let programDates = {};
 
+    const getLinkToken = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryToken = urlParams.get('token');
+      if (queryToken) return queryToken;
+
+      const pathParts = window.location.pathname.split('/').filter(p => p);
+      const studentIdx = pathParts.indexOf('student');
+      if (studentIdx !== -1 && pathParts[studentIdx + 1]) {
+        return pathParts[studentIdx + 1];
+      }
+      return null;
+    };
+
     const departmentCourseMap = {
       "Dep. of Economics": ["B.A Economics", "B.A Econometrics and Data Management", "M.A Economics"],
       "Dep. of English": ["B.A English Language and Literature"],
@@ -673,19 +698,6 @@
     async function init() {
 
 
-      const getLinkToken = () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const queryToken = urlParams.get('token');
-        if (queryToken) return queryToken;
-
-        const pathParts = window.location.pathname.split('/').filter(p => p);
-        const studentIdx = pathParts.indexOf('student');
-        if (studentIdx !== -1 && pathParts[studentIdx + 1]) {
-          return pathParts[studentIdx + 1];
-        }
-        return null;
-      };
-
       const token = getLinkToken();
 
       if (!token) {
@@ -712,6 +724,29 @@
         }
 
         linkData = linkSnap.data();
+
+        // Check Global Registration Locks (from settings/registration)
+        try {
+          const settingsSnap = await getDoc(doc(db, "settings", "registration"));
+          if (settingsSnap.exists()) {
+            const settings = settingsSnap.data();
+            const category = linkData.category;
+            
+            let isLocked = false;
+            if (category === "On Stage" && settings.onStageLocked) isLocked = true;
+            if (category === "Off Stage" && settings.offStageLocked) isLocked = true;
+
+            if (isLocked) {
+              document.getElementById('loading-screen').classList.add('hidden');
+              document.getElementById('closed-screen').classList.remove('hidden');
+              return;
+            }
+          }
+        } catch (settingsErr) {
+          console.error("Error checking reg status:", settingsErr);
+          // Continue if settings fetch fails to avoid breaking registration if it's just a minor fetch issue
+        }
+
         document.getElementById('dept-indicator').textContent = `${linkData.department} | ${linkData.category}`;
 
         // Show Reg Type if Category is On Stage
