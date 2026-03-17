@@ -83,7 +83,7 @@ body {
     position: absolute;
     inset: 0;
     background-image:
-        radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        radial-gradient(rgba(236, 72, 153, 0.04) 1px, transparent 1px),
         radial-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px);
     background-size: 50px 50px, 30px 30px;
     background-position: 0 0, 25px 25px;
@@ -118,12 +118,12 @@ header {
 
 .logo-container img {
     height: 85px;
-    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 30px rgba(59, 130, 246, 0.2));
+    filter: drop-shadow(0 8px 20px rgba(236, 72, 153, 0.4)) drop-shadow(0 0 30px rgba(59, 130, 246, 0.2));
     transition: filter 0.3s var(--ease-out);
 }
 
 .logo-container:hover img {
-    filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.3));
+    filter: drop-shadow(0 12px 24px rgba(236, 72, 153, 0.5)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.3));
 }
 
 header h1 {
@@ -178,7 +178,7 @@ header p {
     letter-spacing: 0.05em;
     margin-top: 2rem;
     border: 1.5px solid var(--accent);
-    box-shadow: 0 0 20px var(--accent-glow), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px var(--accent-glow), inset 0 1px 0 rgba(236, 72, 153, 0.1);
     animation: badgePulse 3s ease-in-out infinite;
 }
 
@@ -186,11 +186,11 @@ header p {
 
     0%,
     100% {
-        box-shadow: 0 0 20px var(--accent-glow), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 20px var(--accent-glow), inset 0 1px 0 rgba(236, 72, 153, 0.1);
     }
 
     50% {
-        box-shadow: 0 0 30px var(--accent-glow), 0 0 40px rgba(251, 191, 36, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 30px var(--accent-glow), 0 0 40px rgba(251, 191, 36, 0.2), inset 0 1px 0 rgba(236, 72, 153, 0.1);
     }
 }
 
@@ -244,7 +244,7 @@ header p {
     box-shadow:
         0 0 30px var(--primary-glow),
         0 0 60px rgba(59, 130, 246, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        inset 0 1px 0 rgba(236, 72, 153, 0.2);
     animation: iconGlow 2s ease-in-out infinite;
 }
 
@@ -252,11 +252,11 @@ header p {
 
     0%,
     100% {
-        box-shadow: 0 0 30px var(--primary-glow), 0 0 60px rgba(59, 130, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 30px var(--primary-glow), 0 0 60px rgba(59, 130, 246, 0.3), inset 0 1px 0 rgba(236, 72, 153, 0.2);
     }
 
     50% {
-        box-shadow: 0 0 40px var(--primary-glow), 0 0 80px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 40px var(--primary-glow), 0 0 80px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(236, 72, 153, 0.2);
     }
 }
 
@@ -296,9 +296,9 @@ header p {
     border-radius: 1.5rem;
     padding: clamp(2rem, 6vw, 4rem);
     box-shadow:
-        0 20px 25px -5px rgba(0, 0, 0, 0.4),
-        0 10px 10px -5px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 20px 25px -5px rgba(236, 72, 153, 0.4),
+        0 10px 10px -5px rgba(236, 72, 153, 0.2),
+        inset 0 1px 0 rgba(236, 72, 153, 0.1);
     position: relative;
     overflow: hidden;
     transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
@@ -307,9 +307,9 @@ header p {
 .card:hover {
     transform: translateY(-2px);
     box-shadow:
-        0 25px 30px -5px rgba(0, 0, 0, 0.5),
-        0 15px 15px -5px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 25px 30px -5px rgba(236, 72, 153, 0.5),
+        0 15px 15px -5px rgba(236, 72, 153, 0.3),
+        inset 0 1px 0 rgba(236, 72, 153, 0.1);
 }
 
 .card-glow {
@@ -343,7 +343,7 @@ header p {
     box-shadow:
         0 10px 20px -3px var(--primary-glow),
         0 0 40px rgba(59, 130, 246, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        inset 0 1px 0 rgba(236, 72, 153, 0.2);
     animation: orbFloat 3s ease-in-out infinite;
 }
 
@@ -378,7 +378,7 @@ header p {
 .btn-auth {
     background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
     color: #0f172a;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(236, 72, 153, 0.1);
     border-bottom: 2px solid rgba(203, 213, 225, 0.4);
     border-radius: 0.75rem;
     padding: 1rem 2.5rem;
@@ -396,8 +396,8 @@ header p {
     cursor: pointer;
     transition: all 0.3s var(--ease-out);
     box-shadow:
-        0 4px 6px -1px rgba(0, 0, 0, 0.1),
-        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        0 4px 6px -1px rgba(236, 72, 153, 0.1),
+        0 2px 4px -1px rgba(236, 72, 153, 0.06);
 }
 
 .btn-auth img {
@@ -410,15 +410,15 @@ header p {
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     transform: translateY(-3px);
     box-shadow:
-        0 12px 20px -3px rgba(0, 0, 0, 0.15),
-        0 6px 8px -1px rgba(0, 0, 0, 0.1);
+        0 12px 20px -3px rgba(236, 72, 153, 0.15),
+        0 6px 8px -1px rgba(236, 72, 153, 0.1);
 }
 
 .btn-auth:active {
     transform: translateY(-1px);
     box-shadow:
-        0 6px 10px -3px rgba(0, 0, 0, 0.1),
-        0 3px 5px -1px rgba(0, 0, 0, 0.06);
+        0 6px 10px -3px rgba(236, 72, 153, 0.1),
+        0 3px 5px -1px rgba(236, 72, 153, 0.06);
 }
 
 /* --- Form Card --- */
@@ -661,7 +661,7 @@ input[readonly] {
     box-shadow:
         0 4px 6px -1px rgba(59, 130, 246, 0.3),
         0 2px 4px -1px rgba(59, 130, 246, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        inset 0 1px 0 rgba(236, 72, 153, 0.1);
     position: relative;
     overflow: hidden;
 }
@@ -683,7 +683,7 @@ input[readonly] {
     box-shadow:
         0 10px 15px -3px rgba(59, 130, 246, 0.4),
         0 6px 8px -1px rgba(59, 130, 246, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        inset 0 1px 0 rgba(236, 72, 153, 0.2);
 }
 
 .btn-submit:hover::before {
@@ -695,7 +695,7 @@ input[readonly] {
     box-shadow:
         0 4px 6px -1px rgba(59, 130, 246, 0.3),
         0 2px 4px -1px rgba(59, 130, 246, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        inset 0 1px 0 rgba(236, 72, 153, 0.1);
 }
 
 /* --- Success Card --- */
@@ -736,7 +736,7 @@ input[readonly] {
     border-left: 4px solid var(--primary-light);
     border-radius: 0.5rem;
     padding: 1rem 1.5rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 10px 15px -3px rgba(236, 72, 153, 0.4);
 }
 
 footer {
@@ -904,8 +904,8 @@ select {
     visibility: hidden;
     transition: all 0.3s var(--ease-out);
     box-shadow:
-        0 10px 25px -5px rgba(0, 0, 0, 0.5),
-        0 8px 10px -6px rgba(0, 0, 0, 0.3);
+        0 10px 25px -5px rgba(236, 72, 153, 0.5),
+        0 8px 10px -6px rgba(236, 72, 153, 0.3);
 }
 
 .custom-select-container.open .custom-options {
@@ -1100,8 +1100,8 @@ select {
     visibility: hidden;
     transition: all 0.3s var(--ease-out);
     box-shadow:
-        0 10px 25px -5px rgba(0, 0, 0, 0.5),
-        0 8px 10px -6px rgba(0, 0, 0, 0.3);
+        0 10px 25px -5px rgba(236, 72, 153, 0.5),
+        0 8px 10px -6px rgba(236, 72, 153, 0.3);
 }
 
 .custom-select-container.open .custom-options {
