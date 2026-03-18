@@ -5,10 +5,13 @@ A professional management portal and appeal system for the Union Arts Arts Festi
 ## 🚀 Features
 
 - **Admin Dashboard**: Comprehensive control panel for managing students, programs, scores, and system settings.
+- **Secretary Hub**: Advanced tools for department secretaries to generate registration links and manage pending entries.
+- **Premium Alert System**: Modern, positive-minded pop-up notifications for real-time system feedback and registration updates.
+- **Student Registration**: Streamlined flow for individual and group events with embedded real-time limit validation.
 - **Appeal Portal**: A dedicated, user-friendly interface for participants to submit appeals with video evidence support.
 - **Real-time Leaderboard**: Live-updating results and department-wise standings.
-- **Access Control**: Secure authentication with whitelisted access for administrators and teachers.
-- **Registration Management**: Tools for field-level control, chest number drawing, and registration locking.
+- **Access Control**: Secure authentication with whitelisted access for administrators and secretaries.
+- **Registration Control**: Field-level control, chest number drawing, and global registration locking.
 - **Program Scheduling**: Dynamic management of competition dates and schedules.
 
 ## 🛠️ Technology Stack
@@ -21,8 +24,9 @@ A professional management portal and appeal system for the Union Arts Arts Festi
 ## 📁 Project Structure
 
 - `/y`: The public web directory containing the application files.
-  - `index.html`: Main landing page and dashboard.
-  - `admin.html`: Unified administration console.
+  - `index.html`: Main landing page and primary dashboard.
+  - `student.html`: Student-facing registration portal for individual and group events.
+  - `admin.html`: Unified administration console for staff and secretaries.
   - `appeal.html`: Participant appeal submission portal.
   - `leaderboard.html`: Public results and standings page.
   - `/assets`: CSS, JS, and image assets organized by section (core, admin, etc.).
