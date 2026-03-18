@@ -428,6 +428,113 @@
         margin-bottom: 2rem;
       }
     }
+    /* Custom Alert Modal Styles */
+    #custom-alert-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 12000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .custom-alert-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-radius: 2rem;
+      padding: 2.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.8),
+        0 0 1px 1px rgba(255, 255, 255, 0.1) inset;
+      animation: alertSlideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes alertSlideUp {
+      from {
+        transform: translateY(30px) scale(0.9);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    .custom-alert-icon {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 1.5rem;
+    }
+
+    .custom-alert-icon.info {
+      background: rgba(59, 130, 246, 0.15);
+      color: #3b82f6;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .custom-alert-icon.warning {
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .custom-alert-icon.error {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .custom-alert-title {
+      font-family: inherit;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 0.75rem;
+    }
+
+    .custom-alert-message {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .custom-alert-btn {
+      width: 100%;
+      background: var(--gradient-main);
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 1.25rem;
+      font-weight: 800;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px -5px rgba(244, 63, 94, 0.4);
+    }
+
+    .custom-alert-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+      box-shadow: 0 15px 30px -5px rgba(244, 63, 94, 0.5);
+    }
   </style>
 
 
@@ -969,15 +1076,16 @@
           });
         });
         if (members.length === 0) {
-          status.textContent = "Please add at least one group member.";
-          status.style.color = "var(--error)";
+          showCustomAlert("Heads Up!", "Please add at least one group member.", "warning");
           return;
         }
       }
 
       btn.disabled = true;
-      status.textContent = "Submitting...";
-      status.style.color = "var(--text-secondary)";
+      if (status) {
+        status.textContent = "Submitting...";
+        status.style.color = "var(--text-secondary)";
+      }
 
       try {
         const formData = {
@@ -1038,7 +1146,7 @@
           [snapAllReg, snapAllPend] = await Promise.all([regPromise, pendPromise]);
         } catch (e) {
           console.error("Query failed:", e);
-          throw new Error("Verification failed. Please try again.");
+          throw new Error("We couldn't verify the registry right now. Please try again in a moment.");
         }
 
         const allDocsData = [...snapAllReg.docs, ...(snapAllPend?.docs || [])].map(d => d.data());
@@ -1062,7 +1170,7 @@
           }).length;
 
           if (activeRegCount >= 3) {
-            throw new Error(`Limit reached! The ${mainDept} already has ${activeRegCount} registrations for "${formData.program}". Max 3 allowed per department.`);
+            throw new Error(`Great interest in this event! However, the ${mainDept} has already reached the maximum of 3 registrations for "${formData.program}".`);
           }
         }
 
@@ -1088,10 +1196,10 @@
           });
 
           if (cat === "off stage" && studentOffStageCount >= 3) {
-            throw new Error(`Limit reached! You have already registered for ${studentOffStageCount} Off-Stage events. Max 3 allowed.`);
+            throw new Error(`You've been busy! You've already joined 3 Off-Stage events, which is our maximum per student.`);
           }
           if (cat === "on stage" && regType === "individual" && studentOnStageIndCount >= 3) {
-            throw new Error(`Limit reached! You have already registered for ${studentOnStageIndCount} On-Stage Individual events. Max 3 allowed.`);
+            throw new Error(`That's a lot of talent! You've already registered for 3 On-Stage Individual events, which is the limit.`);
           }
         }
 
@@ -1116,14 +1224,59 @@
 
       } catch (err) {
         console.error(err);
-        status.textContent = err.message || "Error submitting registration. Please try again.";
-        status.style.color = "var(--error)";
+        showCustomAlert("Registration Update", err.message || "We encountered a small hiccup. Please try submitting again.", "info");
+        if (status) status.textContent = "";
+      } finally {
         btn.disabled = false;
       }
     };
 
+    const closeModal = () => {
+      document.getElementById('custom-alert-modal').style.display = 'none';
+    };
+
+    document.getElementById('close-custom-alert').onclick = closeModal;
+    document.getElementById('custom-alert-modal').onclick = (e) => {
+      if (e.target.id === 'custom-alert-modal') closeModal();
+    };
+
+    function showCustomAlert(title, message, type = 'info') {
+      const modal = document.getElementById('custom-alert-modal');
+      const titleElem = document.getElementById('custom-alert-title');
+      const messageElem = document.getElementById('custom-alert-message');
+      const iconElem = document.getElementById('custom-alert-icon');
+
+      if (!modal || !titleElem || !messageElem || !iconElem) return;
+
+      titleElem.textContent = title;
+      messageElem.textContent = message;
+
+      iconElem.className = `custom-alert-icon ${type}`;
+      if (type === 'warning') {
+        iconElem.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+      } else if (type === 'error') {
+        iconElem.innerHTML = '<i class="fas fa-times-circle"></i>';
+      } else {
+        iconElem.innerHTML = '<i class="fas fa-info-circle"></i>';
+      }
+
+      modal.style.display = 'flex';
+    }
+
     init();
   </script>
+
+  <!-- Custom Alert Modal -->
+  <div id="custom-alert-modal">
+    <div class="custom-alert-card">
+      <div id="custom-alert-icon" class="custom-alert-icon">
+        <i class="fas fa-info-circle"></i>
+      </div>
+      <h2 id="custom-alert-title" class="custom-alert-title">Notification</h2>
+      <p id="custom-alert-message" class="custom-alert-message">Message goes here.</p>
+      <button id="close-custom-alert" class="custom-alert-btn">GOT IT</button>
+    </div>
+  </div>
 
 </body>
 

@@ -3477,6 +3477,12 @@
       border: 1px solid rgba(245, 158, 11, 0.3);
     }
 
+    .custom-alert-icon.error {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
     .custom-alert-title {
       font-family: var(--font-heading);
       font-size: 1.5rem;
@@ -4479,7 +4485,7 @@
       </div>
       <h2 id="custom-alert-title" class="custom-alert-title">Notification</h2>
       <p id="custom-alert-message" class="custom-alert-message">Message goes here.</p>
-      <button id="close-custom-alert" class="custom-alert-btn">Got it</button>
+      <button id="close-custom-alert" class="custom-alert-btn">GOT IT</button>
     </div>
   </div>
 
@@ -4813,7 +4819,13 @@
 
       // Set icon based on type
       iconElem.className = `custom-alert-icon ${type}`;
-      iconElem.innerHTML = type === 'warning' ? '<i class="fas fa-exclamation-triangle"></i>' : '<i class="fas fa-info-circle"></i>';
+      if (type === 'warning') {
+        iconElem.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+      } else if (type === 'error') {
+        iconElem.innerHTML = '<i class="fas fa-times-circle"></i>';
+      } else {
+        iconElem.innerHTML = '<i class="fas fa-info-circle"></i>';
+      }
 
       modal.style.display = 'flex';
     }
@@ -6918,10 +6930,8 @@
 
             const membersCount = regType === "Group" ? document.querySelectorAll('.member-row').length : 0;
             if (!dept || !phone || !program || (regType === "Individual" && (!name || !gender || !roll || !year)) || (regType === "Group" && (!document.getElementById('reg-group-name')?.value || membersCount === 0))) {
-              if (regStatus) {
-                regStatus.textContent = regType === "Group" && membersCount === 0 ? "Please add at least one group member." : "Please fill all fields.";
-                regStatus.style.color = "#ef4444";
-              }
+              const errorMsg = regType === "Group" && membersCount === 0 ? "Please add at least one group member." : "Please fill all fields.";
+              showCustomAlert("Heads Up!", errorMsg, "warning");
               return;
             }
 
@@ -7091,15 +7101,10 @@
             });
           } catch (error) {
             console.error("Registration Error:", error);
-            if (regStatus) {
-              if (error.code === 'permission-denied') {
-                regStatus.textContent = "Error: Registration closed or not authorized.";
-              } else {
-                regStatus.textContent = "Error: " + error.message;
-              }
-              regStatus.style.color = "#ef4444";
-            }
-          } finally {
+            const errorMsg = error.code === 'permission-denied' ? "Registration is currently paused. Please check back later!" : error.message;
+            showCustomAlert("Registration Update", errorMsg, "info");
+            if (regStatus) regStatus.textContent = "";
+            } finally {
             if (btn) btn.disabled = false;
           }
         });
@@ -8059,7 +8064,7 @@
           const originalText = btn.innerHTML;
 
           if (!wrapper) {
-            showCustomAlert("Wait!", "No content to download.", "warning");
+            showCustomAlert("Heads Up!", "No content to download right now.", "warning");
             return;
           }
 
