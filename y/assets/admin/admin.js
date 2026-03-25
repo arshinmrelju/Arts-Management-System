@@ -3993,8 +3993,7 @@ window.fetchCertificates = async () => {
     try {
         const q = query(
             collection(db, "score_logs"),
-            where("academicYear", "==", systemYear),
-            orderBy("timestamp", "desc")
+            where("academicYear", "==", systemYear)
         );
         const querySnapshot = await getDocs(q);
         allCertificates = [];
@@ -4004,6 +4003,14 @@ window.fetchCertificates = async () => {
                 allCertificates.push({ id: doc.id, ...data });
             }
         });
+        
+        // Sort in memory to avoid needing a composite index
+        allCertificates.sort((a, b) => {
+            const timeA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
+            const timeB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
+            return timeB - timeA; // Descending
+        });
+
         log(`Fetched ${allCertificates.length} certificate candidates.`);
         renderCertificatesTable();
     } catch (error) {
