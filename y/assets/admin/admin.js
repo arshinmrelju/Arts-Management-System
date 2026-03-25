@@ -275,6 +275,15 @@ const escapeHtml = (unsafe) => {
         .replace(/'/g, "&#039;");
 };
 
+const normalizeString = (str) => {
+    if (!str) return "";
+    return str.toString()
+        .toLowerCase()
+        .trim()
+        .replace(/^dep\.\s+of\s+/i, "")
+        .replace(/\s+/g, " ");
+};
+
 const updateStats = () => {
     const activeRegistrations = allRegistrations.filter(r => !r.isDeleted);
     const totalReg = activeRegistrations.length;
@@ -4065,6 +4074,14 @@ window.renderCertificatesTable = () => {
     }
 };
 
+window.closeCertificatePreview = () => {
+    const modal = document.getElementById('pdf-preview-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+    }
+};
+
 window.openCertificatePreview = async (logId) => {
     const logData = allCertificates.find(c => c.id === logId);
     if (!logData) return;
@@ -4089,33 +4106,75 @@ window.openCertificatePreview = async (logId) => {
 
     const getEl = (i) => document.getElementById(i);
 
-    // Populate Template
+    // Populate Template Static Fields
     if (getEl('cert-display-event')) getEl('cert-display-event').textContent = settings.eventName || "NAVARANG";
     if (getEl('cert-display-subtitle')) getEl('cert-display-subtitle').textContent = `${settings.festSubtitle || "Fine Arts Fest"} ${settings.eventYear || "2025-26"}`;
     if (getEl('cert-display-name')) getEl('cert-display-name').textContent = logData.participantName;
+    if (getEl('cert-display-program')) getEl('cert-display-program').textContent = logData.itemName;
     if (getEl('cert-display-dept')) getEl('cert-display-dept').textContent = logData.department;
     if (getEl('cert-display-rank')) getEl('cert-display-rank').textContent = logData.position;
-    if (getEl('cert-display-program')) getEl('cert-display-program').textContent = logData.itemName;
 
     // Signatures
     for (let i = 1; i <= 4; i++) {
-        const title = settings[`sig${i}Title`];
-        const name = settings[`sig${i}Name`];
-        const org = settings[`sig${i}Org`];
-        const titleEl = getEl(`cert-display-sig${i}-title`);
-        const nameEl = getEl(`cert-display-sig${i}-name`);
-        const orgEl = getEl(`cert-display-sig${i}-org`);
-        const mockEl = getEl(`cert-display-sig${i}-mock`);
-        const areaEl = getEl(`cert-sig${i}-area`);
-        
-        if (titleEl) titleEl.textContent = title || "";
-        if (nameEl) nameEl.textContent = name || "";
-        if (orgEl) orgEl.textContent = org || "";
-        if (mockEl) {
-            mockEl.textContent = name ? name : "Signature";
-            mockEl.style.opacity = name ? "1" : "0.3";
+        const sigCol = getEl(`cert-sig-col-${i}`);
+        if (sigCol) {
+            const name = settings[`sig${i}Name`];
+            const title = settings[`sig${i}Title`];
+            const dept = settings[`sig${i}Dept`];
+
+            if (name || title || dept) {
+                sigCol.style.display = 'flex';
+                const nameEl = sigCol.querySelector('.sig-name');
+                const titleEl = sigCol.querySelector('.sig-title');
+                const deptEl = sigCol.querySelector('.sig-dept');
+                if (nameEl) nameEl.textContent = name || "";
+                if (titleEl) titleEl.textContent = title || "";
+                if (deptEl) deptEl.textContent = dept || "";
+            } else {
+                sigCol.style.display = 'none';
+            }
         }
-        if (areaEl) areaEl.style.visibility = (title || name || org) ? "visible" : "hidden";
+    }
+
+    // Robust Matching for Group Logic
+    const normLogItem = normalizeString(logData.itemName);
+    const normLogDept = normalizeString(logData.department);
+    const normLogPart = normalizeString(logData.participantName);
+
+    const matchingReg = allRegistrations.find(r => {
+        const normRegItem = normalizeString(r.program);
+        const normRegDept = normalizeString(r.department);
+        const normRegName = normalizeString(r.studentName);
+        const normRegGroup = normalizeString(r.groupName);
+
+        const deptsMatch = (normRegDept === normLogDept) || 
+                          (normRegDept && normLogDept && (normRegDept.startsWith(normLogDept) || normLogDept.startsWith(normRegDept)));
+        const itemsMatch = normRegItem === normLogItem;
+        
+        if (!itemsMatch || !deptsMatch) return false;
+
+        if (r.regType === 'Group') return true; // Department + Program is unique for groups
+        
+        const namesMatch = normRegName === normLogPart || normRegGroup === normLogPart;
+        return namesMatch;
+    });
+
+    const selectorContainer = getEl('cert-group-controls');
+    const dropdown = getEl('cert-participant-selector');
+
+    if (matchingReg && matchingReg.regType === 'Group' && matchingReg.groupMembers?.length > 0) {
+        if (selectorContainer) selectorContainer.classList.remove('hidden');
+        if (dropdown) {
+            dropdown.innerHTML = `<option value="${logData.participantName}">${logData.participantName} (Group/Leader)</option>`;
+            matchingReg.groupMembers.forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m.name;
+                opt.textContent = m.name;
+                dropdown.appendChild(opt);
+            });
+        }
+    } else {
+        if (selectorContainer) selectorContainer.classList.add('hidden');
     }
 
     // Show in Preview Modal
@@ -4131,6 +4190,7 @@ window.openCertificatePreview = async (logId) => {
         previewContainer.appendChild(clone);
     }
 
+    // Show modal
     const modal = getEl('pdf-preview-modal');
     if (modal) {
         modal.classList.remove('hidden');
@@ -4138,19 +4198,10 @@ window.openCertificatePreview = async (logId) => {
     }
 };
 
-window.closePDFPreview = () => {
-    const modal = document.getElementById('pdf-preview-modal');
-    if (modal) {
-        modal.classList.add('hidden');
-        modal.style.display = 'none';
-    }
-};
-
 window.processPDFDownload = () => {
     const element = document.getElementById('certificate-template');
     if (!element) return;
     
-    // Switch template to visible temporarily for html2pdf to capture it accurately
     const parentContainer = element.parentElement;
     parentContainer.style.display = 'block';
     element.style.display = 'block';
@@ -4162,22 +4213,102 @@ window.processPDFDownload = () => {
         margin: 0,
         filename: `Certificate_${name}_${program}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
-            scale: 2, 
-            useCORS: true,
-            logging: false,
-            letterRendering: true
-        },
+        html2canvas: { scale: 2, useCORS: true, logging: false, letterRendering: true },
         jsPDF: { unit: 'px', format: [1123, 794], orientation: 'landscape' }
     };
 
     html2pdf().set(opt).from(element).save().then(() => {
-        // Hide it back
         element.style.display = 'none';
         parentContainer.style.display = 'none';
-        closePDFPreview();
+        if (!window.isBatchDownloading) {
+            closeCertificatePreview();
+        }
     }).catch(err => {
         log("PDF Error:", err);
-        alert("Failed to generate PDF. Check console.");
+        alert("Failed to generate PDF.");
     });
+};
+
+window.updateCertParticipant = (name) => {
+    const nameEl = document.getElementById('cert-display-name');
+    if (nameEl) {
+        nameEl.textContent = name;
+        // Refresh preview
+        const previewContainer = document.getElementById('pdf-preview-container');
+        if (previewContainer) {
+            previewContainer.innerHTML = '';
+            const clone = document.getElementById('certificate-template').cloneNode(true);
+            clone.id = 'certificate-preview-element';
+            clone.style.display = 'block';
+            clone.style.margin = '0 auto';
+            clone.style.transform = 'scale(0.7)';
+            clone.style.transformOrigin = 'top center';
+            previewContainer.appendChild(clone);
+        }
+    }
+};
+
+window.downloadAllGroupCerts = async () => {
+    const dropdown = document.getElementById('cert-participant-selector');
+    if (!dropdown) return;
+
+    const options = Array.from(dropdown.options);
+    if (options.length <= 1) {
+        alert("No group members found for batch download.");
+        return;
+    }
+
+    if (!confirm(`Generate and download all ${options.length} certificates?`)) return;
+
+    const btn = document.getElementById('batch-download-btn');
+    const originalHTML = btn ? btn.innerHTML : "Download All";
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    }
+
+    window.isBatchDownloading = true;
+    const nameEl = document.getElementById('cert-display-name');
+
+    try {
+        for (let i = 0; i < options.length; i++) {
+            const name = options[i].value;
+            log(`Batch Generating ${i+1}/${options.length}: ${name}`);
+            
+            if (nameEl) nameEl.textContent = name;
+            await new Promise(r => setTimeout(r, 800));
+            
+            const element = document.getElementById('certificate-template');
+            const parentContainer = element.parentElement;
+            parentContainer.style.display = 'block';
+            element.style.display = 'block';
+
+            const fileName = name.replace(/\s+/g, '_');
+            const program = document.getElementById('cert-display-program').textContent.replace(/\s+/g, '_');
+            
+            const opt = {
+                margin: 0,
+                filename: `Certificate_${fileName}_${program}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, logging: false, letterRendering: true },
+                jsPDF: { unit: 'px', format: [1123, 794], orientation: 'landscape' }
+            };
+
+            await html2pdf().set(opt).from(element).save();
+            await new Promise(r => setTimeout(r, 500));
+            
+            element.style.display = 'none';
+            parentContainer.style.display = 'none';
+        }
+        alert("Batch generation complete!");
+    } catch (error) {
+        log("Batch Download Error:", error);
+        alert("Error during batch generation.");
+    } finally {
+        window.isBatchDownloading = false;
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = originalHTML;
+        }
+    }
 };

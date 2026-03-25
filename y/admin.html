@@ -47,6 +47,21 @@
         <div class="modal-content">
             <div class="pdf-toolbar">
                 <div class="pdf-toolbar-title">PDF Preview</div>
+                
+                <!-- Group Controls (Hidden for Individuals) -->
+                <div id="cert-group-controls" class="hidden" style="display: flex; align-items: center; gap: 1rem; margin-right: auto; padding-left: 2rem;">
+                    <div style="display: flex; flex-direction: column;">
+                        <span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Participant</span>
+                        <select id="cert-participant-selector" onchange="updateCertParticipant(this.value)" class="input-pill" style="padding: 0.3rem 1.5rem; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--glass-border); width: 250px;">
+                            <option value="">Group/Leader Name</option>
+                        </select>
+                    </div>
+                    <button id="batch-download-btn" onclick="downloadAllGroupCerts()" class="btn-tab" style="background: rgba(99, 102, 241, 0.2); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.3); padding: 0.5rem 1rem;">
+                        <i class="fas fa-file-medical"></i> Download All
+                    </button>
+                    <div style="width: 1px; height: 30px; background: var(--glass-border); margin: 0 0.5rem;"></div>
+                </div>
+
                 <div style="display: flex; gap: 1rem;">
                     <button onclick="closePDFPreview()" class="btn-tab"
                         style="background: rgba(255,255,255,0.1); border:none; color: #fff;">
