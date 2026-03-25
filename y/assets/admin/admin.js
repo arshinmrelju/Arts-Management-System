@@ -4101,13 +4101,21 @@ window.openCertificatePreview = async (logId) => {
     for (let i = 1; i <= 4; i++) {
         const title = settings[`sig${i}Title`];
         const name = settings[`sig${i}Name`];
+        const org = settings[`sig${i}Org`];
         const titleEl = getEl(`cert-display-sig${i}-title`);
         const nameEl = getEl(`cert-display-sig${i}-name`);
+        const orgEl = getEl(`cert-display-sig${i}-org`);
+        const mockEl = getEl(`cert-display-sig${i}-mock`);
         const areaEl = getEl(`cert-sig${i}-area`);
         
         if (titleEl) titleEl.textContent = title || "";
         if (nameEl) nameEl.textContent = name || "";
-        if (areaEl) areaEl.style.visibility = (title || name) ? "visible" : "hidden";
+        if (orgEl) orgEl.textContent = org || "";
+        if (mockEl) {
+            mockEl.textContent = name ? name : "Signature";
+            mockEl.style.opacity = name ? "1" : "0.3";
+        }
+        if (areaEl) areaEl.style.visibility = (title || name || org) ? "visible" : "hidden";
     }
 
     // Show in Preview Modal
@@ -4118,7 +4126,7 @@ window.openCertificatePreview = async (logId) => {
         clone.id = 'certificate-preview-element';
         clone.style.display = 'block';
         clone.style.margin = '0 auto';
-        clone.style.transform = 'scale(0.8)'; // Scale down for preview
+        clone.style.transform = 'scale(0.7)'; // Scale down for preview
         clone.style.transformOrigin = 'top center';
         previewContainer.appendChild(clone);
     }
@@ -4160,7 +4168,7 @@ window.processPDFDownload = () => {
             logging: false,
             letterRendering: true
         },
-        jsPDF: { unit: 'px', format: [1000, 700], orientation: 'landscape' }
+        jsPDF: { unit: 'px', format: [1123, 794], orientation: 'landscape' }
     };
 
     html2pdf().set(opt).from(element).save().then(() => {

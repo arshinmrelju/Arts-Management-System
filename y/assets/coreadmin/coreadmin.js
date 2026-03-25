@@ -570,12 +570,16 @@ window.saveArtsIdentity = async function () {
              
              id('cert-sig1-title').value = data.sig1Title || "SECRETARY";
              id('cert-sig1-name').value = data.sig1Name || "";
+             id('cert-sig1-org').value = data.sig1Org || "";
              id('cert-sig2-title').value = data.sig2Title || "CONVENOR";
              id('cert-sig2-name').value = data.sig2Name || "";
+             id('cert-sig2-org').value = data.sig2Org || "";
              id('cert-sig3-title').value = data.sig3Title || "CONVENOR";
              id('cert-sig3-name').value = data.sig3Name || "";
+             id('cert-sig3-org').value = data.sig3Org || "";
              id('cert-sig4-title').value = data.sig4Title || "PRINCIPAL";
              id('cert-sig4-name').value = data.sig4Name || "";
+             id('cert-sig4-org').value = data.sig4Org || "";
          }
      } catch (error) {
          console.error("Error fetching certificate settings:", error);
