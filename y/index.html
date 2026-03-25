@@ -555,38 +555,6 @@
         margin-bottom: 0.5rem;
       }
 
-      /* Mobile Auth Optimizations */
-      #auth-overlay {
-        padding: 2rem 1rem 4rem 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .auth-card {
-        padding: 2rem 1.25rem 3.5rem 1.25rem;
-        border-radius: 1.25rem;
-        border: none !important;
-        box-shadow:
-          0 25px 50px -12px rgba(0, 0, 0, 0.7),
-          0 0 20px 2px rgba(217, 70, 239, 0.1),
-          0 0 1px 1px rgba(255, 255, 255, 0.1) inset;
-      }
-
-      .auth-card h2 {
-        font-size: 1.5rem;
-      }
-
-      .auth-card .logo img {
-        height: 50px;
-      }
-
-      .auth-card .logo {
-        max-width: none;
-        width: 100%;
-        justify-content: center;
-      }
-
       /* Mobile Decorations - Reduced Opacity & Better Positioning */
       .mandala-decoration {
         opacity: 0.05 !important;
@@ -1591,34 +1559,44 @@
 
     @media (max-width: 480px) {
       .flip-card {
-        height: min(580px, 90vh);
+        height: min(560px, 90vh);
+      }
+
+      .flip-card-front,
+      .flip-card-back {
+        border-radius: 2rem;
       }
 
       .brand-hero-title {
-        font-size: 1.25rem;
+        font-size: 1.15rem;
+        margin-bottom: 0.5rem;
       }
 
       .auth-card h2 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .auth-card p {
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
       }
 
       .auth-card {
-        padding: 2.5rem 1.5rem !important;
-        justify-content: center;
-        gap: 1.5rem;
+        padding: 2.25rem 1.5rem !important;
       }
 
       .auth-badge {
         margin-bottom: 1rem;
-        padding: 0.5rem 1.5rem;
-        font-size: 0.7rem;
+        padding: 0.4rem 1.2rem;
+        font-size: 0.65rem;
       }
 
       .btn-super-eye-catchy,
       .btn-vibrant-glass {
-        padding: 1.25rem;
-        font-size: 1rem;
-        border-radius: 1.25rem;
+        padding: 1rem;
+        font-size: 0.95rem;
+        border-radius: 1rem;
         margin-bottom: 0.5rem;
       }
 
