@@ -63,6 +63,7 @@ onAuthStateChanged(auth, async (user) => {
         fetchAdmins();
         fetchSystemYear();
         fetchArtsIdentity();
+        fetchCertificateSettings();
         fetchPayments();
         return;
     }
@@ -555,6 +556,67 @@ window.saveArtsIdentity = async function () {
         btn.disabled = false;
     }
 };
+ 
+ 
+ // Certificate Settings Logic
+ window.fetchCertificateSettings = async function () {
+     try {
+         const docSnap = await getDoc(doc(db, "system_config", "certificate_settings"));
+         if (docSnap.exists()) {
+             const data = docSnap.data();
+             id('cert-event-name').value = data.eventName || "NAVARANG";
+             id('cert-event-year').value = data.eventYear || "2025-26";
+             id('cert-fest-subtitle').value = data.festSubtitle || "Fine Arts Fest";
+             
+             id('cert-sig1-title').value = data.sig1Title || "SECRETARY";
+             id('cert-sig1-name').value = data.sig1Name || "";
+             id('cert-sig2-title').value = data.sig2Title || "CONVENOR";
+             id('cert-sig2-name').value = data.sig2Name || "";
+             id('cert-sig3-title').value = data.sig3Title || "CONVENOR";
+             id('cert-sig3-name').value = data.sig3Name || "";
+             id('cert-sig4-title').value = data.sig4Title || "PRINCIPAL";
+             id('cert-sig4-name').value = data.sig4Name || "";
+         }
+     } catch (error) {
+         console.error("Error fetching certificate settings:", error);
+     }
+ };
+ 
+ window.saveCertificateSettings = async function () {
+     const status = id('cert-save-status');
+     const btn = document.querySelector('button[onclick="saveCertificateSettings()"]');
+ 
+     btn.disabled = true;
+     status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+ 
+     const settings = {
+         eventName: id('cert-event-name').value,
+         eventYear: id('cert-event-year').value,
+         festSubtitle: id('cert-fest-subtitle').value,
+         sig1Title: id('cert-sig1-title').value,
+         sig1Name: id('cert-sig1-name').value,
+         sig2Title: id('cert-sig2-title').value,
+         sig2Name: id('cert-sig2-name').value,
+         sig3Title: id('cert-sig3-title').value,
+         sig3Name: id('cert-sig3-name').value,
+         sig4Title: id('cert-sig4-title').value,
+         sig4Name: id('cert-sig4-name').value,
+         updatedAt: serverTimestamp(),
+         updatedBy: auth.currentUser.email
+     };
+ 
+     try {
+         await setDoc(doc(db, "system_config", "certificate_settings"), settings);
+         status.innerHTML = '<span style="color: var(--accent);"><i class="fas fa-check-circle"></i> Saved!</span>';
+         setTimeout(() => status.innerHTML = '', 3000);
+     } catch (error) {
+         console.error("Error saving certificate settings:", error);
+         status.innerHTML = '<span style="color: #ef4444;">Error saving</span>';
+         alert("Failed to save: " + error.message);
+     } finally {
+         btn.disabled = false;
+     }
+ };
 
 
 // Click outside to close

@@ -933,7 +933,7 @@ const switchView = (viewName) => {
     });
 
     // Show/Hide Panels
-    const panels = ['registrations', 'leaderboard', 'whitelist', 'settings', 'review', 'dates', 'deleted', 'chest', 'appeals'];
+    const panels = ['registrations', 'leaderboard', 'whitelist', 'settings', 'review', 'dates', 'deleted', 'chest', 'appeals', 'certificates'];
     panels.forEach(p => {
         const el = document.getElementById(`panel-${p}`);
         if (el) {
@@ -957,6 +957,8 @@ const switchView = (viewName) => {
         dates: 'Competition Schedule',
         deleted: 'Recently Deleted',
         chest: 'Chest Numbers',
+        appeals: 'Participant Appeals',
+        certificates: 'Certificate Generation'
 
     };
     document.getElementById('current-view-title').textContent = titles[viewName] || 'Dashboard';
@@ -974,6 +976,7 @@ const switchView = (viewName) => {
     }
     if (viewName === 'chest') refreshChestPanel();
     if (viewName === 'appeals') fetchAppeals();
+    if (viewName === 'certificates') fetchCertificates();
 
 };
 
@@ -3977,4 +3980,189 @@ window.deleteAppeal = async (id) => {
         log("Error deleting appeal:", error);
         alert("Failed to delete appeal: " + error.message);
     }
+};
+
+// --- Certificates logic ---
+let allCertificates = [];
+
+window.fetchCertificates = async () => {
+    log("Fetching awarded prizes for certificates...");
+    const tbody = document.getElementById('certificates-body');
+    if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Loading winners...</td></tr>';
+    
+    try {
+        const q = query(
+            collection(db, "score_logs"),
+            where("academicYear", "==", systemYear),
+            orderBy("timestamp", "desc")
+        );
+        const querySnapshot = await getDocs(q);
+        allCertificates = [];
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            if (data.position && data.position !== 'None') {
+                allCertificates.push({ id: doc.id, ...data });
+            }
+        });
+        log(`Fetched ${allCertificates.length} certificate candidates.`);
+        renderCertificatesTable();
+    } catch (error) {
+        log("Error fetching certificates:", error);
+        if (tbody) tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#ef4444; padding:2rem;">Error: ${error.message}</td></tr>`;
+    }
+};
+
+window.renderCertificatesTable = () => {
+    const tbody = document.getElementById('certificates-body');
+    const search = document.getElementById('cert-search') ? document.getElementById('cert-search').value.toLowerCase() : "";
+    const posFilter = document.getElementById('cert-filter-pos') ? document.getElementById('cert-filter-pos').value : "";
+    const noMsg = document.getElementById('no-cert-msg');
+    
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    
+    const filtered = allCertificates.filter(c => {
+        const matchesSearch = (c.participantName || "").toLowerCase().includes(search) || 
+                            (c.itemName || "").toLowerCase().includes(search);
+        const matchesPos = !posFilter || c.position === posFilter;
+        return matchesSearch && matchesPos;
+    });
+
+    if (filtered.length === 0) {
+        if (noMsg) noMsg.classList.remove('hidden');
+    } else {
+        if (noMsg) noMsg.classList.add('hidden');
+        filtered.forEach(c => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td style="padding: 1rem;">
+                    <div style="font-weight: 600; color: white;">${c.participantName}</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">${c.timestamp ? new Date(c.timestamp).toLocaleDateString() : ''}</div>
+                </td>
+                <td style="padding: 1rem;">${c.itemName}</td>
+                <td style="padding: 1rem;">${c.department}</td>
+                <td style="padding: 1rem;">
+                    <span class="badge ${c.position === '1st' ? 'badge-success' : 'badge-warning'}" style="padding: 0.25rem 0.75rem;">
+                        ${c.position} Rank
+                    </span>
+                </td>
+                <td style="padding: 1rem; text-align: right;">
+                    <button onclick="openCertificatePreview('${c.id}')" class="btn-tab" 
+                        style="background: rgba(99, 102, 241, 0.1); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.2); padding: 0.5rem 1rem;">
+                        <i class="fas fa-print"></i> Generate
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+};
+
+window.openCertificatePreview = async (logId) => {
+    const logData = allCertificates.find(c => c.id === logId);
+    if (!logData) return;
+
+    // Load Settings
+    let settings = {
+        eventName: "NAVARANG",
+        eventYear: "2025-26",
+        festSubtitle: "Fine Arts Fest",
+        sig1Title: "SECRETARY", sig1Name: "",
+        sig2Title: "CONVENOR", sig2Name: "",
+        sig3Title: "CONVENOR", sig3Name: "",
+        sig4Title: "PRINCIPAL", sig4Name: ""
+    };
+
+    try {
+        const docSnap = await getDoc(doc(db, "system_config", "certificate_settings"));
+        if (docSnap.exists()) {
+            settings = { ...settings, ...docSnap.data() };
+        }
+    } catch (e) { log("Error loading cert settings:", e); }
+
+    const getEl = (i) => document.getElementById(i);
+
+    // Populate Template
+    if (getEl('cert-display-event')) getEl('cert-display-event').textContent = settings.eventName || "NAVARANG";
+    if (getEl('cert-display-subtitle')) getEl('cert-display-subtitle').textContent = `${settings.festSubtitle || "Fine Arts Fest"} ${settings.eventYear || "2025-26"}`;
+    if (getEl('cert-display-name')) getEl('cert-display-name').textContent = logData.participantName;
+    if (getEl('cert-display-dept')) getEl('cert-display-dept').textContent = logData.department;
+    if (getEl('cert-display-rank')) getEl('cert-display-rank').textContent = logData.position;
+    if (getEl('cert-display-program')) getEl('cert-display-program').textContent = logData.itemName;
+
+    // Signatures
+    for (let i = 1; i <= 4; i++) {
+        const title = settings[`sig${i}Title`];
+        const name = settings[`sig${i}Name`];
+        const titleEl = getEl(`cert-display-sig${i}-title`);
+        const nameEl = getEl(`cert-display-sig${i}-name`);
+        const areaEl = getEl(`cert-sig${i}-area`);
+        
+        if (titleEl) titleEl.textContent = title || "";
+        if (nameEl) nameEl.textContent = name || "";
+        if (areaEl) areaEl.style.visibility = (title || name) ? "visible" : "hidden";
+    }
+
+    // Show in Preview Modal
+    const previewContainer = getEl('pdf-preview-container');
+    if (previewContainer) {
+        previewContainer.innerHTML = '';
+        const clone = getEl('certificate-template').cloneNode(true);
+        clone.id = 'certificate-preview-element';
+        clone.style.display = 'block';
+        clone.style.margin = '0 auto';
+        clone.style.transform = 'scale(0.8)'; // Scale down for preview
+        clone.style.transformOrigin = 'top center';
+        previewContainer.appendChild(clone);
+    }
+
+    const modal = getEl('pdf-preview-modal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+    }
+};
+
+window.closePDFPreview = () => {
+    const modal = document.getElementById('pdf-preview-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+    }
+};
+
+window.processPDFDownload = () => {
+    const element = document.getElementById('certificate-template');
+    if (!element) return;
+    
+    // Switch template to visible temporarily for html2pdf to capture it accurately
+    const parentContainer = element.parentElement;
+    parentContainer.style.display = 'block';
+    element.style.display = 'block';
+
+    const name = document.getElementById('cert-display-name').textContent.replace(/\s+/g, '_');
+    const program = document.getElementById('cert-display-program').textContent.replace(/\s+/g, '_');
+    
+    const opt = {
+        margin: 0,
+        filename: `Certificate_${name}_${program}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+            scale: 2, 
+            useCORS: true,
+            logging: false,
+            letterRendering: true
+        },
+        jsPDF: { unit: 'px', format: [1000, 700], orientation: 'landscape' }
+    };
+
+    html2pdf().set(opt).from(element).save().then(() => {
+        // Hide it back
+        element.style.display = 'none';
+        parentContainer.style.display = 'none';
+        closePDFPreview();
+    }).catch(err => {
+        log("PDF Error:", err);
+        alert("Failed to generate PDF. Check console.");
+    });
 };

@@ -145,6 +145,68 @@
                 </div>
 
                 <!-- System Configuration Section -->
+                <!-- Certificate Customization Section -->
+                <div class="admin-management-card" style="margin-top: 1.5rem;">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-certificate"></i>
+                            Certificate Customization
+                        </h2>
+                    </div>
+
+                    <div style="padding: 1.5rem; display: grid; gap: 1.5rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="filter-group">
+                                <label style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 700;">EVENT NAME</label>
+                                <input type="text" id="cert-event-name" placeholder="NAVARANG" style="width: 100%; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 0.8rem; border-radius: 0.5rem;">
+                            </div>
+                            <div class="filter-group">
+                                <label style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 700;">ACADEMIC YEAR</label>
+                                <input type="text" id="cert-event-year" placeholder="2025-26" style="width: 100%; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 0.8rem; border-radius: 0.5rem;">
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <label style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 700;">FESTIVAL SUBTITLE</label>
+                            <input type="text" id="cert-fest-subtitle" placeholder="Fine Arts Fest" style="width: 100%; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 0.8rem; border-radius: 0.5rem;">
+                        </div>
+
+                        <div style="margin-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem;">
+                            <label style="font-size: 0.75rem; color: var(--accent-color); font-weight: 700; margin-bottom: 1rem; display: block;">OFFICIAL SIGNATURES (MAX 4)</label>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <!-- Sig 1 -->
+                                <div style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.05);">
+                                    <input type="text" id="cert-sig1-title" placeholder="SECRETARY" style="width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); color: #a5b4fc; font-size: 0.7rem; font-weight: 800; margin-bottom: 0.5rem; text-transform: uppercase;">
+                                    <input type="text" id="cert-sig1-name" placeholder="Name of Official" style="width: 100%; background: transparent; border: none; color: white; font-size: 0.9rem;">
+                                </div>
+                                <!-- Sig 2 -->
+                                <div style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.05);">
+                                    <input type="text" id="cert-sig2-title" placeholder="CONVENOR" style="width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); color: #a5b4fc; font-size: 0.7rem; font-weight: 800; margin-bottom: 0.5rem; text-transform: uppercase;">
+                                    <input type="text" id="cert-sig2-name" placeholder="Name of Official" style="width: 100%; background: transparent; border: none; color: white; font-size: 0.9rem;">
+                                </div>
+                                <!-- Sig 3 -->
+                                <div style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.05);">
+                                    <input type="text" id="cert-sig3-title" placeholder="CONVENOR" style="width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); color: #a5b4fc; font-size: 0.7rem; font-weight: 800; margin-bottom: 0.5rem; text-transform: uppercase;">
+                                    <input type="text" id="cert-sig3-name" placeholder="Name of Official" style="width: 100%; background: transparent; border: none; color: white; font-size: 0.9rem;">
+                                </div>
+                                <!-- Sig 4 -->
+                                <div style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.05);">
+                                    <input type="text" id="cert-sig4-title" placeholder="PRINCIPAL" style="width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); color: #a5b4fc; font-size: 0.7rem; font-weight: 800; margin-bottom: 0.5rem; text-transform: uppercase;">
+                                    <input type="text" id="cert-sig4-name" placeholder="Name of Official" style="width: 100%; background: transparent; border: none; color: white; font-size: 0.9rem;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                            <div id="cert-save-status" style="font-size: 0.8rem;"></div>
+                            <button class="btn-primary" onclick="saveCertificateSettings()" style="padding: 0.8rem 2rem;">
+                                <i class="fas fa-save"></i> Save Certificate Settings
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="admin-management-card" style="margin-top: 1.5rem;">
                     <div class="card-header">
                         <h2 class="card-title">
