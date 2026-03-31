@@ -4414,7 +4414,7 @@ window.acceptResult = async (resultId) => {
 
         // 2. Update Leaderboard (if points > 0)
         if (points > 0) {
-            const lbId = `${res.department.replace(/\s+/g, '_')}_${systemYear}`;
+            const lbId = `${res.department}_${systemYear}`; // Matches submitScore format
             const lbRef = doc(db, "leaderboard", lbId);
             await setDoc(lbRef, {
                 department: res.department,
@@ -4422,6 +4422,14 @@ window.acceptResult = async (resultId) => {
                 academicYear: systemYear,
                 lastUpdated: new Date().toISOString()
             }, { merge: true });
+
+            // Update local state for immediate UI feedback
+            if (leaderboardScores[res.department] !== undefined) {
+                leaderboardScores[res.department] += points;
+            } else {
+                leaderboardScores[res.department] = points;
+            }
+            if (currentView === 'leaderboard') renderLeaderboard();
         }
 
         // 3. Log to score_logs (for certificates)
@@ -4440,6 +4448,7 @@ window.acceptResult = async (resultId) => {
         await deleteDoc(doc(db, "pending_results", resultId));
 
         log("Result accepted and processed successfully.");
+        if (currentView === 'results-review') renderResultsReview();
     } catch (error) {
         log("Error accepting result:", error);
         alert("Failed to process result: " + error.message);
