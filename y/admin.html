@@ -47,16 +47,21 @@
         <div class="modal-content">
             <div class="pdf-toolbar">
                 <div class="pdf-toolbar-title">PDF Preview</div>
-                
+
                 <!-- Group Controls (Hidden for Individuals) -->
-                <div id="cert-group-controls" class="hidden" style="display: flex; align-items: center; gap: 1rem; margin-right: auto; padding-left: 2rem;">
+                <div id="cert-group-controls" class="hidden"
+                    style="display: flex; align-items: center; gap: 1rem; margin-right: auto; padding-left: 2rem;">
                     <div style="display: flex; flex-direction: column;">
-                        <span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Participant</span>
-                        <select id="cert-participant-selector" onchange="updateCertParticipant(this.value)" class="input-pill" style="padding: 0.3rem 1.5rem; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--glass-border); width: 250px;">
+                        <span
+                            style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Participant</span>
+                        <select id="cert-participant-selector" onchange="updateCertParticipant(this.value)"
+                            class="input-pill"
+                            style="padding: 0.3rem 1.5rem; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--glass-border); width: 250px;">
                             <option value="">Group/Leader Name</option>
                         </select>
                     </div>
-                    <button id="batch-download-btn" onclick="downloadAllGroupCerts()" class="btn-tab" style="background: rgba(99, 102, 241, 0.2); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.3); padding: 0.5rem 1rem;">
+                    <button id="batch-download-btn" onclick="downloadAllGroupCerts()" class="btn-tab"
+                        style="background: rgba(99, 102, 241, 0.2); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.3); padding: 0.5rem 1rem;">
                         <i class="fas fa-file-medical"></i> Download All
                     </button>
                     <div style="width: 1px; height: 30px; background: var(--glass-border); margin: 0 0.5rem;"></div>
@@ -369,7 +374,8 @@
                                         <option value="Department of History">History</option>
                                         <option value="Department of Microbiology">Microbiology</option>
                                         <option value="Department of Travel and Tourism">Tourism</option>
-                                        <option value="Department of Journalism and Mass Communication">Journalism</option>
+                                        <option value="Department of Journalism and Mass Communication">Journalism
+                                        </option>
                                         <option value="Department of Biochemistry">Biochemistry</option>
                                         <option value="Department of Commerce">Commerce</option>
                                         <option value="Main Admin">Main Admin</option>
@@ -670,8 +676,8 @@
                             style="background: rgba(15, 23, 42, 0.3); border-bottom: none; padding: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
                             <div class="filter-group" style="flex: 1; max-width: 300px;">
                                 <span class="filter-label">Search Participant / Item</span>
-                                <input type="text" id="cert-search" class="input-pill" 
-                                    placeholder="Search..." oninput="renderCertificatesTable()">
+                                <input type="text" id="cert-search" class="input-pill" placeholder="Search..."
+                                    oninput="renderCertificatesTable()">
                             </div>
                             <div class="filter-group" style="max-width: 150px;">
                                 <span class="filter-label">Filter Rank</span>
@@ -711,7 +717,8 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Pending Result Submissions</h3>
-                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Review and accept results from Stage Managers to update the leaderboard.</p>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Review and accept
+                                results from Stage Managers to update the leaderboard.</p>
                         </div>
                         <div class="table-container">
                             <table>
@@ -1294,43 +1301,63 @@
 
     <!-- Certificate Generation Template (Hidden) -->
     <div style="display: none;">
-        <div id="certificate-template" style="width: 1123px; height: 794px; background: #fff; color: #000; position: relative; font-family: 'Times New Roman', Times, serif; overflow: hidden; box-sizing: border-box; border: 2px solid #ddd;">
-            
+        <div id="certificate-template"
+            style="width: 1123px; height: 794px; background: #fff; color: #000; position: relative; font-family: 'Times New Roman', Times, serif; overflow: hidden; box-sizing: border-box; border: 2px solid #ddd;">
+
             <!-- Wavy Corner Banners -->
             <!-- Top Right -->
-            <div style="position: absolute; top: -50px; right: -50px; width: 300px; height: 300px; background: linear-gradient(135deg, transparent 40%, #c5a059 40%, #c5a059 50%, #b91c1c 50%, #b91c1c 60%, #000 60%); clip-path: polygon(100% 0, 100% 100%, 0 0); opacity: 0.9; z-index: 1;"></div>
+            <div
+                style="position: absolute; top: -50px; right: -50px; width: 300px; height: 300px; background: linear-gradient(135deg, transparent 40%, #c5a059 40%, #c5a059 50%, #b91c1c 50%, #b91c1c 60%, #000 60%); clip-path: polygon(100% 0, 100% 100%, 0 0); opacity: 0.9; z-index: 1;">
+            </div>
             <!-- Bottom Left -->
-            <div style="position: absolute; bottom: -50px; left: -50px; width: 300px; height: 300px; background: linear-gradient(-45deg, transparent 40%, #c5a059 40%, #c5a059 50%, #b91c1c 50%, #b91c1c 60%, #000 60%); clip-path: polygon(0 100%, 100% 100%, 0 0); opacity: 0.9; z-index: 1;"></div>
+            <div
+                style="position: absolute; bottom: -50px; left: -50px; width: 300px; height: 300px; background: linear-gradient(-45deg, transparent 40%, #c5a059 40%, #c5a059 50%, #b91c1c 50%, #b91c1c 60%, #000 60%); clip-path: polygon(0 100%, 100% 100%, 0 0); opacity: 0.9; z-index: 1;">
+            </div>
 
             <!-- Geometric Corner Decorations (Approximate) -->
-            <div style="position: absolute; top: 40px; left: 40px; width: 100px; height: 100px; border-top: 3px solid #c5a059; border-left: 3px solid #c5a059; z-index: 2;">
-                <div style="position: absolute; top: 10px; left: 10px; width: 60px; height: 60px; border-top: 2px solid #c5a059; border-left: 2px solid #c5a059;"></div>
+            <div
+                style="position: absolute; top: 40px; left: 40px; width: 100px; height: 100px; border-top: 3px solid #c5a059; border-left: 3px solid #c5a059; z-index: 2;">
+                <div
+                    style="position: absolute; top: 10px; left: 10px; width: 60px; height: 60px; border-top: 2px solid #c5a059; border-left: 2px solid #c5a059;">
+                </div>
             </div>
-            <div style="position: absolute; bottom: 40px; right: 40px; width: 100px; height: 100px; border-bottom: 3px solid #c5a059; border-right: 3px solid #c5a059; z-index: 2;">
-                <div style="position: absolute; bottom: 10px; right: 10px; width: 60px; height: 60px; border-bottom: 2px solid #c5a059; border-right: 2px solid #c5a059;"></div>
+            <div
+                style="position: absolute; bottom: 40px; right: 40px; width: 100px; height: 100px; border-bottom: 3px solid #c5a059; border-right: 3px solid #c5a059; z-index: 2;">
+                <div
+                    style="position: absolute; bottom: 10px; right: 10px; width: 60px; height: 60px; border-bottom: 2px solid #c5a059; border-right: 2px solid #c5a059;">
+                </div>
             </div>
 
             <!-- Content Container -->
-            <div style="position: relative; z-index: 3; padding: 60px; height: 100%; display: flex; flex-direction: column; align-items: center; box-sizing: border-box;">
-                
+            <div
+                style="position: relative; z-index: 3; padding: 60px; height: 100%; display: flex; flex-direction: column; align-items: center; box-sizing: border-box;">
+
                 <!-- Header -->
                 <div style="display: flex; align-items: center; width: 100%; margin-bottom: 10px;">
                     <div style="flex: 1; text-align: left;">
                         <img src="assets/Pazhassiraja_College_Pulpally_Logo.png" alt="Logo" style="height: 110px;">
                     </div>
                     <div style="flex: 3; text-align: center;">
-                        <h1 style="margin: 0; font-size: 34px; font-weight: 800; color: #1e3a8a; font-family: 'Outfit', sans-serif; letter-spacing: 1px;">PAZHASSIRAJA COLLEGE</h1>
-                        <p style="margin: 2px 0; font-size: 14px; font-weight: 600;">Pulpally P.O., Wayanad (Dist.), Kerala-673579</p>
+                        <h1
+                            style="margin: 0; font-size: 34px; font-weight: 800; color: #1e3a8a; font-family: 'Outfit', sans-serif; letter-spacing: 1px;">
+                            PAZHASSIRAJA COLLEGE</h1>
+                        <p style="margin: 2px 0; font-size: 14px; font-weight: 600;">Pulpally P.O., Wayanad (Dist.),
+                            Kerala-673579</p>
                         <p style="margin: 0; font-size: 13px; font-weight: 600;">(Re-Accredited by NAAC 'A+' Grade)</p>
-                        
+
                         <div style="margin-top: 15px;">
-                            <h2 id="cert-display-event" style="margin: 0; font-size: 40px; font-weight: 900; color: #b91c1c; font-family: 'Outfit', sans-serif; line-height: 1;">NAVARANG</h2>
-                            <p id="cert-display-subtitle" style="margin: 0; font-size: 18px; font-weight: 800; color: #b91c1c;">Fine Arts Fest 2025-26</p>
+                            <h2 id="cert-display-event"
+                                style="margin: 0; font-size: 40px; font-weight: 900; color: #b91c1c; font-family: 'Outfit', sans-serif; line-height: 1;">
+                                NAVARANG</h2>
+                            <p id="cert-display-subtitle"
+                                style="margin: 0; font-size: 18px; font-weight: 800; color: #b91c1c;">Fine Arts Fest
+                                2025-26</p>
                         </div>
                     </div>
                     <div style="flex: 1; text-align: right;">
                         <!-- Placeholder for event logo -->
-                        <div style="font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 900; color: #1e3a8a; line-height: 1;">
+                        <div
+                            style="font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 900; color: #1e3a8a; line-height: 1;">
                             aitheehyah<br><span style="font-size: 40px;">2.0</span>
                         </div>
                     </div>
@@ -1338,63 +1365,92 @@
 
                 <!-- Certificate Title -->
                 <div style="margin: 5px 0 20px 0; text-align: center;">
-                    <span style="font-family: 'Great Vibes', cursive; font-size: 80px; color: #000; line-height: 1;">Certificate</span>
+                    <span
+                        style="font-family: 'Great Vibes', cursive; font-size: 80px; color: #000; line-height: 1;">Certificate</span>
                     <br>
-                    <span style="font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 700; margin-top: -10px; display: block; border-top: 2px solid #000; padding-top: 5px;">of Merit</span>
+                    <span
+                        style="font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 700; margin-top: -10px; display: block; border-top: 2px solid #000; padding-top: 5px;">of
+                        Merit</span>
                 </div>
 
                 <!-- Gold Seal -->
                 <div style="position: absolute; right: 80px; top: 320px;">
-                    <div style="position: relative; width: 110px; height: 110px; background: #fbbf24; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 4px double #d97706; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                    <div
+                        style="position: relative; width: 110px; height: 110px; background: #fbbf24; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 4px double #d97706; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                         <div style="width: 80%; height: 80%; border: 2px solid #d97706; border-radius: 50%;"></div>
                         <!-- Ribbons -->
-                        <div style="position: absolute; bottom: -30px; left: 20px; width: 40px; height: 60px; background: #fbbf24; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%); z-index: -1; border: 1px solid #d97706;"></div>
-                        <div style="position: absolute; bottom: -30px; right: 20px; width: 40px; height: 60px; background: #fbbf24; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%); z-index: -1; border: 1px solid #d97706;"></div>
+                        <div
+                            style="position: absolute; bottom: -30px; left: 20px; width: 40px; height: 60px; background: #fbbf24; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%); z-index: -1; border: 1px solid #d97706;">
+                        </div>
+                        <div
+                            style="position: absolute; bottom: -30px; right: 20px; width: 40px; height: 60px; background: #fbbf24; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%); z-index: -1; border: 1px solid #d97706;">
+                        </div>
                     </div>
                 </div>
 
                 <!-- Body Text -->
-                <div style="width: 100%; max-width: 900px; text-align: left; font-size: 19px; line-height: 2.2; margin-top: 10px;">
+                <div
+                    style="width: 100%; max-width: 900px; text-align: left; font-size: 19px; line-height: 2.2; margin-top: 10px;">
                     This is to certify that <span style="font-style: italic;">Mr./Ms.</span>
-                    <span id="cert-display-name" style="font-weight: 800; border-bottom: 2px dotted #000; padding: 0 20px; min-width: 300px; display: inline-block; text-align: center;">Tester Name</span>
-                    from the Department of 
-                    <span id="cert-display-dept" style="font-weight: 700; border-bottom: 2px dotted #000; padding: 0 10px; min-width: 150px; display: inline-block; text-align: center;">History</span>
-                    has been awarded <span id="cert-display-rank" style="font-weight: 800; color: #b91c1c; border-bottom: 2px dotted #000; padding: 0 10px;">1st</span> Prize in 
-                    <span id="cert-display-program" style="font-weight: 700; border-bottom: 2px dotted #000; padding: 0 10px; min-width: 250px; display: inline-block; text-align: center;">Folk Dance</span> Competition.
+                    <span id="cert-display-name"
+                        style="font-weight: 800; border-bottom: 2px dotted #000; padding: 0 20px; min-width: 300px; display: inline-block; text-align: center;">Tester
+                        Name</span>
+                    from the Department of
+                    <span id="cert-display-dept"
+                        style="font-weight: 700; border-bottom: 2px dotted #000; padding: 0 10px; min-width: 150px; display: inline-block; text-align: center;">History</span>
+                    has been awarded <span id="cert-display-rank"
+                        style="font-weight: 800; color: #b91c1c; border-bottom: 2px dotted #000; padding: 0 10px;">1st</span>
+                    Prize in
+                    <span id="cert-display-program"
+                        style="font-weight: 700; border-bottom: 2px dotted #000; padding: 0 10px; min-width: 250px; display: inline-block; text-align: center;">Folk
+                        Dance</span> Competition.
                 </div>
 
                 <!-- Signatures -->
-                <div style="width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: auto; padding-bottom: 30px;">
+                <div
+                    style="width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: auto; padding-bottom: 30px;">
                     <div id="cert-sig1-area" style="text-align: center;">
-                        <div style="font-family: 'Great Vibes', cursive; font-size: 24px; height: 35px; color: #1e3a8a;" id="cert-display-sig1-mock">Signature</div>
+                        <div style="font-family: 'Great Vibes', cursive; font-size: 24px; height: 35px; color: #1e3a8a;"
+                            id="cert-display-sig1-mock">Signature</div>
                         <div style="border-top: 1.5px solid #000; margin-top: 5px; padding-top: 5px;">
                             <strong id="cert-display-sig1-name" style="font-size: 13px; display: block;">Name</strong>
-                            <span id="cert-display-sig1-title" style="font-size: 10px; display: block; font-weight: 700;">Title</span>
-                            <span id="cert-display-sig1-org" style="font-size: 9px; display: block; opacity: 0.8;">Organization</span>
+                            <span id="cert-display-sig1-title"
+                                style="font-size: 10px; display: block; font-weight: 700;">Title</span>
+                            <span id="cert-display-sig1-org"
+                                style="font-size: 9px; display: block; opacity: 0.8;">Organization</span>
                         </div>
                     </div>
                     <div id="cert-sig2-area" style="text-align: center;">
-                        <div style="font-family: 'Great Vibes', cursive; font-size: 24px; height: 35px; color: #1e3a8a;" id="cert-display-sig2-mock">Signature</div>
+                        <div style="font-family: 'Great Vibes', cursive; font-size: 24px; height: 35px; color: #1e3a8a;"
+                            id="cert-display-sig2-mock">Signature</div>
                         <div style="border-top: 1.5px solid #000; margin-top: 5px; padding-top: 5px;">
                             <strong id="cert-display-sig2-name" style="font-size: 13px; display: block;">Name</strong>
-                            <span id="cert-display-sig2-title" style="font-size: 10px; display: block; font-weight: 700;">Title</span>
-                            <span id="cert-display-sig2-org" style="font-size: 9px; display: block; opacity: 0.8;">Organization</span>
+                            <span id="cert-display-sig2-title"
+                                style="font-size: 10px; display: block; font-weight: 700;">Title</span>
+                            <span id="cert-display-sig2-org"
+                                style="font-size: 9px; display: block; opacity: 0.8;">Organization</span>
                         </div>
                     </div>
                     <div id="cert-sig3-area" style="text-align: center;">
-                        <div style="font-family: 'Great Vibes', cursive; font-size: 24px; height: 35px; color: #1e3a8a;" id="cert-display-sig3-mock">Signature</div>
+                        <div style="font-family: 'Great Vibes', cursive; font-size: 24px; height: 35px; color: #1e3a8a;"
+                            id="cert-display-sig3-mock">Signature</div>
                         <div style="border-top: 1.5px solid #000; margin-top: 5px; padding-top: 5px;">
                             <strong id="cert-display-sig3-name" style="font-size: 13px; display: block;">Name</strong>
-                            <span id="cert-display-sig3-title" style="font-size: 10px; display: block; font-weight: 700;">Title</span>
-                            <span id="cert-display-sig3-org" style="font-size: 9px; display: block; opacity: 0.8;">Organization</span>
+                            <span id="cert-display-sig3-title"
+                                style="font-size: 10px; display: block; font-weight: 700;">Title</span>
+                            <span id="cert-display-sig3-org"
+                                style="font-size: 9px; display: block; opacity: 0.8;">Organization</span>
                         </div>
                     </div>
                     <div id="cert-sig4-area" style="text-align: center;">
-                        <div style="font-family: 'Great Vibes', cursive; font-size: 24px; height: 35px; color: #1e3a8a;" id="cert-display-sig4-mock">Signature</div>
+                        <div style="font-family: 'Great Vibes', cursive; font-size: 24px; height: 35px; color: #1e3a8a;"
+                            id="cert-display-sig4-mock">Signature</div>
                         <div style="border-top: 1.5px solid #000; margin-top: 5px; padding-top: 5px;">
                             <strong id="cert-display-sig4-name" style="font-size: 13px; display: block;">Name</strong>
-                            <span id="cert-display-sig4-title" style="font-size: 10px; display: block; font-weight: 700;">Title</span>
-                            <span id="cert-display-sig4-org" style="font-size: 9px; display: block; opacity: 0.8;">Organization</span>
+                            <span id="cert-display-sig4-title"
+                                style="font-size: 10px; display: block; font-weight: 700;">Title</span>
+                            <span id="cert-display-sig4-org"
+                                style="font-size: 9px; display: block; opacity: 0.8;">Organization</span>
                         </div>
                     </div>
                 </div>

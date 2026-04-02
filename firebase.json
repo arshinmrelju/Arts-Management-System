@@ -31,7 +31,7 @@
         },
         {
           "source": "/leaderboard",
-          "destination": "/index.html"
+          "destination": "/leaderboard.html"
         }
       ],
       "ignore": [
