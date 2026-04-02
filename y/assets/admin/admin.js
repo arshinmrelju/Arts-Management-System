@@ -145,16 +145,11 @@ try {
     log("Initialization error:", e.message);
 }
 
-const loginView = document.getElementById('login-view');
-const adminDashboard = document.getElementById('admin-dashboard');
-const statusMsg = document.getElementById('status-message');
-const googleLoginBtn = document.getElementById('google-login-btn');
-const logoutBtn = document.getElementById('logout-btn');
-const userEmailSpan = document.getElementById('user-email');
 const regBody = document.getElementById('registrations-body');
 const whitelistBody = document.getElementById('whitelist-body');
 const loadingInd = document.getElementById('loading-indicator');
 const noDataMsg = document.getElementById('no-data-msg');
+
 
 
 let allRegistrations = [];
@@ -237,26 +232,54 @@ const ALL_PROGRAMS = [...ON_STAGE_EVENTS, ...OFF_STAGE_EVENTS].sort();
 
 
 const DEPARTMENTS = [
-    "Dep. of Economics",
-    "Dep. of English",
-    "Dep. of History",
-    "Dep. of Microbiology",
-    "Dep. of Travel and Tourism",
-    "Dep. of Journalism and Mass Communication",
-    "Dep. of Biochemistry",
-    "Dep. of Commerce"
+    "Department of Economics",
+    "Department of English",
+    "Department of History",
+    "Department of Microbiology",
+    "Department of Travel and Tourism",
+    "Department of Journalism and Mass Communication",
+    "Department of Biochemistry",
+    "Department of Commerce"
 ];
 
 const DEPT_COURSES = {
-    "Dep. of Economics": ["B.A Economics", "B.A Econometrics and Data Management", "M.A Economics"],
-    "Dep. of English": ["B.A English Language and Literature"],
-    "Dep. of History": ["B.A History"],
-    "Dep. of Microbiology": ["B.Sc Microbiology", "M.Sc Microbiology"],
-    "Dep. of Travel and Tourism": ["Bachelor of Travel and Tourism Management (BTTM)", "Master of Travel and Tourism Management (MTTM)"],
+    "Department of Economics": ["B.A Economics", "B.A Econometrics and Data Management", "M.A Economics"],
+    "Department of English": ["B.A English Language and Literature"],
+    "Department of History": ["B.A History"],
+    "Department of Microbiology": ["B.Sc Microbiology", "M.Sc Microbiology"],
+    "Department of Travel and Tourism": ["Bachelor of Travel and Tourism Management (BTTM)", "Master of Travel and Tourism Management (MTTM)"],
     "Tourism": ["Bachelor of Travel and Tourism Management (BTTM)", "Master of Travel and Tourism Management (MTTM)"],
-    "Dep. of Journalism and Mass Communication": ["B.A Journalism and Mass Communication", "M.A Journalism & Mass Communication"],
-    "Dep. of Biochemistry": ["B.Sc Biochemistry", "M.Sc Biochemistry"],
-    "Dep. of Commerce": ["BBA", "M.COM"]
+    "Department of Journalism and Mass Communication": ["B.A Journalism and Mass Communication", "M.A Journalism & Mass Communication"],
+    "Department of Biochemistry": ["B.Sc Biochemistry", "M.Sc Biochemistry"],
+    "Department of Commerce": ["BBA", "M.COM"]
+};
+
+const COURSE_TO_DEPT = {
+    "B.A Economics": "Department of Economics",
+    "B.A Econometrics and Data Management": "Department of Economics",
+    "M.A Economics": "Department of Economics",
+    "B.A English Language and Literature": "Department of English",
+    "B.A History": "Department of History",
+    "B.Sc Microbiology": "Department of Microbiology",
+    "M.Sc Microbiology": "Department of Microbiology",
+    "Bachelor of Travel and Tourism Management (BTTM)": "Department of Travel and Tourism",
+    "Master of Travel and Tourism Management (MTTM)": "Department of Travel and Tourism",
+    "B.A Journalism and Mass Communication": "Department of Journalism and Mass Communication",
+    "M.A Journalism & Mass Communication": "Department of Journalism and Mass Communication",
+    "B.Sc Biochemistry": "Department of Biochemistry",
+    "M.Sc Biochemistry": "Department of Biochemistry",
+    "BBA": "Department of Commerce",
+    "M.COM": "Department of Commerce"
+};
+
+const getDisplayDept = (student) => {
+    let dept = student.department || '-';
+    // If it's On-Stage Group, we want the Department Name
+    if (student.category === 'On Stage' && student.regType === 'Group') {
+        if (COURSE_TO_DEPT[dept]) return COURSE_TO_DEPT[dept];
+    }
+    // Normalize "Dep. of" to "Department of" for consistent display
+    return dept.replace('Dep. of ', 'Department of ');
 };
 
 
@@ -281,6 +304,7 @@ const normalizeString = (str) => {
     return str.toString()
         .toLowerCase()
         .trim()
+        .replace(/^department\s+of\s+/i, "")
         .replace(/^dep\.\s+of\s+/i, "")
         .replace(/\s+/g, " ");
 };
@@ -288,7 +312,8 @@ const normalizeString = (str) => {
 const updateStats = () => {
     const activeRegistrations = allRegistrations.filter(r => !r.isDeleted);
     const totalReg = activeRegistrations.length;
-    document.getElementById('stat-total-reg').textContent = totalReg;
+    const statTotalReg = document.getElementById('stat-total-reg');
+    if (statTotalReg) statTotalReg.textContent = totalReg;
 
     const deptCounts = {};
     activeRegistrations.forEach(r => {
@@ -303,7 +328,8 @@ const updateStats = () => {
         }
     }
     if (topDept.length > 15) topDept = topDept.substring(0, 15) + '...';
-    document.getElementById('stat-top-dept').textContent = topDept;
+    const statTopDept = document.getElementById('stat-top-dept');
+    if (statTopDept) statTopDept.textContent = topDept;
 };
 
 const populateItemFilter = () => {
@@ -353,14 +379,13 @@ const matchesRegistration = (student, filterDept, filterCategory, filterType, fi
     if (filterDept) {
         const allowedCourses = DEPT_COURSES[filterDept] || [];
         const studentDept = (student.department || "").toLowerCase().trim();
-        const filterVal = filterDept.toLowerCase().trim();
-        const shortFilter = filterDept.replace('Dep. of ', '').toLowerCase().trim();
+        const shortFilter = filterDept.replace('Department of ', '').replace('Dep. of ', '').toLowerCase().trim();
 
         const isExactMatch = student.department === filterDept;
         const isInAllowedCourses = allowedCourses.some(c => c.toLowerCase().trim() === studentDept);
         const containsShortName = shortFilter !== '' && studentDept.includes(shortFilter);
         const isMappedMatch = allowedCourses.some(c => {
-            const mappedShort = c.replace('Dep. of ', '').toLowerCase().trim();
+            const mappedShort = c.replace('Department of ', '').replace('Dep. of ', '').toLowerCase().trim();
             return mappedShort !== '' && studentDept.includes(mappedShort);
         });
 
@@ -386,6 +411,7 @@ const matchesRegistration = (student, filterDept, filterCategory, filterType, fi
 
     return true;
 };
+
 
 const renderTable = () => {
     if (!regBody) return;
@@ -442,7 +468,7 @@ const renderTable = () => {
             }
                         <div style="font-size: 0.7rem; color: var(--text-muted);">${escapeHtml(student.phone || '-')}</div>
                     </td>
-                    <td><span class="badge badge-dept">${(student.department || '-').replace('Dep. of ', '')}</span></td>
+                    <td><span class="badge badge-dept">${getDisplayDept(student)}</span></td>
                     <td><code>${escapeHtml(student.rollNumber || '-')}</code></td>
                     <td>${escapeHtml(student.year || '-')}</td>
                     <td><span class="badge" style="background: ${student.regType === 'Group' ? 'rgba(217, 70, 239, 0.1)' : 'rgba(99, 102, 241, 0.1)'}; color: ${student.regType === 'Group' ? 'var(--accent-secondary)' : 'var(--accent-primary)'};">${escapeHtml(student.regType || 'Individual')}</span></td>
@@ -1991,7 +2017,7 @@ window.viewRegistration = (id) => {
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
                     <div>
                         <span style="display: block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Department</span>
-                        <span style="font-size: 0.9rem;">${escapeHtml(student.department || '-')}</span>
+                        <span style="font-size: 0.9rem;">${getDisplayDept(student)}</span>
                     </div>
                     <div>
                         <span style="display: block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Year</span>
@@ -2242,7 +2268,7 @@ window.renderDeletedTable = () => {
                         <div style="font-weight: 600;">${student.regType === 'Group' ? escapeHtml(student.groupName || student.studentName || '-') : escapeHtml(student.studentName || '-')}</div>
                         <div style="font-size: 0.7rem; color: var(--text-muted);">${escapeHtml(student.phone || '-')}</div>
                     </td>
-                    <td><span class="badge badge-dept">${(student.department || '-').replace('Dep. of ', '')}</span></td>
+                    <td><span class="badge badge-dept">${getDisplayDept(student)}</span></td>
                     <td><code>${escapeHtml(student.rollNumber || '-')}</code></td>
                     <td><span class="badge" style="background: rgba(99, 102, 241, 0.1); color: var(--accent-primary);">${escapeHtml(student.regType || 'Individual')}</span></td>
                     <td><div style="font-weight: 500;">${escapeHtml(student.program || '-')}</div></td>
@@ -2414,7 +2440,7 @@ window.loadChestParticipants = () => {
                         <div style="font-weight: 600;">${r.regType === 'Group' ? (r.groupName || r.studentName || '-') : (r.studentName || '-')}</div>
                         <div style="font-size: 0.7rem; color: var(--text-muted);">${r.phone || '-'}</div>
                     </td>
-                    <td><span class="badge badge-dept">${(r.department || '-').replace('Dep. of ', '')}</span></td>
+                    <td><span class="badge badge-dept">${getDisplayDept(r)}</span></td>
                     <td><code>${r.rollNumber || '-'}</code></td>
                     <td>
                         ${effectiveChestNum ? `<span class="chest-badge">${effectiveChestNum}</span>` : '<span style="color: var(--text-muted); font-size: 0.8rem;">Not Drawn</span>'}
@@ -2907,7 +2933,7 @@ window.openPDFPreview = () => {
                                 ${d.regType === 'Group' && d.studentName && d.groupName ? `<div style="font-size: 0.75rem; color: #6366f1; font-weight: 700;">Leader: ${d.studentName}</div>` : ''}
                                 ${d.groupMembers && d.groupMembers.length ? `<div style="font-size: 0.65rem; color: #64748b; margin-top: 2px;">Members: ${d.groupMembers.map(m => m.name).join(', ')}</div>` : ''}
                             </td>
-                            <td style="padding: 10px 12px; color: #1e293b; background: #fff;">${(d.department || '-').replace('Dep. of ', '')}</td>
+                            <td style="padding: 10px 12px; color: #1e293b; background: #fff;">${getDisplayDept(d)}</td>
                             <td style="padding: 10px 12px; font-family: monospace; color: #0f172a; background: #fff;">${d.rollNumber || '-'}</td>
                             <td style="padding: 10px 12px; color: #1e293b; background: #fff;">${d.year || '-'}</td>
                             <td style="padding: 10px 12px; color: #1e293b; background: #fff;">${d.regType || 'Individual'}</td>
@@ -3028,7 +3054,8 @@ window.openJudgeSheetPreview = () => {
     const shortenDept = (dept) => {
         if (!dept) return '-';
         return dept
-            .replace('Dep. of ', '')
+            .replace('Department of ', '')
+            .replace(/Dep\.\s+of\s+|Department\s+of\s+/i, '')
             .replace('B.A English Language and Literature', 'BA English')
             .replace('B.A Economics', 'BA Economics')
             .replace('B.A History', 'BA History')
@@ -3276,7 +3303,7 @@ window.renderReview = () => {
                             ${student.hasCanceled ? '<span class="badge" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; margin-left: 8px; font-size: 0.6rem; border: 1px solid rgba(239, 68, 68, 0.2);">CANCELED</span>' : ''}
                         </div>
                     </td>
-                    <td><span class="badge badge-dept">${(student.department || '-').replace('Dep. of ', '')}</span></td>
+                    <td><span class="badge badge-dept">${getDisplayDept(student)}</span></td>
                     <td><code>${student.rollNumber || '-'}</code></td>
                     <td>${student.year || '-'}</td>
                     <td>
@@ -3299,7 +3326,7 @@ window.renderReview = () => {
                         <div style="font-weight: 600; color: var(--warning);">${violation.item}</div>
                         <div style="font-size: 0.7rem; color: var(--text-muted);">Department Limit Exceeded</div>
                     </td>
-                    <td><span class="badge badge-dept">${(violation.department || '-').replace('Dep. of ', '')}</span></td>
+                    <td><span class="badge badge-dept">${(violation.department || '-').replace(/Dep\.\s+of\s+|Department\s+of\s+/i, '')}</span></td>
                     <td>-</td>
                     <td>-</td>
                     <td style="vertical-align: middle;">
@@ -3321,7 +3348,7 @@ window.renderReview = () => {
                         <div style="font-weight: 600; color: ${p.severity === 'error' ? 'var(--error)' : 'var(--warning)'}">${p.item}</div>
                         <div style="font-size: 0.7rem; color: var(--text-muted);">${p.reason}</div>
                     </td>
-                    <td>${p.department ? `<span class="badge badge-dept">${p.department.replace('Dep. of ', '')}</span>` : '-'}</td>
+                    <td>${p.department ? `<span class="badge badge-dept">${getDisplayDept(p)}</span>` : '-'}</td>
                     <td>-</td>
                     <td>-</td>
                     <td style="vertical-align: middle;">
@@ -3447,7 +3474,7 @@ window.openInspectModal = (title, registrations, context) => {
                         </td>
                         <td>
                             <div style="font-size: 0.8rem;"><code>${r.rollNumber || '-'}</code></div>
-                            <div style="font-size: 0.7rem; color: var(--text-muted);">${(r.department || '-').replace('Dep. of ', '')}</div>
+                            <div style="font-size: 0.7rem; color: var(--text-muted);">${(r.department || '-').replace(/Dep\.\s+of\s+|Department\s+of\s+/i, '')}</div>
                         </td>
                         <td style="font-size: 0.85rem;">${r.program || '-'}</td>
                         <td>
@@ -4367,7 +4394,7 @@ window.renderResultsReview = () => {
                 <div style="font-weight: 600;">${res.studentName}</div>
                 <div style="font-size: 0.75rem; color: var(--text-muted);">${res.programName}</div>
             </td>
-            <td><span class="badge badge-dept">${res.department.replace('Dep. of ', '')}</span></td>
+            <td><span class="badge badge-dept">${res.department.replace(/Dep\.\s+of\s+|Department\s+of\s+/i, '')}</span></td>
             <td>
                 <span class="badge" style="background: rgba(251, 191, 36, 0.1); color: var(--gold);">
                     ${res.position}${isNaN(res.position) ? '' : ' Rank'}

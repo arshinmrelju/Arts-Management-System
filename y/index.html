@@ -5249,15 +5249,15 @@
 
     // Map of department names to their full course names
     const departmentCourseMap = {
-      "Dep. of Economics": ["B.A Economics", "B.A Econometrics and Data Management", "M.A Economics"],
-      "Dep. of English": ["B.A English Language and Literature"],
-      "Dep. of History": ["B.A History"],
-      "Dep. of Microbiology": ["B.Sc Microbiology", "M.Sc Microbiology"],
-      "Dep. of Travel and Tourism": ["Bachelor of Travel and Tourism Management (BTTM)", "Master of Travel and Tourism Management (MTTM)"],
+      "Department of Economics": ["B.A Economics", "B.A Econometrics and Data Management", "M.A Economics"],
+      "Department of English": ["B.A English Language and Literature"],
+      "Department of History": ["B.A History"],
+      "Department of Microbiology": ["B.Sc Microbiology", "M.Sc Microbiology"],
+      "Department of Travel and Tourism": ["Bachelor of Travel and Tourism Management (BTTM)", "Master of Travel and Tourism Management (MTTM)"],
       "Tourism": ["Bachelor of Travel and Tourism Management (BTTM)", "Master of Travel and Tourism Management (MTTM)"],
-      "Dep. of Journalism and Mass Communication": ["B.A Journalism and Mass Communication", "M.A Journalism & Mass Communication"],
-      "Dep. of Biochemistry": ["B.Sc Biochemistry", "M.Sc Biochemistry"],
-      "Dep. of Commerce": ["BBA", "M.COM"]
+      "Department of Journalism and Mass Communication": ["B.A Journalism and Mass Communication", "M.A Journalism & Mass Communication"],
+      "Department of Biochemistry": ["B.Sc Biochemistry", "M.Sc Biochemistry"],
+      "Department of Commerce": ["BBA", "M.COM"]
     };
 
     const checkWhitelistStatus = async (email) => {
@@ -7853,7 +7853,7 @@
                               <i class="fas fa-trophy" style="margin-right: 0.5rem; color: ${posColor};"></i>${escapeHtml(winner.program)}
                             </div>
                             <div style="font-size: 0.8rem; color: var(--text-secondary);">
-                              <i class="fas fa-graduation-cap" style="margin-right: 0.5rem;"></i>${(escapeHtml(winner.department) || 'N/A').replace('Dep. of ', '')}
+                              <i class="fas fa-graduation-cap" style="margin-right: 0.5rem;"></i>${(escapeHtml(winner.department) || 'N/A').replace(/Dep\.\s+of\s+|Department\s+of\s+/i, '')}
                             </div>
                           </div>
                           <div style="text-align: right;">
@@ -8162,7 +8162,7 @@
 
           let filterSummary = [];
           if (categoryFilter !== 'all') filterSummary.push(`<span style="background:#e2e8f0; padding:4px 8px; border-radius:4px; font-size:0.8rem;">${categoryFilter}</span>`);
-          if (deptFilter) filterSummary.push(`<span style="background:#e2e8f0; padding:4px 8px; border-radius:4px; font-size:0.8rem;">${deptFilter.replace('Dep. of ', '')}</span>`);
+          if (deptFilter) filterSummary.push(`<span style="background:#e2e8f0; padding:4px 8px; border-radius:4px; font-size:0.8rem;">${deptFilter.replace(/Dep\.\s+of\s+|Department\s+of\s+/i, '')}</span>`);
           if (yearFilter !== 'all') filterSummary.push(`<span style="background:#e2e8f0; padding:4px 8px; border-radius:4px; font-size:0.8rem;">${yearFilter}${yearFilter === '1' ? 'st' : yearFilter === '2' ? 'nd' : yearFilter === '3' ? 'rd' : 'th'} Year</span>`);
           if (itemFilter) filterSummary.push(`<span style="background:#e2e8f0; padding:4px 8px; border-radius:4px; font-size:0.8rem;">Filter: ${itemFilter}</span>`);
           if (dateFilter !== 'all') filterSummary.push(`<span style="background:#e2e8f0; padding:4px 8px; border-radius:4px; font-size:0.8rem;">Date: ${dateFilter}</span>`);
@@ -8227,7 +8227,7 @@
                       </div>
                       ${d.regType === 'Group' && d.studentName && d.groupName ? `<div style="font-size: 0.7rem; color: #6366f1;">Leader: ${d.studentName}</div>` : ''}
                     </td>
-                    <td>${(d.department || '-').replace('Dep. of ', '')}</td>
+                    <td>${(d.department || '-').replace(/Dep\.\s+of\s+|Department\s+of\s+/i, '')}</td>
                     <td style="font-family: monospace;">${d.rollNumber || '-'}</td>
                     <td>${d.year || '-'}</td>
                     <td>${d.regType || 'Individual'}</td>

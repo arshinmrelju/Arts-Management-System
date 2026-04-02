@@ -781,15 +781,15 @@
     };
 
     const departmentCourseMap = {
-      "Dep. of Economics": ["B.A Economics", "B.A Econometrics and Data Management", "M.A Economics"],
-      "Dep. of English": ["B.A English Language and Literature"],
-      "Dep. of History": ["B.A History"],
-      "Dep. of Microbiology": ["B.Sc Microbiology", "M.Sc Microbiology"],
-      "Dep. of Travel and Tourism": ["Bachelor of Travel and Tourism Management (BTTM)", "Master of Travel and Tourism Management (MTTM)"],
+      "Department of Economics": ["B.A Economics", "B.A Econometrics and Data Management", "M.A Economics"],
+      "Department of English": ["B.A English Language and Literature"],
+      "Department of History": ["B.A History"],
+      "Department of Microbiology": ["B.Sc Microbiology", "M.Sc Microbiology"],
+      "Department of Travel and Tourism": ["Bachelor of Travel and Tourism Management (BTTM)", "Master of Travel and Tourism Management (MTTM)"],
       "Tourism": ["Bachelor of Travel and Tourism Management (BTTM)", "Master of Travel and Tourism Management (MTTM)"],
-      "Dep. of Journalism and Mass Communication": ["B.A Journalism and Mass Communication", "M.A Journalism & Mass Communication"],
-      "Dep. of Biochemistry": ["B.Sc Biochemistry", "M.Sc Biochemistry"],
-      "Dep. of Commerce": ["BBA", "M.COM"]
+      "Department of Journalism and Mass Communication": ["B.A Journalism and Mass Communication", "M.A Journalism & Mass Communication"],
+      "Department of Biochemistry": ["B.Sc Biochemistry", "M.Sc Biochemistry"],
+      "Department of Commerce": ["BBA", "M.COM"]
     };
 
     const OFF_STAGE_EVENTS = [
@@ -907,7 +907,17 @@
 
     function setupCourseDropdown(allowedCourses, department) {
       const menu = document.getElementById('course-menu');
-      let courses = allowedCourses.length > 0 ? allowedCourses : (departmentCourseMap[department] || []);
+      const regType = document.getElementById('reg-type').value;
+      const category = linkData ? linkData.category : "";
+
+      let courses = [];
+      
+      // SPECIAL RULE: For On-Stage Group, we show the Department name instead of specific courses
+      if (category === "On Stage" && regType === "Group") {
+        courses = [department];
+      } else {
+        courses = allowedCourses.length > 0 ? allowedCourses : (departmentCourseMap[department] || []);
+      }
 
       if (courses.length === 0 && department) {
         courses = [department];
@@ -921,7 +931,7 @@
       menu.innerHTML = courses.sort().map(c => `<div class="custom-dropdown-item" data-value="${c}">${c}</div>`).join('');
       setupDropdown('course-trigger', 'course-menu', 'reg-course', 'course-selected-text');
 
-      // Auto-select if only one option
+      // Auto-select if only one option OR if we just forced it to department
       if (courses.length === 1) {
         const input = document.getElementById('reg-course');
         const text = document.getElementById('course-selected-text');
@@ -930,6 +940,14 @@
         input.setAttribute('value', courses[0]);
         text.textContent = courses[0];
         trigger.classList.add('has-value');
+      } else {
+        // Reset if multiple options now available
+        const input = document.getElementById('reg-course');
+        const text = document.getElementById('course-selected-text');
+        const trigger = document.getElementById('course-trigger');
+        input.value = "";
+        text.textContent = "Select Course";
+        trigger.classList.remove('has-value');
       }
     }
 
@@ -971,6 +989,7 @@
           nameLabel.textContent = "Full Name";
         }
         updateProgramList();
+        setupCourseDropdown(linkData.allowedCourses || [], linkData.department);
       });
 
       observer.observe(typeInput, { attributes: true, attributeFilter: ['value'] });

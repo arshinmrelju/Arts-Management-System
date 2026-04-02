@@ -15,14 +15,14 @@ let systemYear = "2025-26";
 let nameToChestMap = {}; // Local map for Name -> Chest Number lookup
 
 const DEPT_COURSES = {
-    "Dep. of Economics": ["Dep. of Economics", "B.A Economics", "B.A Econometrics and Data Management", "M.A Economics"],
-    "Dep. of English": ["Dep. of English", "B.A English Language and Literature"],
-    "Dep. of History": ["Dep. of History", "B.A History"],
-    "Dep. of Microbiology": ["Dep. of Microbiology", "B.Sc Microbiology", "M.Sc Microbiology"],
-    "Dep. of Travel and Tourism": ["Dep. of Travel and Tourism", "Bachelor of Travel and Tourism Management (BTTM)", "Master of Travel and Tourism Management (MTTM)", "Tourism"],
-    "Dep. of Journalism and Mass Communication": ["Dep. of Journalism and Mass Communication", "B.A Journalism and Mass Communication", "M.A Journalism & Mass Communication"],
-    "Dep. of Biochemistry": ["Dep. of Biochemistry", "B.Sc Biochemistry", "M.Sc Biochemistry"],
-    "Dep. of Commerce": ["Dep. of Commerce", "B.Com", "M.Com", "BBA"]
+    "Department of Economics": ["Department of Economics", "B.A Economics", "B.A Econometrics and Data Management", "M.A Economics"],
+    "Department of English": ["Department of English", "B.A English Language and Literature"],
+    "Department of History": ["Department of History", "B.A History"],
+    "Department of Microbiology": ["Department of Microbiology", "B.Sc Microbiology", "M.Sc Microbiology"],
+    "Department of Travel and Tourism": ["Department of Travel and Tourism", "Bachelor of Travel and Tourism Management (BTTM)", "Master of Travel and Tourism Management (MTTM)", "Tourism"],
+    "Department of Journalism and Mass Communication": ["Department of Journalism and Mass Communication", "B.A Journalism and Mass Communication", "M.A Journalism & Mass Communication"],
+    "Department of Biochemistry": ["Department of Biochemistry", "B.Sc Biochemistry", "M.Sc Biochemistry"],
+    "Department of Commerce": ["Department of Commerce", "B.Com", "M.Com", "BBA"]
 };
 
 // Toast System - Premium Version
