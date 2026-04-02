@@ -159,23 +159,31 @@
 
     @media (max-width: 768px) {
       header {
-        padding: 1rem 1.5rem;
-        flex-wrap: wrap;
-        gap: 1rem;
+        padding: 0.75rem 1rem;
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: center;
+      }
+
+      nav {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        width: 100%;
       }
 
       nav a {
-        margin-left: 1rem;
-        font-size: 0.9rem;
+        margin-left: 0.5rem;
+        font-size: 0.85rem;
       }
 
       .logo {
         font-size: 1.1rem;
-        max-width: 200px;
+        justify-content: center;
       }
 
       .logo img {
-        height: 35px;
+        height: 30px;
       }
     }
 
@@ -187,7 +195,7 @@
 
     .hero-title {
       font-family: var(--font-hero);
-      font-size: 4.5rem;
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
       font-weight: 800;
       color: white;
       margin: 0 0 1rem;
@@ -203,18 +211,26 @@
     .hero-subtitle {
       text-align: center;
       color: var(--text-secondary);
-      font-size: 1.25rem;
-      margin-bottom: 5rem;
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      margin-bottom: 3rem;
       font-family: var(--font-body);
       font-weight: 300;
       letter-spacing: 1px;
+      padding: 0 1rem;
     }
 
     .leaderboard-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
       margin-bottom: 4rem;
+    }
+
+    @media (max-width: 480px) {
+      .leaderboard-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
     }
 
     .rank-card {
@@ -223,7 +239,7 @@
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-radius: 1.5rem;
-      padding: 2.5rem;
+      padding: 2rem;
       border: 1px solid rgba(255, 255, 255, 0.05);
       position: relative;
       overflow: hidden;
@@ -231,7 +247,7 @@
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 1.5rem;
+      gap: 1.25rem;
       box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02), 0 10px 30px rgba(0, 0, 0, 0.2);
       transform: scale(var(--target-scale));
     }
@@ -504,7 +520,7 @@
     }
 
     .modal-body {
-      padding: 2rem;
+      padding: clamp(1rem, 5vw, 2rem);
     }
 
     .chart-container {
@@ -659,19 +675,141 @@
     }
 
     @media (max-width: 768px) {
-      .podium-area {
+      header {
+        padding: 0.5rem 1rem;
         flex-direction: column;
-        align-items: center;
-        gap: 2rem;
-        margin-top: 2rem;
+        gap: 0.4rem;
+        text-align: center;
+      }
+
+      nav {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        width: 100%;
+        margin-top: 0.2rem;
+      }
+
+      nav a {
+        margin: 0;
+        font-size: 0.8rem;
+      }
+
+      .logo {
+        font-size: 1rem;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .logo img {
+        height: 28px;
+      }
+
+      .live-indicator {
+        font-size: 0.6rem;
+        padding: 2px 6px;
+      }
+
+      .hero-title {
+        font-size: 2.2rem;
+        margin-top: 1rem;
+      }
+
+      .hero-subtitle {
+        margin-bottom: 2rem;
+      }
+
+      .podium-area {
+        flex-direction: row !important;
+        align-items: flex-end !important;
+        justify-content: center !important;
+        gap: 0.4rem !important;
+        margin-top: 0 !important;
+        margin-bottom: 2rem !important;
+        padding: 0 0.5rem !important;
       }
 
       .podium-rank {
-        width: 100%;
-        order: unset !important;
-        transform: none !important;
+        flex: 1 !important;
+        min-width: 0 !important;
+        margin: 0 !important;
         opacity: 1 !important;
-        margin-bottom: 0 !important;
+        transform: none !important;
+      }
+
+      .podium-rank.rank-1-box {
+        order: 2 !important;
+        transform: scale(1.05) !important;
+        z-index: 5 !important;
+      }
+
+      .podium-rank.rank-2-box {
+        order: 1 !important;
+      }
+
+      .podium-rank.rank-3-box {
+        order: 3 !important;
+      }
+
+      .podium-rank .rank-card {
+        flex-direction: column !important;
+        padding: 0.5rem 0.25rem !important;
+        text-align: center !important;
+        gap: 0.3rem !important;
+        border-radius: 0.75rem !important;
+        height: 100% !important;
+        justify-content: center !important;
+      }
+
+      .podium-rank .dept-info {
+        display: block !important;
+        flex: none !important;
+        width: 100% !important;
+      }
+
+      .podium-rank .dept-name {
+        font-size: 0.55rem !important;
+        line-height: 1.1 !important;
+        height: 2.2em !important;
+        max-width: 100% !important;
+        white-space: normal !important;
+        overflow: hidden !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        margin: 0 auto 0.2rem !important;
+      }
+
+      .podium-rank .dept-score {
+        font-size: 0.85rem !important;
+        text-align: center !important;
+        line-height: 1 !important;
+      }
+
+      .podium-rank .dept-score span {
+        display: none !important; /* Hide "PTS" label to save space on mobile podium */
+      }
+
+      .podium-rank .rank-badge {
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 0.8rem !important;
+        margin: 0 auto !important;
+      }
+
+      /* Keep non-podium items as horizontal lines */
+      .leaderboard-grid .rank-card {
+        flex-direction: row !important;
+        padding: 0.6rem 0.8rem !important;
+        text-align: left !important;
+      }
+
+      .leaderboard-grid .dept-info {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
       }
     }
 
