@@ -185,6 +185,42 @@ window.fetchSystemYear = async function () {
                                                         "M.COM": "Department of Commerce"
 };
 
+const DEPT_COURSES = {
+    "Department of Economics": ["B.A Economics", "B.A Econometrics and Data Management", "M.A Economics"],
+    "Department of English": ["B.A English Language and Literature"],
+    "Department of History": ["B.A History"],
+    "Department of Microbiology": ["B.Sc Microbiology", "M.Sc Microbiology"],
+    "Department of Travel and Tourism": ["Bachelor of Travel and Tourism Management (BTTM)", "Master of Travel and Tourism Management (MTTM)"],
+    "Department of Journalism and Mass Communication": ["B.A Journalism and Mass Communication", "M.A Journalism & Mass Communication"],
+    "Department of Biochemistry": ["B.Sc Biochemistry", "M.Sc Biochemistry"],
+    "Department of Commerce": ["BBA", "M.COM"]
+};
+
+const DEPARTMENTS = Object.keys(DEPT_COURSES).sort();
+
+const OFF_STAGE_EVENTS = [
+    "Essay Writing (English)", "Essay Writing (Arabic)", "Essay Writing (Hindi)", "Essay Writing (Malayalam)", "Essay Writing (Tamil)", "Essay Writing (Urdu)",
+    "Story Writing (English)", "Story Writing (Arabic)", "Story Writing (Hindi)", "Story Writing (Malayalam)", "Story Writing (Tamil)", "Story Writing (Urdu)",
+    "Versification (English)", "Versification (Arabic)", "Versification (Hindi)", "Versification (Malayalam)", "Versification (Tamil)", "Versification (Urdu)",
+    "Extempore (English)", "Extempore (Hindi)", "Extempore (Malayalam)", "Extempore (Tamil)",
+    "Aksharashlokam", "Kavyakeli", "Water Colour", "Oil Colour", "Cartoon Drawing", "Pencil Drawing", "Clay Modeling", "Collage", "Embroidery", "Poster Making", "Rangoli", "Spot Photography"
+];
+
+const ON_STAGE_INDIVIDUAL_EVENTS = [
+    "Light Music Boys", "Light Music Girls", "Classical Music Boys", "Classical Music Girls", "Mappila Pattu Boys", "Mappila Pattu Girls", "Western Song",
+    "Poem Recitation (Malayalam)", "Poem Recitation (English)", "Poem Recitation (Hindi)", "Poem Recitation (Arabic)", "Poem Recitation (Tamil)", "Poem Recitation (Urdu)",
+    "Percussion Instruments Eastern", "String Instruments Eastern", "String Instruments Western", "Bharatanatyam", "Mohiniyattam",
+    "Classical Dance (Odissi)", "Classical Dance (Kathak)", "Classical Dance (Manipuri)", "Classical Dance (Kuchipudi)", "Folk Dance Boys", "Folk Dance Girls", "Kerala Natanam", "Monoact", "Mimicry", "Kadha Presangam"
+];
+
+const ON_STAGE_GROUP_EVENTS = [
+    "Group Song (Indian)", "Group Song (Western)", "Mappila Paattu Group", "Folk Music Group", "Patriotic Song Group", "Ganamela", "Folk Dance Group", "Thiruvathira", "Kolkali", "Daf Mutt", "Oppana", "Vattapatt", "Margamkali", "Drama", "Mime", "Skit"
+];
+
+const ON_STAGE_EVENTS = [...ON_STAGE_INDIVIDUAL_EVENTS, ...ON_STAGE_GROUP_EVENTS];
+const ALL_PROGRAMS = [...new Set([...OFF_STAGE_EVENTS, ...ON_STAGE_EVENTS])].sort();
+
+
 const getDisplayDept = (student) => {
     let dept = student.department || '-';
     // If it's On-Stage Group, we want the Department Name
