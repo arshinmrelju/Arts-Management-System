@@ -61,412 +61,462 @@
 
     <div id="dashboard-wrapper" class="hidden">
         <div class="dashboard-container">
-            <header>
+            <header class="dashboard-header">
                 <div class="brand">
                     <img src="assets/Pazhassiraja_College_Pulpally_Logo.png" alt="PRC Logo">
-                    <h1>Command Center</h1>
+                    <div>
+                        <h1>Command Center</h1>
+                        <span class="brand-subtitle">Fine Arts Administration Portal</span>
+                    </div>
                 </div>
                 <div class="system-status">
-                    <div class="status-pill">
-                        <i class="fas fa-circle-check"></i>
-                        <span>Network Online</span>
+                    <div class="status-pill online">
+                        <span class="pulse-dot"></span>
+                        <i class="fas fa-network-wired"></i>
+                        <span>System Live</span>
                     </div>
-                    <div id="clock">00:00:00</div>
-                    <button id="logout-btn" class="btn-icon"
-                        style="margin-left: 1rem; color: #ef4444; background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2);"
-                        title="Sign Out">
+                    <div class="clock-wrap">
+                        <i class="far fa-clock"></i>
+                        <span id="clock">00:00:00</span>
+                    </div>
+                    <button id="logout-btn" class="logout-btn-premium" title="Secure Logout">
                         <i class="fas fa-power-off"></i>
+                        <span>Logout</span>
                     </button>
                 </div>
             </header>
 
-            <aside class="sidebar">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <i class="fas fa-users-viewfinder"></i>
-                            Active Users
-                        </h2>
-                        <span class="badge-count" id="user-count">0</span>
-                    </div>
-                    <div id="users-list">
-                        <!-- Users injected here -->
-                        <div style="text-align:center; padding: 2rem; color: var(--text-secondary); font-size: 0.9rem;">
-                            <i class="fas fa-spinner fa-spin"
-                                style="margin-bottom: 1rem; display: block; font-size: 1.5rem;"></i>
-                            Scanning for nodes...
-                        </div>
-                    </div>
-                </div>
-            </aside>
-
-            <main class="main-content">
+            <div class="dashboard-grid">
+                <!-- Top Row: Premium Stats -->
                 <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon success">
-                            <i class="fas fa-network-wired"></i>
+                    <div class="stat-card-premium">
+                        <div class="stat-icon-wrap status-active">
+                            <i class="fas fa-shield-halved"></i>
                         </div>
-                        <div class="stat-info">
-                            <span class="value">ACTIVE</span>
-                            <span class="label">System Status</span>
+                        <div class="stat-content">
+                            <span class="stat-label">Core Status</span>
+                            <div class="stat-value-row">
+                                <span class="stat-value">OPERATIONAL</span>
+                                <span class="stat-trend positive">Stable</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="stat-card" id="resource-usage-stat">
-                        <div class="stat-icon" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);">
+
+                    <div class="stat-card-premium" id="resource-usage-stat">
+                        <div class="stat-icon-wrap status-info">
                             <i class="fas fa-database"></i>
                         </div>
-                        <div class="stat-info">
-                            <span class="value" id="usage-percentage">0%</span>
-                            <span class="label">Storage Used</span>
+                        <div class="stat-content">
+                            <span class="stat-label">Cloud Storage</span>
+                            <div class="stat-value-row">
+                                <span class="stat-value" id="usage-percentage">0%</span>
+                                <span class="stat-trend info">Tier 1</span>
+                            </div>
+                        </div>
+                        <div class="stat-progress-bar">
+                            <div id="usage-progress-fill" class="progress-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-premium">
+                        <div class="stat-icon-wrap status-warning">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-label">API Latency</span>
+                            <div class="stat-value-row">
+                                <span class="stat-value">24ms</span>
+                                <span class="stat-trend positive">-2ms</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Admin Management Section -->
-                <div class="admin-management-card">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <i class="fas fa-user-shield"></i>
-                            Admin Access Control
-                        </h2>
-                    </div>
+                <!-- Left Column: Primary Management (Span 8) -->
+                <div class="main-content-column">
 
-                    <div class="admin-form">
-                        <input type="email" id="new-admin-email" placeholder="Admin Email (e.g. user@gmail.com)">
-                        <!-- UID input removed as we now use Email as the key -->
-                        <select id="new-admin-role">
-                            <option value="admin">Administrator</option>
-                            <option value="Main">Main Admin</option>
-                            <option value="Leaderboard">Leaderboard View</option>
-                        </select>
-                        <button class="btn-primary" onclick="addAdmin()">
-                            <i class="fas fa-plus"></i>
-                            Add Admin
-                        </button>
-                    </div>
-
-                    <div id="admins-list-container" class="admin-list">
-                        <!-- Admins will be listed here -->
-                        <div style="text-align: center; color: var(--text-secondary); padding: 1rem;">
-                            <i class="fas fa-spinner fa-spin"></i> Loading access list...
-                        </div>
-                    </div>
-                </div>
-
-                <!-- System Configuration Section -->
-                <!-- Certificate Customization Section -->
-                <div class="admin-management-card" style="margin-top: 1.5rem;">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <i class="fas fa-certificate"></i>
-                            Certificate Customization
-                        </h2>
-                    </div>
-
-                    <div style="padding: 1.5rem; display: grid; gap: 1.5rem;">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                            <div class="filter-group">
-                                <label style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 700;">EVENT NAME</label>
-                                <input type="text" id="cert-event-name" placeholder="NAVARANG" style="width: 100%; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 0.8rem; border-radius: 0.5rem;">
-                            </div>
-                            <div class="filter-group">
-                                <label style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 700;">ACADEMIC YEAR</label>
-                                <input type="text" id="cert-event-year" placeholder="2025-26" style="width: 100%; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 0.8rem; border-radius: 0.5rem;">
-                            </div>
+                    <!-- Admin Management Section -->
+                    <div class="admin-management-card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-user-shield"></i>
+                                Admin Access Control
+                            </h2>
                         </div>
 
-                        <div class="filter-group">
-                            <label style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 700;">FESTIVAL SUBTITLE</label>
-                            <input type="text" id="cert-fest-subtitle" placeholder="Fine Arts Fest" style="width: 100%; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 0.8rem; border-radius: 0.5rem;">
-                        </div>
-
-                        <div style="margin-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem;">
-                            <label style="font-size: 0.75rem; color: var(--accent-color); font-weight: 700; margin-bottom: 1rem; display: block;">OFFICIAL SIGNATURES (MAX 4)</label>
-                            
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                                <!-- Sig 1 -->
-                                <div style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.05);">
-                                    <input type="text" id="cert-sig1-title" placeholder="SECRETARY" style="width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); color: #a5b4fc; font-size: 0.7rem; font-weight: 800; margin-bottom: 0.2rem; text-transform: uppercase;">
-                                    <input type="text" id="cert-sig1-name" placeholder="Name of Official" style="width: 100%; background: transparent; border: none; color: white; font-size: 0.9rem;">
-                                    <input type="text" id="cert-sig1-org" placeholder="FINE ARTS COMMITTEE" style="width: 100%; background: transparent; border: none; color: #94a3b8; font-size: 0.7rem; margin-top: 0.3rem;">
-                                </div>
-                                <!-- Sig 2 -->
-                                <div style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.05);">
-                                    <input type="text" id="cert-sig2-title" placeholder="CONVENOR" style="width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); color: #a5b4fc; font-size: 0.7rem; font-weight: 800; margin-bottom: 0.2rem; text-transform: uppercase;">
-                                    <input type="text" id="cert-sig2-name" placeholder="Name of Official" style="width: 100%; background: transparent; border: none; color: white; font-size: 0.9rem;">
-                                    <input type="text" id="cert-sig2-org" placeholder="FINE ARTS COMMITTEE" style="width: 100%; background: transparent; border: none; color: #94a3b8; font-size: 0.7rem; margin-top: 0.3rem;">
-                                </div>
-                                <!-- Sig 3 -->
-                                <div style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.05);">
-                                    <input type="text" id="cert-sig3-title" placeholder="CONVENOR" style="width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); color: #a5b4fc; font-size: 0.7rem; font-weight: 800; margin-bottom: 0.2rem; text-transform: uppercase;">
-                                    <input type="text" id="cert-sig3-name" placeholder="Name of Official" style="width: 100%; background: transparent; border: none; color: white; font-size: 0.9rem;">
-                                    <input type="text" id="cert-sig3-org" placeholder="FINE ARTS COMMITTEE" style="width: 100%; background: transparent; border: none; color: #94a3b8; font-size: 0.7rem; margin-top: 0.3rem;">
-                                </div>
-                                <!-- Sig 4 -->
-                                <div style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.05);">
-                                    <input type="text" id="cert-sig4-title" placeholder="PRINCIPAL" style="width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); color: #a5b4fc; font-size: 0.7rem; font-weight: 800; margin-bottom: 0.2rem; text-transform: uppercase;">
-                                    <input type="text" id="cert-sig4-name" placeholder="Name of Official" style="width: 100%; background: transparent; border: none; color: white; font-size: 0.9rem;">
-                                    <input type="text" id="cert-sig4-org" placeholder="PAZHASSIRAJA COLLEGE" style="width: 100%; background: transparent; border: none; color: #94a3b8; font-size: 0.7rem; margin-top: 0.3rem;">
-                                </div>
+                        <div class="admin-form">
+                            <div class="form-group">
+                                <label>Admin Email</label>
+                                <input type="email" id="new-admin-email" placeholder="user@gmail.com">
                             </div>
-                        </div>
-
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
-                            <div id="cert-save-status" style="font-size: 0.8rem;"></div>
-                            <button class="btn-primary" onclick="saveCertificateSettings()" style="padding: 0.8rem 2rem;">
-                                <i class="fas fa-save"></i> Save Certificate Settings
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project Capacity & Quotas Section -->
-                <div class="admin-management-card" style="margin-top: 1.5rem;">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <i class="fas fa-server"></i>
-                            Project Capacity & Quotas
-                        </h2>
-                        <button class="btn-icon" onclick="calculateProjectUsage()" title="Refresh Usage Data">
-                            <i class="fas fa-sync-alt"></i>
-                        </button>
-                    </div>
-
-                    <div style="padding: 1.5rem; display: grid; gap: 1.5rem;">
-                        <!-- Firestore Usage -->
-                        <div class="usage-item">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.85rem;">
-                                <span style="font-weight: 600; color: var(--text-primary);">Firestore Database (Free Tier)</span>
-                                <span id="firestore-usage-text" style="color: var(--text-secondary);">Calculating...</span>
+                            <div class="form-group">
+                                <label>Access Level</label>
+                                <select id="new-admin-role">
+                                    <option value="admin">Administrator</option>
+                                    <option value="Main">Main Admin</option>
+                                    <option value="Leaderboard">Leaderboard View</option>
+                                </select>
                             </div>
-                            <div class="usage-bar-container">
-                                <div id="firestore-usage-bar" class="usage-bar" style="width: 0%; background: var(--accent);"></div>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin-top: 0.4rem; font-size: 0.7rem; color: var(--text-secondary);">
-                                <span>0 KB Used</span>
-                                <span>1 GB Limit</span>
-                            </div>
-                        </div>
-
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                            <!-- Doc Count -->
-                            <div style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 0.75rem; border: 1px solid rgba(255,255,255,0.05);">
-                                <div style="font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Total Documents</div>
-                                <div id="total-doc-count" style="font-size: 1.25rem; font-weight: 700; color: #3b82f6;">0</div>
-                            </div>
-                            
-                            <!-- Remaining Capacity -->
-                            <div style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 0.75rem; border: 1px solid rgba(255,255,255,0.05);">
-                                <div style="font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Remaining Space</div>
-                                <div id="remaining-space-text" style="font-size: 1.25rem; font-weight: 700; color: var(--accent);">~99.9%</div>
-                            </div>
-                        </div>
-
-                        <div style="font-size: 0.8rem; color: var(--text-secondary); background: rgba(59, 130, 246, 0.05); padding: 1rem; border-radius: 0.75rem; border: 1px solid rgba(59, 130, 246, 0.1);">
-                            <i class="fas fa-info-circle"></i> 
-                            Estimates are based on standard Firestore document overhead (~0.5KB per record). 
-                            Firebase Free Tier includes 1GB of total stored data across all services.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="admin-management-card" style="margin-top: 1.5rem;">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <i class="fas fa-calendar-alt"></i>
-                            System Configuration
-                        </h2>
-                    </div>
-
-
-                    <div class="config-wrapper">
-                        <div id="sys-config-content" class="blur-locked"
-                            style="background: rgba(255, 255, 255, 0.02); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(255, 255, 255, 0.05);">
-                            <div style="margin-bottom: 1.5rem;">
-                                <div
-                                    style="font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">
-                                    Academic Year & Palette Configuration
-                                </div>
-                                <div style="display: flex; flex-direction: column; gap: 1rem;">
-                                    <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-                                        <div style="flex: 1; min-width: 140px;">
-                                            <select id="system-year-input"
-                                                style="width: 100%; font-size: 1.1rem; font-weight: 600; font-family: var(--font-heading); padding: 0.8rem; background: rgba(0,0,0,0.2); color: white; border: 1px solid rgba(255,255,255,0.1); border-radius: 0.5rem; cursor: pointer;">
-                                                <option value="2024-25">2024-25</option>
-                                                <option value="2025-26" selected>2025-26</option>
-                                                <option value="2026-27">2026-27</option>
-                                                <option value="2027-28">2027-28</option>
-                                                <option value="2028-29">2028-29</option>
-                                                <option value="2029-30">2029-30</option>
-                                                <option value="2030-31">2030-31</option>
-                                            </select>
-                                        </div>
-
-                                        <button class="btn-primary" onclick="updateSystemYear()"
-                                            style="white-space: nowrap; height: 50px; padding: 0 1.5rem;">
-                                            <i class="fas fa-save"></i>
-                                            Save Config
-                                        </button>
-                                    </div>
-
-                                    <div id="year-status"
-                                        style="font-size: 0.8rem; color: var(--text-secondary); background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 0.5rem; border: 1px dashed rgba(255,255,255,0.1);">
-                                        <i class="fas fa-spinner fa-spin"></i> Loading current year...
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Data Audit & Recovery Section -->
-                            <div
-                                style="padding: 1.5rem; background: rgba(239, 68, 68, 0.05); border-radius: 0.75rem; border: 1px solid rgba(239, 68, 68, 0.1); margin-bottom: 0px;">
-                                <div
-                                    style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-                                    <div>
-                                        <div
-                                            style="font-size: 0.9rem; font-weight: 700; color: #ef4444; margin-bottom: 0.25rem;">
-                                            <i class="fas fa-microscope"></i> Data Audit & Recovery
-                                        </div>
-                                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0;">
-                                            Scan and restore legacy records that are missing academic year tags.
-                                        </p>
-                                    </div>
-                                    <button class="btn-primary" onclick="auditLegacyData()" id="audit-btn"
-                                        style="background: rgba(255, 255, 255, 0.1); color: white; height: 32px; font-size: 0.75rem; border: 1px solid rgba(255, 255, 255, 0.1); padding: 0 1rem;">
-                                        <i class="fas fa-search"></i> Scan Database
-                                    </button>
-                                </div>
-
-                                <div id="audit-results" style="display: none; margin-bottom: 1.5rem;">
-                                    <table
-                                        style="width: 100%; border-collapse: collapse; font-size: 0.8rem; background: rgba(0,0,0,0.2); border-radius: 0.5rem; overflow: hidden;">
-                                        <thead>
-                                            <tr style="background: rgba(255,255,255,0.05); text-align: left;">
-                                                <th style="padding: 0.6rem 1rem; color: var(--text-secondary);">
-                                                    Collection
-                                                </th>
-                                                <th style="padding: 0.6rem 1rem; color: var(--text-secondary);">Untagged
-                                                    (Hidden)</th>
-                                                <th style="padding: 0.6rem 1rem; color: var(--text-secondary);">Status
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="audit-table-body">
-                                            <!-- Results injected here -->
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div id="migration-controls" style="display: none;">
-                                    <div
-                                        style="background: rgba(239, 68, 68, 0.1); padding: 1rem; border-radius: 0.5rem; border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 1rem;">
-                                        <div
-                                            style="font-size: 0.8rem; font-weight: 600; color: #fca5a5; margin-bottom: 0.5rem;">
-                                            <i class="fas fa-exclamation-triangle"></i> Recovery Action Required
-                                        </div>
-                                        <p style="font-size: 0.75rem; color: #fecaca; margin: 0;">
-                                            Found <strong id="total-untagged-count">0</strong> hidden records. Bringing
-                                            them
-                                            back will tag them with the current academic year (<strong
-                                                class="current-year-display">2025-26</strong>).
-                                        </p>
-                                    </div>
-
-                                    <button class="btn-primary" onclick="migrateLegacyData()" id="migrate-btn"
-                                        style="background: #ef4444; color: white; height: 44px; font-size: 0.9rem; width: 100%; font-weight: 700;">
-                                        <i class="fas fa-magic"></i>
-                                        Confirm & Restore All Data
-                                    </button>
-                                </div>
-
-                                <div id="migration-status"
-                                    style="margin-top: 1rem; font-size: 0.8rem; color: var(--success); text-align: center;">
-                                </div>
-                            </div>
-
-
-
-                            <div
-                                style="padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.05); font-size: 0.8rem; color: var(--text-secondary);">
-                                <i class="fas fa-info-circle"></i> This year will be used across all system reports and
-                                documents. Format: YYYY-YY (e.g., 2025-26)
-                            </div>
-                        </div>
-
-                        <!-- Lock Overlay -->
-                        <div id="config-lock-overlay" class="lock-overlay">
-                            <div class="pin-input-container">
-                                <div style="font-size: 1.5rem; color: var(--error); margin-bottom: 0.5rem;">
-                                    <i class="fas fa-lock"></i>
-                                </div>
-                                <div style="text-align: center; margin-bottom: 0.5rem;">
-                                    <div style="font-weight: 700; font-size: 1.1rem; color: var(--text-primary);">
-                                        Restricted
-                                        Area</div>
-                                    <div style="font-size: 0.8rem; color: var(--text-secondary);">System Config is
-                                        locked
-                                    </div>
-                                </div>
-
-                                <input type="password" id="config-pin-input" class="pin-input-field" maxlength="6"
-                                    placeholder="******">
-
-                                <div id="pin-error-display" class="pin-error-msg">
-                                    <i class="fas fa-circle-exclamation"></i> Incorrect PIN
-                                </div>
-
-                                <button class="btn-primary" onclick="unlockSystemConfig()" style="width: 100%;">
-                                    Unlock
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button class="btn-primary-glow" onclick="addAdmin()">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Grant Access</span>
                                 </button>
                             </div>
                         </div>
+
+                        <div id="admins-list-container" class="admin-list">
+                            <!-- Admins will be listed here -->
+                            <div style="text-align: center; color: var(--text-secondary); padding: 1rem;">
+                                <i class="fas fa-spinner fa-spin"></i> Loading access list...
+                            </div>
+                        </div>
                     </div>
-                </div>
 
+                    <!-- System Configuration Section -->
+                    <div class="admin-management-card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-calendar-alt"></i>
+                                System Configuration
+                            </h2>
+                        </div>
 
+                        <div class="config-wrapper">
+                            <div id="sys-config-content" class="blur-locked config-content">
+                                <div style="margin-bottom: 1.5rem;">
+                                    <div
+                                        style="font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">
+                                        Academic Year & Palette Configuration
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                        <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                                            <div style="flex: 1; min-width: 140px;">
+                                                <select id="system-year-input" class="system-year-select">
+                                                    <option value="2024-25">2024-25</option>
+                                                    <option value="2025-26" selected>2025-26</option>
+                                                    <option value="2026-27">2026-27</option>
+                                                    <option value="2027-28">2027-28</option>
+                                                    <option value="2028-29">2028-29</option>
+                                                    <option value="2029-30">2029-30</option>
+                                                    <option value="2030-31">2030-31</option>
+                                                </select>
+                                            </div>
 
-            </main>
-        </div>
+                                            <button class="btn-primary" onclick="updateSystemYear()"
+                                                style="white-space: nowrap; height: 50px; padding: 0 1.5rem;">
+                                                <i class="fas fa-save"></i>
+                                                Save Config
+                                            </button>
+                                        </div>
 
-        <!-- User Details Modal -->
-        <div id="user-details-modal" class="modal-overlay">
-            <div class="user-modal">
-                <button class="modal-close" onclick="closeUserModal()">
-                    <i class="fas fa-times"></i>
-                </button>
+                                        <div id="year-status"
+                                            style="font-size: 0.8rem; color: var(--text-secondary); background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 0.5rem; border: 1px dashed rgba(255,255,255,0.1);">
+                                            <i class="fas fa-spinner fa-spin"></i> Loading current year...
+                                        </div>
+                                    </div>
+                                </div>
 
-                <div class="user-profile-header">
-                    <div class="user-avatar-large">
-                        <i class="fas fa-user"></i>
+                                <!-- Data Audit & Recovery Section -->
+                                <div class="audit-section">
+                                    <div
+                                        style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                                        <div>
+                                            <h3><i class="fas fa-microscope"></i> Data Audit & Recovery</h3>
+                                            <p>Scan and restore legacy records that are missing academic year tags.</p>
+                                        </div>
+                                        <button class="btn-primary" onclick="auditLegacyData()" id="audit-btn"
+                                            style="background: rgba(255, 255, 255, 0.1); color: white; height: 32px; font-size: 0.75rem; border: 1px solid rgba(255, 255, 255, 0.1); padding: 0 1rem;">
+                                            <i class="fas fa-search"></i> Scan Database
+                                        </button>
+                                    </div>
+
+                                    <div id="audit-results" style="display: none; margin-bottom: 1.5rem;">
+                                        <table
+                                            style="width: 100%; border-collapse: collapse; font-size: 0.8rem; background: rgba(0,0,0,0.2); border-radius: 0.5rem; overflow: hidden;">
+                                            <thead>
+                                                <tr style="background: rgba(255,255,255,0.05); text-align: left;">
+                                                    <th style="padding: 0.6rem 1rem; color: var(--text-secondary);">
+                                                        Collection
+                                                    </th>
+                                                    <th style="padding: 0.6rem 1rem; color: var(--text-secondary);">
+                                                        Untagged
+                                                        (Hidden)</th>
+                                                    <th style="padding: 0.6rem 1rem; color: var(--text-secondary);">
+                                                        Status
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="audit-table-body">
+                                                <!-- Results injected here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div id="migration-controls" style="display: none;">
+                                        <div
+                                            style="background: rgba(239, 68, 68, 0.1); padding: 1rem; border-radius: 0.5rem; border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 1rem;">
+                                            <div
+                                                style="font-size: 0.8rem; font-weight: 600; color: #fca5a5; margin-bottom: 0.5rem;">
+                                                <i class="fas fa-exclamation-triangle"></i> Recovery Action Required
+                                            </div>
+                                            <p style="font-size: 0.75rem; color: #fecaca; margin: 0;">
+                                                Found <strong id="total-untagged-count">0</strong> hidden records.
+                                                Bringing
+                                                them
+                                                back will tag them with the current academic year (<strong
+                                                    class="current-year-display">2025-26</strong>).
+                                            </p>
+                                        </div>
+
+                                        <button class="btn-primary" onclick="migrateLegacyData()" id="migrate-btn"
+                                            style="background: #ef4444; color: white; height: 44px; font-size: 0.9rem; width: 100%; font-weight: 700;">
+                                            <i class="fas fa-magic"></i>
+                                            Confirm & Restore All Data
+                                        </button>
+                                    </div>
+
+                                    <div id="migration-status"
+                                        style="margin-top: 1rem; font-size: 0.8rem; color: var(--success); text-align: center;">
+                                    </div>
+                                </div>
+
+                                <div
+                                    style="padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.05); font-size: 0.8rem; color: var(--text-secondary);">
+                                    <i class="fas fa-info-circle"></i> This year will be used across all system reports
+                                    and
+                                    documents. Format: YYYY-YY (e.g., 2025-26)
+                                </div>
+                            </div>
+
+                            <!-- Lock Overlay -->
+                            <div id="config-lock-overlay" class="lock-overlay">
+                                <div class="pin-input-container">
+                                    <div style="font-size: 1.5rem; color: var(--error); margin-bottom: 0.5rem;">
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                    <div style="text-align: center; margin-bottom: 0.5rem;">
+                                        <div style="font-weight: 700; font-size: 1.1rem; color: var(--text-primary);">
+                                            Restricted
+                                            Area</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">System Config is
+                                            locked
+                                        </div>
+                                    </div>
+
+                                    <input type="password" id="config-pin-input" class="pin-input-field" maxlength="6"
+                                        placeholder="******">
+
+                                    <div id="pin-error-display" class="pin-error-msg">
+                                        <i class="fas fa-circle-exclamation"></i> Incorrect PIN
+                                    </div>
+
+                                    <button class="btn-primary" onclick="unlockSystemConfig()" style="width: 100%;">
+                                        Unlock
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="user-name-large" id="modal-user-email">user@example.com</h3>
-                    <span class="user-role-badge" id="modal-user-role">Administrator</span>
-                </div>
 
-                <div class="stats-row">
-                    <div class="detail-card">
-                        <div class="detail-label">Current Status</div>
-                        <div class="detail-value" id="modal-user-status" style="color: var(--accent)">Online</div>
-                    </div>
-                    <div class="detail-card">
-                        <div class="detail-label">Session Duration</div>
-                        <div class="detail-value" id="modal-session-time">0m</div>
-                    </div>
-                </div>
+                    <!-- Certificate Customization Section -->
+                    <div class="admin-management-card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-certificate"></i>
+                                Certificate Customization
+                            </h2>
+                        </div>
 
-                <div>
-                    <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Recent Activity
-                    </h4>
-                    <div class="history-list" id="modal-history-list">
-                        <!-- History injected here -->
+                        <div class="grid-2-col">
+                            <div class="form-group">
+                                <label>EVENT NAME</label>
+                                <input type="text" id="cert-event-name" placeholder="NAVARANG">
+                            </div>
+                            <div class="form-group">
+                                <label>ACADEMIC YEAR</label>
+                                <input type="text" id="cert-event-year" placeholder="2025-26">
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 1.5rem;">
+                            <label>FESTIVAL SUBTITLE</label>
+                            <input type="text" id="cert-fest-subtitle" placeholder="Fine Arts Fest">
+                        </div>
+
+                        <div class="cert-signatures" style="margin-top: 1.5rem;">
+                            <label
+                                style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; margin-bottom: 1rem; display: block; text-transform: uppercase; letter-spacing: 0.05em;">Official
+                                Signatures (Max 4)</label>
+
+                            <div class="grid-2-col">
+                                <!-- Sig 1 -->
+                                <div class="signature-card">
+                                    <input type="text" id="cert-sig1-title" placeholder="SECRETARY" class="sig-title">
+                                    <input type="text" id="cert-sig1-name" placeholder="Name of Official"
+                                        class="sig-name">
+                                    <input type="text" id="cert-sig1-org" placeholder="FINE ARTS COMMITTEE"
+                                        class="sig-org">
+                                </div>
+                                <!-- Sig 2 -->
+                                <div class="signature-card">
+                                    <input type="text" id="cert-sig2-title" placeholder="CONVENOR" class="sig-title">
+                                    <input type="text" id="cert-sig2-name" placeholder="Name of Official"
+                                        class="sig-name">
+                                    <input type="text" id="cert-sig2-org" placeholder="FINE ARTS COMMITTEE"
+                                        class="sig-org">
+                                </div>
+                                <!-- Sig 3 -->
+                                <div class="signature-card">
+                                    <input type="text" id="cert-sig3-title" placeholder="CONVENOR" class="sig-title">
+                                    <input type="text" id="cert-sig3-name" placeholder="Name of Official"
+                                        class="sig-name">
+                                    <input type="text" id="cert-sig3-org" placeholder="FINE ARTS COMMITTEE"
+                                        class="sig-org">
+                                </div>
+                                <!-- Sig 4 -->
+                                <div class="signature-card">
+                                    <input type="text" id="cert-sig4-title" placeholder="PRINCIPAL" class="sig-title">
+                                    <input type="text" id="cert-sig4-name" placeholder="Name of Official"
+                                        class="sig-name">
+                                    <input type="text" id="cert-sig4-org" placeholder="PAZHASSIRAJA COLLEGE"
+                                        class="sig-org">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            style="display: flex; justify-content: flex-end; align-items: center; margin-top: 2rem; gap: 1.5rem;">
+                            <div id="cert-save-status" style="font-size: 0.85rem; color: var(--accent);"></div>
+                            <button class="btn-primary-glow" onclick="saveCertificateSettings()"
+                                style="padding: 1rem 2.5rem;">
+                                <i class="fas fa-check-double"></i>
+                                <span>Deploy Changes</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- End Left Column -->
+
+                    <!-- Right Column: Monitoring & Capacity (Span 4) -->
+                    <div class="side-content-column">
+
+                        <!-- Active Users Monitor (Moved from sidebar) -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">
+                                    <i class="fas fa-users-viewfinder"></i>
+                                    Active Users
+                                </h2>
+                                <span class="badge-count" id="user-count">0</span>
+                            </div>
+                            <div id="users-list">
+                                <!-- Users injected here -->
+                                <div
+                                    style="text-align:center; padding: 2rem; color: var(--text-secondary); font-size: 0.9rem;">
+                                    <i class="fas fa-spinner fa-spin"
+                                        style="margin-bottom: 1rem; display: block; font-size: 1.5rem;"></i>
+                                    Scanning for nodes...
+                                </div>
+                            </div>
+                        </div>
+                        <div class="admin-management-card">
+                            <div class="card-header">
+                                <h2 class="card-title">
+                                    <i class="fas fa-server"></i>
+                                    Project Capacity & Quotas
+                                </h2>
+                                <button class="btn-icon" onclick="calculateProjectUsage()" title="Refresh Usage Data">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+
+                            <div class="usage-container-premium">
+                                <!-- Firestore Usage -->
+                                <div class="usage-item">
+                                    <div class="usage-header">
+                                        <span class="usage-label">Firestore Database (Free Tier)</span>
+                                        <span id="firestore-usage-text" class="usage-value">Calculating...</span>
+                                    </div>
+                                    <div class="usage-bar-container">
+                                        <div id="firestore-usage-bar" class="usage-bar" style="width: 0%;"></div>
+                                    </div>
+                                    <div class="usage-footer">
+                                        <span>0 KB Used</span>
+                                        <span>1 GB Limit</span>
+                                    </div>
+                                </div>
+
+                                <div class="usage-metrics-grid">
+                                    <!-- Doc Count -->
+                                    <div class="metric-card-simple">
+                                        <span class="metric-label">Total Documents</span>
+                                        <span id="total-doc-count" class="metric-value">0</span>
+                                    </div>
+
+                                    <!-- Remaining Capacity -->
+                                    <div class="metric-card-simple">
+                                        <span class="metric-label">Remaining Space</span>
+                                        <span id="remaining-space-text" class="metric-value highlight">~99.9%</span>
+                                    </div>
+                                </div>
+
+                                <div class="usage-info-tip">
+                                    <i class="fas fa-info-circle"></i>
+                                    Estimates based on Firestore overhead (~0.5KB/record). Firebase Free Tier includes
+                                    1GB total data.
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div> <!-- End Right Column -->
+                </div> <!-- End Dashboard Grid -->
+            </div>
+
+            <!-- User Details Modal -->
+            <div id="user-details-modal" class="modal-overlay">
+                <div class="user-modal">
+                    <button class="modal-close" onclick="closeUserModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+
+                    <div class="user-profile-header">
+                        <div class="user-avatar-large">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="user-name-large" id="modal-user-email">user@example.com</h3>
+                        <span class="user-role-badge" id="modal-user-role">Administrator</span>
+                    </div>
+
+                    <div class="stats-row">
+                        <div class="detail-card">
+                            <div class="detail-label">Current Status</div>
+                            <div class="detail-value" id="modal-user-status" style="color: var(--accent)">Online</div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-label">Session Duration</div>
+                            <div class="detail-value" id="modal-session-time">0m</div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Recent
+                            Activity
+                        </h4>
+                        <div class="history-list" id="modal-history-list">
+                            <!-- History injected here -->
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
-    </div>
-
-    <!-- Firebase SDKs -->
-    <script type="module" src="assets/coreadmin/coreadmin.js?v=4"></script>
+        <!-- Firebase SDKs -->
+        <script type="module" src="assets/coreadmin/coreadmin.js?v=4"></script>
 </body>
 
 </html>
