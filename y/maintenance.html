@@ -32,6 +32,7 @@
             background-color: var(--bg-color);
             color: var(--text-primary);
             min-height: 100vh;
+            min-height: 100dvh; /* For mobile browser address bars */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -205,13 +206,28 @@
         /* Responsive */
         @media (max-width: 640px) {
             .maintenance-container {
-                padding: 3rem 1.5rem;
+                padding: 2.5rem 1.5rem;
+                width: 92%;
+                border-radius: 1.5rem;
             }
             h1 {
-                font-size: 1.75rem;
+                font-size: 1.5rem;
+                line-height: 1.3;
             }
             p {
-                font-size: 1rem;
+                font-size: 0.95rem;
+                margin-bottom: 1.5rem;
+            }
+            .icon-container {
+                width: 80px;
+                height: 80px;
+                margin-bottom: 1.5rem;
+            }
+            .icon-container i {
+                font-size: 2rem;
+            }
+            .status-text {
+                font-size: 0.75rem;
             }
         }
     </style>
