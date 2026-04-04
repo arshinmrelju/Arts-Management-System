@@ -256,6 +256,34 @@
                 font-size: 0.75rem;
             }
         }
+        /* Developer Bypass */
+        .admin-login-btn {
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            cursor: pointer;
+            opacity: 0.15;
+            transition: all 0.3s ease;
+            z-index: 50;
+            border: 1px solid transparent;
+        }
+
+        .admin-login-btn:hover {
+            opacity: 0.8;
+            color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.2);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+        }
     </style>
 </head>
 
@@ -288,6 +316,11 @@
         </div>
     </div>
 
+    <!-- Developer Override Button -->
+    <div class="admin-login-btn" id="dev-login-btn" title="Developer Override">
+        <i class="fas fa-hammer"></i>
+    </div>
+
     <script>
         const messages = [
             "Upgrading Core Systems...",
@@ -308,6 +341,58 @@
                 statusEl.style.opacity = 1;
             }, 500);
         }, 3500);
+    </script>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+        import { firebaseConfig } from "./assets/core/firebase-config.js";
+
+        // Provide a list of authorized developer emails here.
+        // NOTE: ADD YOUR GOOGLE EMAIL ADDRESS HERE TO BYPASS THE MAINTENANCE SCREEN
+        const AUTHORIZED_DEVELOPERS = [
+            "your-developer-email@gmail.com" 
+        ];
+
+        // We initialize a separate app instance to avoid collision with the maintenance listener's instance
+        let app;
+        try {
+            app = initializeApp(firebaseConfig, "MaintenanceAuthApp");
+        } catch(e) {
+            // Depending on module load order, if it already exists:
+            app = initializeApp(firebaseConfig); 
+        }
+        
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        document.getElementById('dev-login-btn').addEventListener('click', async () => {
+            try {
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+                
+                // Allow bypass if email is directly in the whitelist
+                // (or if you haven't set an email yet, it allows the placeholder to not hard-block testing)
+                if (AUTHORIZED_DEVELOPERS.includes(user.email) || AUTHORIZED_DEVELOPERS.includes("your-developer-email@gmail.com")) {
+                    sessionStorage.setItem('developer_bypass', 'true');
+                    alert(`Developer Access Granted for ${user.email}`);
+                    
+                    // Redirect back to root index
+                    let basePath = window.location.href.split('?')[0];
+                    const urlParts = basePath.split('/');
+                    urlParts[urlParts.length - 1] = ''; 
+                    window.location.replace(urlParts.join('/'));
+                } else {
+                    alert(`Access Denied: ${user.email} is not authorized.`);
+                    await auth.signOut();
+                }
+            } catch (error) {
+                console.error("Authentication failed:", error);
+                if (error.code !== 'auth/popup-closed-by-user') {
+                    alert("Authentication error: " + error.message);
+                }
+            }
+        });
     </script>
 </body>
 

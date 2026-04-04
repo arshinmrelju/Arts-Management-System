@@ -33,6 +33,11 @@ try {
               return;
           }
           
+          // Allow developers to bypass if they have authenticated via the maintenance page
+          if (sessionStorage.getItem('developer_bypass') === 'true') {
+              return;
+          }
+          
           try {
               const maintDocRef = doc(dbCheck, "system_config", "maintenance");
               onSnapshot(maintDocRef, (docSnap) => {
