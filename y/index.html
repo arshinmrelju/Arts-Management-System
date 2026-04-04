@@ -487,42 +487,57 @@
     }
 
     @media (max-width: 768px) {
+      .hero-container {
+        padding: 4rem 1rem 2rem;
+      }
+
       .hero-title {
-        font-size: clamp(2.8rem, 12vw, 4rem);
-        line-height: 0.95;
-        letter-spacing: -0.04em;
-        margin-bottom: 1rem;
+        font-size: clamp(2.4rem, 10vw, 3.5rem);
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.75rem;
         text-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
       }
 
       .hero-subtitle {
-        font-size: 0.85rem;
-        letter-spacing: 0.15em;
-        margin-bottom: 1.25rem;
+        font-size: 0.75rem;
+        letter-spacing: 0.2em;
+        margin-bottom: 1rem;
         color: var(--accent-color);
+        font-weight: 800;
       }
 
       .hero-tagline {
-        font-size: 1.05rem;
-        line-height: 1.5;
+        font-size: 1rem;
+        line-height: 1.6;
         color: #94a3b8;
-        margin-bottom: 3rem;
-        padding: 0 1rem;
+        margin-bottom: 2.5rem;
+        padding: 0 1.5rem;
+        font-weight: 400;
       }
 
       .hero-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         width: 100%;
-        max-width: 100%;
-        padding: 0 1rem;
-        gap: 1.25rem;
+        gap: 1rem;
+        padding: 0;
       }
 
       .hero-btn {
         width: 100%;
-        padding: 1.25rem;
-        font-size: 1rem;
-        border-radius: 1.25rem;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        max-width: 280px;
+        padding: 1rem 1.5rem;
+        font-size: 0.9rem;
+        border-radius: 1rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .secondary-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
       }
     }
 
@@ -1852,6 +1867,61 @@
       transform: translateY(-2px);
       filter: brightness(1.1);
       box-shadow: 0 10px 20px -5px rgba(244, 63, 94, 0.4);
+    }
+
+    /* Don't Show Again Checkbox */
+    .dont-show-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      user-select: none;
+      transition: all 0.3s ease;
+    }
+
+    .dont-show-container:hover {
+      color: var(--text-primary);
+    }
+
+    .dont-show-container input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s ease;
+      outline: none;
+      margin: 0;
+    }
+
+    .dont-show-container input[type="checkbox"]:checked {
+      background: var(--accent-color);
+      border-color: var(--accent-color);
+    }
+
+    .dont-show-container input[type="checkbox"]:checked::after {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      font-size: 10px;
+      color: white;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .dont-show-container input[type="checkbox"]:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
     }
 
     @media (max-width: 768px) {
@@ -3603,77 +3673,7 @@
       box-shadow: 0 15px 30px -5px rgba(244, 63, 94, 0.5);
     }
 
-    /* Mobile Bottom Navigation */
-    @media (max-width: 768px) {
-      .bottom-nav {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: calc(100% - 40px);
-        max-width: 400px;
-        height: 65px;
-        background: rgba(15, 23, 42, 0.75);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-radius: 20px;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        z-index: 9999;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        padding: 0 10px;
-        transition: transform 0.3s ease, opacity 0.3s ease;
-      }
 
-      .bottom-nav.hidden {
-        transform: translate(-50%, 100px);
-        opacity: 0;
-      }
-
-      .bottom-nav-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: var(--text-secondary);
-        text-decoration: none;
-        font-size: 0.7rem;
-        font-family: var(--font-heading);
-        font-weight: 600;
-        transition: all 0.3s ease;
-        gap: 4px;
-        width: 25%;
-      }
-
-      .bottom-nav-item i {
-        font-size: 1.2rem;
-        transition: all 0.3s ease;
-      }
-
-      .bottom-nav-item.active {
-        color: white;
-      }
-
-      .bottom-nav-item.active i {
-        color: var(--accent-color);
-        transform: translateY(-5px);
-        text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
-      }
-
-      .bottom-nav-item:active {
-        transform: scale(0.9);
-      }
-    }
-
-    /* end @media (max-width: 768px) */
-
-    @media (min-width: 769px) {
-      .bottom-nav {
-        display: none;
-      }
-    }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Add Google Fonts -->
@@ -3737,6 +3737,10 @@
           </div>
         </div>
       </div>
+      <label class="dont-show-container">
+        <input type="checkbox" id="dont-show-guide">
+        <span>Don't show this again</span>
+      </label>
       <button class="guide-close-btn" id="close-guide-popup">Got it, Let's Go!</button>
     </div>
   </div>
@@ -3757,25 +3761,7 @@
       style="margin-top: auto; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 1rem; opacity: 0.7;">Logout</a>
   </div>
 
-  <!-- Mobile Bottom Navigation -->
-  <nav class="bottom-nav" id="mobile-bottom-nav">
-    <a href="#hero" class="bottom-nav-item active" data-section="hero">
-      <i class="fas fa-home"></i>
-      <span>Home</span>
-    </a>
-    <a href="#events" class="bottom-nav-item" data-section="events">
-      <i class="fas fa-calendar-alt"></i>
-      <span>Events</span>
-    </a>
-    <a href="#my-registrations" class="bottom-nav-item" data-section="my-registrations">
-      <i class="fas fa-list-alt"></i>
-      <span>My Regs</span>
-    </a>
-    <a href="#about" class="bottom-nav-item" data-section="about">
-      <i class="fas fa-info-circle"></i>
-      <span>About</span>
-    </a>
-  </nav>
+
 
 
   <!-- Back to Top Button -->
@@ -5455,10 +5441,11 @@
               startSettingsListener(); // Ensure listener is active after login
               initApp();
               isAppInitialized = true;
-              // Show registration guide popup only if registration is not fully closed
+              // Show registration guide popup only if registration is not fully closed and user hasn't opted out
               const regGuideModal = document.getElementById('reg-guide-modal');
               const bothLocked = regSettings.onStageLocked && regSettings.offStageLocked;
-              if (regGuideModal && !bothLocked) regGuideModal.classList.add('active');
+              const hideGuide = localStorage.getItem('hideRegGuide');
+              if (regGuideModal && !bothLocked && hideGuide !== 'true') regGuideModal.classList.add('active');
             }
           } else {
             console.warn("Unauthorized user:", user.email);
@@ -6008,8 +5995,12 @@
         // Registration Guide Popup Close Logic
         const closeGuideBtn = document.getElementById('close-guide-popup');
         const regGuideModal = document.getElementById('reg-guide-modal');
+        const dontShowCheckbox = document.getElementById('dont-show-guide');
         if (closeGuideBtn && regGuideModal) {
           closeGuideBtn.addEventListener('click', () => {
+            if (dontShowCheckbox && dontShowCheckbox.checked) {
+              localStorage.setItem('hideRegGuide', 'true');
+            }
             regGuideModal.classList.remove('active');
           });
         }
@@ -8461,63 +8452,7 @@
   </div>
   <div id="system-notifications"></div>
 
-  <script>
-    // Mobile Bottom Nav Logic
-    (function () {
-      const bottomNav = document.getElementById('mobile-bottom-nav');
-      if (!bottomNav) return;
 
-      const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
-      const sections = ['hero', 'events', 'my-registrations', 'about'];
-
-      // Active Section Tracking (Scroll-Spy)
-      const observerOptions = {
-        root: null,
-        rootMargin: '-20% 0px -70% 0px',
-        threshold: 0
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const id = entry.target.getAttribute('id');
-            bottomNavItems.forEach(item => {
-              item.classList.toggle('active', item.getAttribute('href') === `#${id}`);
-            });
-          }
-        });
-      }, observerOptions);
-
-      sections.forEach(sectionId => {
-        const el = document.getElementById(sectionId);
-        if (el) observer.observe(el);
-      });
-
-      // Smooth Scroll for Bottom Nav Items
-      bottomNavItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-          const targetId = item.getAttribute('href').substring(1);
-          const targetEl = document.getElementById(targetId);
-          if (targetEl) {
-            e.preventDefault();
-            targetEl.scrollIntoView({ behavior: 'smooth' });
-          }
-        });
-      });
-
-      // Smart Hide/Show on Scroll
-      let lastScroll = 0;
-      window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-        if (currentScroll > 100 && currentScroll > lastScroll) {
-          bottomNav.classList.add('hidden');
-        } else {
-          bottomNav.classList.remove('hidden');
-        }
-        lastScroll = currentScroll;
-      });
-    })();
-  </script>
 
   <script type="module">
 
