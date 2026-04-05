@@ -12,10 +12,35 @@ const rtdb = getDatabase(app);
 const auth = getAuth(app);
 const id = (i) => document.getElementById(i);
 
+let ROLE_PERMISSIONS = {
+    'Admin': ['registrations', 'leaderboard', 'whitelist', 'dates', 'settings', 'review', 'deleted', 'chest', 'appeals', 'certificates', 'results-review'],
+    'Main': ['registrations', 'leaderboard', 'whitelist', 'dates', 'settings', 'review', 'deleted', 'chest', 'appeals', 'certificates', 'results-review'],
+    'Sub': ['registrations', 'leaderboard', 'review', 'dates', 'appeals'],
+    'Leaderboard': ['leaderboard', 'review', 'results-review'],
+    'Chest': ['chest'],
+    'Stage Manager': ['leaderboard', 'dates']
+};
+
+const ALL_MODULES_LABELS = {
+    'registrations': 'Registrations Management',
+    'leaderboard': 'Global Leaderboard',
+    'whitelist': 'Access Control (Whitelist)',
+    'dates': 'Program Schedules',
+    'settings': 'System Settings',
+    'review': 'Scores Verification',
+    'deleted': 'Trash Recovery',
+    'chest': 'Chest Numbering',
+    'appeals': 'Grievance Appeals',
+    'certificates': 'Certificate Engine',
+    'results-review': 'Provisional Results'
+};
+
 const ADMIN_EMAILS = [
     "collageunionprc@gmail.com",
     "artsfest@prc.ac.in"
 ];
+
+const ALL_MODULES = Object.entries(ALL_MODULES_LABELS).map(([id, name]) => ({ id, name }));
 
 onAuthStateChanged(auth, async (user) => {
     const loginView = id('login-view');
@@ -67,6 +92,7 @@ onAuthStateChanged(auth, async (user) => {
         fetchCertificateSettings();
         fetchPayments();
         calculateProjectUsage(); // Added this call
+        renderRoleAccessList(); 
         return;
     }
 
@@ -369,10 +395,12 @@ window.fetchAdmins = function () {
 
             const row = document.createElement('div');
             row.className = 'admin-row';
+            const roleClass = `role-${(data.role || 'Admin').toLowerCase().replace(/\s+/g, '')}`;
+            
             row.innerHTML = `
                         <div style="display: flex; align-items: center; gap: 1rem;">
                             <span class="admin-email-badge">${email}</span>
-                            <span class="admin-role-badge">${data.role || 'admin'}</span>
+                            <span class="admin-role-badge ${roleClass}">${data.role || 'Admin'}</span>
                         </div>
                         <button class="btn-icon btn-delete" onclick="removeAdmin('${id}', '${email}')" title="Remove Admin">
                             <i class="fas fa-trash-can"></i>
@@ -434,6 +462,44 @@ window.removeAdmin = async function (id, email) {
         alert("Error removing admin: " + err.message);
     }
 }
+
+// Role Access Strategy Matrix Rendering
+window.renderRoleAccessStrategy = function() {
+    const headRow = id('matrix-head-row');
+    const matrixBody = id('matrix-body');
+    if (!headRow || !matrixBody) return;
+
+    // Build header (Roles)
+    const roles = Object.keys(ROLE_PERMISSIONS);
+    headRow.innerHTML = '<th>Module / Feature</th>'; // Reset
+    roles.forEach(role => {
+        const th = document.createElement('th');
+        th.textContent = role;
+        th.style.textAlign = 'center';
+        headRow.appendChild(th);
+    });
+
+    // Build rows (Modules)
+    matrixBody.innerHTML = '';
+    ALL_MODULES.forEach(module => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${module.name}</td>`;
+        
+        roles.forEach(role => {
+            const hasAccess = ROLE_PERMISSIONS[role].includes(module.id);
+            const cell = document.createElement('td');
+            cell.className = 'perm-cell';
+            
+            if (hasAccess) {
+                cell.innerHTML = '<i class="fas fa-check-circle" style="color: var(--accent);"></i>';
+            } else {
+                cell.innerHTML = '<i class="fas fa-times-circle" style="color: rgba(255,255,255,0.05);"></i>';
+            }
+            tr.appendChild(cell);
+        });
+        matrixBody.appendChild(tr);
+    });
+};
 
 // Clock logic
 setInterval(() => {
@@ -787,6 +853,104 @@ window.unlockSystemConfig = async function () {
     } finally {
         btn.innerHTML = originalBtnText;
         btn.disabled = false;
+    }
+};
+
+// Role Access Strategy Rendering
+window.renderRoleAccessList = async function() {
+    const headRow = id('matrix-head-row');
+    const matrixBody = id('matrix-body');
+    if (!headRow || !matrixBody) return;
+
+    // Fetch live permissions if possible
+    try {
+        const permSnap = await getDoc(doc(db, "admin_settings", "role_permissions"));
+        if (permSnap.exists()) {
+            ROLE_PERMISSIONS = permSnap.data();
+        } else {
+            // First time setup: Save defaults to Firestore
+            await setDoc(doc(db, "admin_settings", "role_permissions"), ROLE_PERMISSIONS);
+        }
+    } catch (e) {
+        console.error("Error fetching permissions:", e);
+    }
+
+    // Build header (Roles)
+    headRow.innerHTML = '<th>Module / Feature</th>';
+    const roles = Object.keys(ROLE_PERMISSIONS);
+    roles.forEach(role => {
+        const th = document.createElement('th');
+        th.style.textAlign = 'center';
+        th.innerHTML = `
+            <div class="role-th-wrap">
+                <span class="admin-role-badge role-${role.toLowerCase().replace(' ', '')}">${role}</span>
+            </div>
+        `;
+        headRow.appendChild(th);
+    });
+
+    // Build rows (Modules)
+    matrixBody.innerHTML = '';
+    const modules = Object.keys(ALL_MODULES_LABELS);
+    
+    modules.forEach(modKey => {
+        const tr = document.createElement('tr');
+        const labelCell = document.createElement('td');
+        labelCell.textContent = ALL_MODULES_LABELS[modKey];
+        tr.appendChild(labelCell);
+
+        roles.forEach(role => {
+            const td = document.createElement('td');
+            td.className = 'perm-cell';
+            const hasAccess = ROLE_PERMISSIONS[role].includes(modKey);
+            
+            const icon = document.createElement('i');
+            icon.className = hasAccess ? 'fas fa-check-circle' : 'fas fa-times-circle';
+            icon.style.color = hasAccess ? 'var(--accent)' : 'rgba(255,255,255,0.05)';
+            icon.style.cursor = 'pointer';
+            icon.style.transition = 'all 0.2s ease';
+            
+            icon.onclick = () => togglePermission(role, modKey, icon);
+            
+            td.appendChild(icon);
+            tr.appendChild(td);
+        });
+        
+        matrixBody.appendChild(tr);
+    });
+};
+
+window.togglePermission = async function(role, modKey, iconEl) {
+    const originalClass = iconEl.className;
+    iconEl.className = 'fas fa-spinner fa-spin';
+    iconEl.style.color = 'var(--text-secondary)';
+
+    try {
+        // Toggle Local State
+        let currentPerms = ROLE_PERMISSIONS[role] || [];
+        if (currentPerms.includes(modKey)) {
+            currentPerms = currentPerms.filter(p => p !== modKey);
+        } else {
+            currentPerms.push(modKey);
+        }
+        ROLE_PERMISSIONS[role] = currentPerms;
+
+        // Save to Firestore
+        await setDoc(doc(db, "admin_settings", "role_permissions"), ROLE_PERMISSIONS);
+        
+        // Success: Update UI
+        const isNowAllowed = currentPerms.includes(modKey);
+        iconEl.className = isNowAllowed ? 'fas fa-check-circle' : 'fas fa-times-circle';
+        iconEl.style.color = isNowAllowed ? 'var(--accent)' : 'rgba(255,255,255,0.05)';
+        
+        // Brief pulse effect
+        iconEl.style.transform = 'scale(1.3)';
+        setTimeout(() => iconEl.style.transform = 'scale(1)', 200);
+
+    } catch (e) {
+        console.error("Save Permission Error:", e);
+        iconEl.className = originalClass;
+        alert("Failed to update permission: " + e.message);
     }
 };
 

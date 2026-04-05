@@ -152,9 +152,12 @@
                             <div class="form-group">
                                 <label>Access Level</label>
                                 <select id="new-admin-role">
-                                    <option value="admin">Administrator</option>
+                                    <option value="Admin">Administrator</option>
                                     <option value="Main">Main Admin</option>
+                                    <option value="Sub">Sub Admin</option>
                                     <option value="Leaderboard">Leaderboard View</option>
+                                    <option value="Chest">Chest Manager</option>
+                                    <option value="Stage Manager">Stage Manager</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -170,6 +173,47 @@
                             <!-- Admins will be listed here -->
                             <div style="text-align: center; color: var(--text-secondary); padding: 1rem;">
                                 <i class="fas fa-spinner fa-spin"></i> Loading access list...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Role Access Strategy Section -->
+                    <div class="admin-management-card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-layer-group"></i>
+                                Role Access Strategy
+                            </h2>
+                            <div class="header-actions">
+                                <span class="badge-count">System Configuration</span>
+                            </div>
+                        </div>
+
+                        <div class="permissions-container-premium">
+                            <div class="matrix-scroll-wrapper">
+                                <table class="permissions-matrix" id="permissions-matrix-table">
+                                    <!-- Matrix injected by JS -->
+                                    <thead>
+                                        <tr id="matrix-head-row">
+                                            <th>Module / Feature</th>
+                                            <!-- Roles injected here -->
+                                        </tr>
+                                    </thead>
+                                    <tbody id="matrix-body">
+                                        <!-- Rows injected here -->
+                                        <tr>
+                                            <td colspan="7" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                                <i class="fas fa-spinner fa-spin"></i> Building permission matrix...
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="matrix-legend">
+                                <div class="legend-item"><i class="fas fa-check-circle" style="color: var(--accent);"></i> Full Access</div>
+                                <div class="legend-item"><i class="fas fa-times-circle" style="color: var(--error);"></i> No Access</div>
+                                <div class="legend-item"><i class="fas fa-info-circle" style="color: var(--text-secondary);"></i> Partial / Specialized</div>
                             </div>
                         </div>
                     </div>

@@ -234,13 +234,25 @@ const getDisplayDept = (student) => {
 
 const ALL_MODULES = ['registrations', 'leaderboard', 'whitelist', 'dates', 'settings', 'review', 'deleted', 'chest', 'appeals', 'certificates', 'results-review'];
 
-const ROLE_PERMISSIONS = {
+let ROLE_PERMISSIONS = {
     'Admin': ALL_MODULES,
     'Main': ALL_MODULES,
     'Sub': ['registrations', 'leaderboard', 'review', 'dates', 'appeals'],
-    'Leaderboard': ['leaderboard', 'review'],
+    'Leaderboard': ['leaderboard', 'review', 'results-review'],
     'Chest': ['chest'],
     'Stage Manager': ['leaderboard', 'dates']
+};
+
+const fetchGlobalPermissions = async () => {
+    try {
+        const permSnap = await getDoc(doc(db, "admin_settings", "role_permissions"));
+        if (permSnap.exists()) {
+            ROLE_PERMISSIONS = permSnap.data();
+            console.log("Live permissions loaded from Firestore");
+        }
+    } catch (e) {
+        console.error("Failed to fetch live permissions, using defaults:", e);
+    }
 };
 
 // Set Default User
@@ -2575,9 +2587,12 @@ const applyRoleRestrictions = (role) => {
     }
 };
 
-const showDashboard = (user, role) => {
+const showDashboard = async (user, role) => {
     currentUserRole = role;
     log(`Authorized as ${role}:`, user.email);
+
+    // Fetch latest permissions from Firestore before showing dashboard
+    await fetchGlobalPermissions();
 
     loginView.classList.add('hidden');
     adminDashboard.classList.remove('hidden');

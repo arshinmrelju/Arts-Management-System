@@ -1788,3 +1788,89 @@ select option {
     text-align: center;
     box-shadow: var(--premium-shadow);
 }
+
+/* Permissions Matrix Premium Styles */
+.permissions-container-premium {
+    padding: 1rem;
+}
+
+.matrix-scroll-wrapper {
+    overflow-x: auto;
+    margin-bottom: 2rem;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.permissions-matrix {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.permissions-matrix th {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.25rem;
+    text-align: left;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.permissions-matrix td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.permissions-matrix tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.permissions-matrix td:first-child {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.perm-cell {
+    text-align: center;
+}
+
+.perm-cell i {
+    font-size: 1.1rem;
+}
+
+.matrix-legend {
+    display: flex;
+    gap: 2.5rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 1rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* Expanded Role Badges */
+.admin-role-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 2rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.role-admin { background: rgba(16, 185, 129, 0.1); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.2); }
+.role-main { background: rgba(99, 102, 241, 0.1); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.2); }
+.role-sub { background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.2); }
+.role-leaderboard { background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.2); }
+.role-chest { background: rgba(236, 72, 153, 0.1); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.2); }
+.role-stagemanager { background: rgba(45, 212, 191, 0.1); color: #2dd4bf; border: 1px solid rgba(45, 212, 191, 0.2); }
