@@ -116,6 +116,7 @@ window.fetchSystemYear = async function () {
     let currentView = 'registrations';
     let currentRegTab = 'On Stage';
     let currentUserRole = '';
+    let currentUserPermissions = [];
     let currentUserDept = '';
     let currentUserAllowedCourses = [];
     let currentPDFFilename = '';
@@ -231,7 +232,16 @@ const getDisplayDept = (student) => {
     return dept.replace('Dep. of ', 'Department of ');
 };
 
+const ALL_MODULES = ['registrations', 'leaderboard', 'whitelist', 'dates', 'settings', 'review', 'deleted', 'chest', 'appeals', 'certificates', 'results-review'];
 
+const ROLE_PERMISSIONS = {
+    'Admin': ALL_MODULES,
+    'Main': ALL_MODULES,
+    'Sub': ['registrations', 'leaderboard', 'review', 'dates', 'appeals'],
+    'Leaderboard': ['leaderboard', 'review'],
+    'Chest': ['chest'],
+    'Stage Manager': ['leaderboard', 'dates']
+};
 
 // Set Default User
 // Removed failing line that ran before definition: if (userEmailSpan) userEmailSpan.textContent = "Admin User";
@@ -902,6 +912,20 @@ window.closeScoreModal = () => {
 
 // --- Navigation Controller ---
 const switchView = (viewName) => {
+    // Permission Check
+    const isSuperAdmin = currentUserRole === 'Admin' || currentUserRole === 'Main';
+    if (!isSuperAdmin && currentUserPermissions.length > 0) {
+        if (!currentUserPermissions.includes(viewName)) {
+            console.warn("View access denied:", viewName);
+            // Fallback to first available permission if current view is blocked
+            if (currentView === viewName || !currentUserPermissions.includes(currentView)) {
+                const fallback = currentUserPermissions[0] || 'leaderboard';
+                if (fallback !== viewName) switchView(fallback);
+            }
+            return;
+        }
+    }
+
     if (currentUserRole === 'Leaderboard' && viewName !== 'leaderboard') {
         console.warn("Restricted view attempt:", viewName);
         return;
@@ -2519,32 +2543,35 @@ window.revokeChestNumber = async (regId, name) => {
 const applyRoleRestrictions = (role) => {
     const sidebarItems = document.querySelectorAll('.nav-item');
     const statsGrid = document.querySelector('.stats-grid');
+    
+    // Get permissions for the role (default to empty if not found)
+    currentUserPermissions = ROLE_PERMISSIONS[role] || [];
+    const isSuperAdmin = role === 'Admin' || role === 'Main';
 
-    if (role === 'Leaderboard') {
-        sidebarItems.forEach(item => {
-            if (item.dataset.nav !== 'leaderboard') {
-                item.style.display = 'none';
-            }
-        });
-        if (statsGrid) statsGrid.style.display = 'none';
-
-        // Hide registration filters if they should be hidden
-        const regFilters = document.getElementById('reg-filters');
-        if (regFilters) regFilters.style.display = 'none';
-    } else if (role === 'Chest') {
-        sidebarItems.forEach(item => {
-            if (item.dataset.nav !== 'chest') {
-                item.style.display = 'none';
-            }
-        });
-        if (statsGrid) statsGrid.style.display = 'none';
-        const regFilters = document.getElementById('reg-filters');
-        if (regFilters) regFilters.style.display = 'none';
-    } else {
+    if (isSuperAdmin) {
         sidebarItems.forEach(item => item.style.display = 'flex');
         if (statsGrid) statsGrid.style.display = 'grid';
         const regFilters = document.getElementById('reg-filters');
         if (regFilters) regFilters.style.display = 'flex';
+    } else if (currentUserPermissions.length > 0) {
+        // Enforce Hardcoded Role Permissions
+        sidebarItems.forEach(item => {
+            const nav = item.dataset.nav;
+            if (currentUserPermissions.includes(nav)) {
+                item.style.display = 'flex';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        // Hide stats if they don't have registrations permission
+        if (statsGrid) {
+            statsGrid.style.display = currentUserPermissions.includes('registrations') ? 'grid' : 'none';
+        }
+    } else {
+        // Fallback for unknown roles (restrict all)
+        sidebarItems.forEach(item => item.style.display = 'none');
+        if (statsGrid) statsGrid.style.display = 'none';
     }
 };
 
@@ -2560,7 +2587,10 @@ const showDashboard = (user, role) => {
 
     let initialView = 'registrations';
     if (role === 'Leaderboard') initialView = 'leaderboard';
-    if (role === 'Chest') initialView = 'chest';
+    else if (role === 'Chest') initialView = 'chest';
+    else if (currentUserPermissions.length > 0 && !currentUserPermissions.includes(initialView)) {
+        initialView = currentUserPermissions[0];
+    }
 
     switchView(initialView);
 
@@ -2671,9 +2701,11 @@ onAuthStateChanged(auth, async (user) => {
             const adminByUidSnap = await getDoc(adminByUidRef);
 
             if (adminByEmailSnap.exists() || adminByUidSnap.exists()) {
+                const adminDoc = adminByEmailSnap.exists() ? adminByEmailSnap : adminByUidSnap;
+                const adminData = adminDoc.data();
                 currentUserDept = "Main Admin";
                 currentUserAllowedCourses = [];
-                showDashboard(user, 'Admin');
+                showDashboard(user, adminData.role || 'Admin');
                 return;
             }
 
@@ -2682,9 +2714,10 @@ onAuthStateChanged(auth, async (user) => {
                 const adminQuery = query(collection(db, "admin_users"), where("email", "==", emailLower));
                 const querySnap = await getDocs(adminQuery);
                 if (!querySnap.empty) {
+                    const adminData = querySnap.docs[0].data();
                     currentUserDept = "Main Admin";
                     currentUserAllowedCourses = [];
-                    showDashboard(user, 'Admin');
+                    showDashboard(user, adminData.role || 'Admin');
                     return;
                 }
             }
