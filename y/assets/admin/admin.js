@@ -4019,6 +4019,11 @@ window.deleteAppeal = async (id) => {
 // --- Certificates logic ---
 let allCertificates = [];
 
+const toTitleCase = (str) => {
+    if (!str) return str;
+    return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+};
+
 window.fetchCertificates = async () => {
     log("Fetching awarded prizes for certificates...");
     const tbody = document.getElementById('certificates-body');
@@ -4134,7 +4139,7 @@ window.openCertificatePreview = async (logId) => {
     // Populate Template Static Fields
     if (getEl('cert-display-event')) getEl('cert-display-event').textContent = settings.eventName || "NAVARANG";
     if (getEl('cert-display-subtitle')) getEl('cert-display-subtitle').textContent = `${settings.festSubtitle || "Fine Arts Fest"} ${settings.eventYear || "2025-26"}`;
-    if (getEl('cert-display-name')) getEl('cert-display-name').textContent = logData.participantName;
+    if (getEl('cert-display-name')) getEl('cert-display-name').textContent = toTitleCase(logData.participantName);
     if (getEl('cert-display-program')) getEl('cert-display-program').textContent = logData.itemName;
     if (getEl('cert-display-dept')) getEl('cert-display-dept').textContent = logData.department;
     if (getEl('cert-display-rank')) getEl('cert-display-rank').textContent = logData.position;
@@ -4257,7 +4262,7 @@ window.processPDFDownload = () => {
 window.updateCertParticipant = (name) => {
     const nameEl = document.getElementById('cert-display-name');
     if (nameEl) {
-        nameEl.textContent = name;
+        nameEl.textContent = toTitleCase(name);
         // Refresh preview
         const previewContainer = document.getElementById('pdf-preview-container');
         if (previewContainer) {
@@ -4300,7 +4305,7 @@ window.downloadAllGroupCerts = async () => {
             const name = options[i].value;
             log(`Batch Generating ${i + 1}/${options.length}: ${name}`);
 
-            if (nameEl) nameEl.textContent = name;
+            if (nameEl) nameEl.textContent = toTitleCase(name);
             await new Promise(r => setTimeout(r, 800));
 
             const element = document.getElementById('certificate-template');
