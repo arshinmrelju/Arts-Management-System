@@ -8,7 +8,7 @@
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg?style=for-the-badge)](https://en.wikipedia.org/wiki/Proprietary_software)
 
 A professional, real-time management portal and appeal system for the **Union Arts Festival**. Built with a modern **glassmorphic aesthetic** and a robust **Firebase backend**, this system streamlines the coordination of Arts competitions—from registration to digital certificate publication.
 
@@ -107,11 +107,14 @@ The system features a **mobile-first** design philosophy, utilizing responsive C
 
 ---
 
-## 📄 License
+## 🔐 License & Copyright
 
-This project is licensed under the **MIT License**. Developed for the **Pazhassiraja College Union Arts Festival**.
+This project is **Proprietary and Private**. All rights reserved by **Pazhassiraja College**. 
 
----
+- **Copyright © 2026 Pazhassiraja College**
+- The source code, assets, and design are for the exclusive use of the **Pazhassiraja College Union Arts Festival**.
+- Unauthorized copying, distribution, or modifications of this project via any medium is strictly prohibited.
+- Technical support and permissions are restricted to authorized institution personnel only.
 
 > [!TIP]
 > **Interested in contributing?** Fork the repo and submit a PR. For major changes, please open an issue first to discuss what you would like to change.
