@@ -4104,7 +4104,13 @@ window.renderCertificatesTable = () => {
     }
 };
 
-window.closeCertificatePreview = () => {
+let pdfContext = {
+    templateId: null,
+    filename: '',
+    options: {}
+};
+
+window.closePDFPreview = () => {
     const modal = document.getElementById('pdf-preview-modal');
     if (modal) {
         modal.classList.add('hidden');
@@ -4220,7 +4226,24 @@ window.openCertificatePreview = async (logId) => {
         previewContainer.appendChild(clone);
     }
 
-    // Show modal
+    // Set PDF Context
+    const name = document.getElementById('cert-display-name').textContent.replace(/\s+/g, '_');
+    const program = document.getElementById('cert-display-program').textContent.replace(/\s+/g, '_');
+    
+    pdfContext = {
+        templateId: 'certificate-template',
+        filename: `Certificate_${name}_${program}.pdf`,
+        options: {
+            margin: 0,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, logging: false, letterRendering: true, backgroundColor: '#ffffff' },
+            jsPDF: { unit: 'px', format: [1123, 794], orientation: 'landscape' }
+        }
+    };
+
+    // Show modal and specific controls
+    getEl('cert-group-controls')?.classList.remove('hidden');
+
     const modal = getEl('pdf-preview-modal');
     if (modal) {
         modal.classList.remove('hidden');
@@ -4229,29 +4252,24 @@ window.openCertificatePreview = async (logId) => {
 };
 
 window.processPDFDownload = () => {
-    const element = document.getElementById('certificate-template');
+    if (!pdfContext.templateId) return;
+    const element = document.getElementById(pdfContext.templateId);
     if (!element) return;
 
     const parentContainer = element.parentElement;
     parentContainer.style.display = 'block';
     element.style.display = 'block';
 
-    const name = document.getElementById('cert-display-name').textContent.replace(/\s+/g, '_');
-    const program = document.getElementById('cert-display-program').textContent.replace(/\s+/g, '_');
-
     const opt = {
-        margin: 0,
-        filename: `Certificate_${name}_${program}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, logging: false, letterRendering: true },
-        jsPDF: { unit: 'px', format: [1123, 794], orientation: 'landscape' }
+        ...pdfContext.options,
+        filename: pdfContext.filename
     };
 
     html2pdf().set(opt).from(element).save().then(() => {
         element.style.display = 'none';
         parentContainer.style.display = 'none';
         if (!window.isBatchDownloading) {
-            closeCertificatePreview();
+            closePDFPreview();
         }
     }).catch(err => {
         log("PDF Error:", err);
@@ -4500,3 +4518,147 @@ window.refreshAll = function () {
     initResultsListener();
 };
 initResultsListener();
+
+window.openLeaderboardPreview = async () => {
+    const btn = event?.currentTarget || document.querySelector('button[onclick="openLeaderboardPreview()"]');
+    const originalContent = btn ? btn.innerHTML : '';
+    
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing Preview...';
+    }
+
+    log("Preparing Leaderboard Preview...");
+    
+    // 1. Prepare Data
+    const allScores = DEPARTMENTS.map(dept => [dept, leaderboardScores[dept] || 0]);
+    const sortedScores = allScores.sort(([, a], [, b]) => b - a);
+
+    const getEl = (i) => document.getElementById(i);
+    const template = getEl('leaderboard-pdf-template');
+    if (!template) {
+        log("Error: Leaderboard PDF template not found.");
+        return;
+    }
+
+    // 2. Populate Template
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    getEl('pdf-timestamp').textContent = `Updated on ${dateStr} | ${timeStr}`;
+
+    const top3 = sortedScores.slice(0, 3);
+    for (let i = 0; i < 3; i++) {
+        const nameEl = getEl(`pdf-rank-${i + 1}-name`);
+        const scoreEl = getEl(`pdf-rank-${i + 1}-score`);
+        if (top3[i]) {
+            // Replace Department with Dept. for more compact look
+            nameEl.textContent = top3[i][0].replace(/Department/gi, 'Dept.');
+            scoreEl.textContent = top3[i][1];
+            nameEl.parentElement.style.opacity = '1';
+        } else {
+            nameEl.textContent = "—";
+            scoreEl.textContent = "0";
+            nameEl.parentElement.style.opacity = '0.3';
+        }
+    }
+
+    const fullListContainer = getEl('pdf-full-list');
+    fullListContainer.innerHTML = '';
+    sortedScores.forEach(([dept, score], index) => {
+        const item = document.createElement('div');
+        item.style.display = 'flex';
+        item.style.justifyContent = 'space-between';
+        item.style.alignItems = 'center';
+        item.style.padding = '25px 35px';
+        item.style.background = index < 3 ? 'rgba(99, 102, 241, 0.1)' : 'rgba(255, 255, 255, 0.03)';
+        item.style.borderRadius = '20px';
+        item.style.border = index < 3 ? '1px solid rgba(99, 102, 241, 0.2)' : '1px solid rgba(255, 255, 255, 0.05)';
+        
+        // Replace Department with Dept. here too
+        const displayDept = dept.replace(/Department/gi, 'Dept.');
+        
+        item.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 30px;">
+                <div style="width: 60px; height: 60px; background: ${index < 3 ? '#6366f1' : 'rgba(255,255,255,0.1)'}; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 800; color: #fff;">
+                    ${index + 1}
+                </div>
+                <div style="font-size: 32px; font-weight: 600; color: ${index < 3 ? '#fff' : '#e2e8f0'};">${displayDept}</div>
+            </div>
+            <div style="font-size: 40px; font-weight: 900; color: ${index < 3 ? '#fff' : '#94a3b8'};">${score} <span style="font-size: 18px; font-weight: 500; color: #64748b; margin-left: 5px;">PTS</span></div>
+        `;
+        fullListContainer.appendChild(item);
+    });
+
+    // 3. Show in Preview Modal (with full demo support)
+    const previewContainer = getEl('pdf-preview-container');
+    if (previewContainer) {
+        previewContainer.innerHTML = '';
+        
+        // Temporarily reveal template to measure height
+        const parent = template.parentElement;
+        const originalParentDisplay = parent.style.display;
+        const originalTemplateDisplay = template.style.display;
+        
+        parent.style.display = 'block';
+        template.style.display = 'block';
+        const actualHeight = template.scrollHeight;
+        parent.style.display = originalParentDisplay;
+        template.style.display = originalTemplateDisplay;
+
+        const scale = 0.35;
+        const visualWidth = 1080 * scale;
+        const visualHeight = actualHeight * scale;
+
+        // Create a wrapper that correctly handles the scaled height for the scroll container
+        const wrapper = document.createElement('div');
+        wrapper.style.width = `${visualWidth}px`;
+        wrapper.style.height = `${visualHeight}px`;
+        wrapper.style.margin = '0 auto';
+        wrapper.style.position = 'relative';
+        wrapper.style.overflow = 'hidden';
+        wrapper.style.borderRadius = '8px';
+        wrapper.style.boxShadow = '0 20px 50px rgba(0,0,0,0.5)';
+
+        const clone = template.cloneNode(true);
+        clone.id = 'leaderboard-preview-element';
+        clone.style.display = 'block';
+        clone.style.position = 'absolute';
+        clone.style.top = '0';
+        clone.style.left = '0';
+        clone.style.width = '1080px';
+        clone.style.height = `${actualHeight}px`;
+        clone.style.transform = `scale(${scale})`;
+        clone.style.transformOrigin = 'top left';
+        
+        wrapper.appendChild(clone);
+        previewContainer.appendChild(wrapper);
+
+        // 4. Set PDF Context with Dynamic Height
+        pdfContext = {
+            templateId: 'leaderboard-pdf-template',
+            filename: `Leaderboard_NAVARANG_${now.toISOString().split('T')[0]}.pdf`,
+            options: {
+                margin: 0,
+                image: { type: 'jpeg', quality: 1.0 },
+                html2canvas: { scale: 2, useCORS: true, logging: false, letterRendering: true, backgroundColor: '#0f172a' },
+                jsPDF: { unit: 'px', format: [1080, actualHeight], orientation: 'portrait' }
+            }
+        };
+    }
+
+    // Hide cert specific controls
+    getEl('cert-group-controls')?.classList.add('hidden');
+
+    // Show modal
+    const modal = getEl('pdf-preview-modal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+    }
+
+    if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = originalContent;
+    }
+};
