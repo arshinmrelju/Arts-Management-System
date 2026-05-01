@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getFirestore, collection, addDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 import { firebaseConfig } from "/assets/core/firebase-config.js";
 
 // Initialize Firebase for analytics
@@ -37,23 +37,7 @@ async function logVisitor() {
             timestamp: serverTimestamp()
         });
 
-        // 5. Attempt High-Precision Geolocation
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(async (position) => {
-                try {
-                    const { latitude, longitude } = position.coords;
-                    // Update the log with real coordinates if user permits
-                    await updateDoc(docRef, {
-                        precision_lat: latitude,
-                        precision_lon: longitude,
-                        precision_source: 'GPS_UPLINK'
-                    });
-                } catch (updateErr) {
-                    // Fail silently
-                }
-            }, null, { enableHighAccuracy: true, timeout: 5000 });
-        }
-        
+
     } catch (error) {
         // Silently fail - tracking shouldn't break the user experience
         console.warn("Analytics tracking failed:", error.message);

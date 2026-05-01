@@ -108,14 +108,7 @@ function initTerminalLogs() {
             const device = data.device || "Unknown Device";
             const page = data.page || "Unknown Page";
 
-            // Store precision data if available
-            const precisionData = data.precision_lat ? {
-                lat: data.precision_lat,
-                lon: data.precision_lon,
-                source: data.precision_source
-            } : null;
-
-            line.innerHTML = `[${timeStr}] > <span class="ip-lookup" onclick="lookupIP('${ip}', ${precisionData ? JSON.stringify(precisionData).replace(/"/g, '&quot;') : 'null'})">${ip}</span> | ${device} | ${page}`;
+            line.innerHTML = `[${timeStr}] > <span class="ip-lookup" onclick="lookupIP('${ip}')">${ip}</span> | ${device} | ${page}`;
             logWindow.appendChild(line);
         });
 
@@ -298,7 +291,7 @@ function startLatencyMonitor() {
 }
 
 // IP Intelligence Lookup
-window.lookupIP = async function(ip, precisionData = null) {
+window.lookupIP = async function(ip) {
     const overlay = document.getElementById('ip-info-overlay');
     const content = document.getElementById('ip-info-content');
     
@@ -312,32 +305,6 @@ window.lookupIP = async function(ip, precisionData = null) {
         return;
     }
     
-    
-    if (precisionData) {
-        content.innerHTML = `<div class="log-line" style="color: var(--dev-primary);">UPLINK ESTABLISHED: High-Precision GPS Data Detected.</div>`;
-        
-        content.innerHTML = `
-            <div style="margin-bottom: 1rem; border-bottom: 1px solid rgba(212,196,168,0.1); padding-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
-                <div><span style="color: var(--dev-primary);">ADDRESS:</span> ${ip}</div>
-                <button onclick="navigator.clipboard.writeText('${ip}'); this.innerHTML='<i class=&quot;fas fa-check&quot;></i>'; setTimeout(()=>this.innerHTML='<i class=&quot;fas fa-copy&quot;></i>', 2000)" style="background: rgba(212,196,168,0.1); border: 1px solid rgba(212,196,168,0.2); color: var(--dev-primary); padding: 2px 8px; border-radius: 4px; cursor: pointer; font-size: 0.7rem;"><i class="fas fa-copy"></i></button>
-            </div>
-            <div style="display: grid; grid-template-columns: 100px 1fr; gap: 0.5rem;">
-                <span style="color: var(--dev-primary);">STATUS:</span> <span style="color: #10b981;">VERIFIED GPS LOCK</span>
-                <span style="color: var(--dev-primary);">LAT/LON:</span> <span>${precisionData.lat}, ${precisionData.lon}</span>
-            </div>
-            <div style="margin-top: 1rem;">
-                <a href="https://www.google.com/maps?q=${precisionData.lat},${precisionData.lon}" target="_blank" style="display: block; width: 100%; text-align: center; background: #10b981; color: #000; padding: 10px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: bold; transition: all 0.3s;">
-                    <i class="fas fa-crosshairs"></i> VIEW EXACT LOCATION
-                </a>
-            </div>
-            <div style="margin-top: 1.5rem; padding: 0.75rem; background: rgba(16,185,129,0.05); border-radius: 8px; border-left: 2px solid #10b981;">
-                <div style="font-size: 0.7rem; color: #10b981; font-weight: bold; margin-bottom: 0.2rem;">PRECISION UPLINK:</div>
-                <div style="font-size: 0.7rem; opacity: 0.8; line-height: 1.4;">This visitor has granted location permission. This data is accurate to within 10-50 meters.</div>
-            </div>
-        `;
-        return;
-    }
-
     content.innerHTML = `<div class="log-line">Querying system archives for ${ip}... <span id="lookup-attempt">(Primary)</span></div>`;
     
     async function attemptFetch(url, timeout = 8000) {
