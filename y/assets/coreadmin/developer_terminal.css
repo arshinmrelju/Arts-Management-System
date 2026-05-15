@@ -6,62 +6,52 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
-    --dev-bg:          #2c251e;
-    --dev-primary:     #d4c4a8;
-    --dev-primary-light: #f4ebd8;
-    --dev-primary-dark:  #8b7355;
-    --dev-primary-glow:  rgba(212, 196, 168, 0.15);
-    --dev-primary-soft:  rgba(212, 196, 168, 0.06);
-    --dev-accent:      #8b0000;
-    --dev-accent-glow: rgba(139, 0, 0, 0.15);
-    --dev-danger:      #a52a2a;
-    --dev-danger-glow: rgba(165, 42, 42, 0.15);
-    --dev-glass:       rgba(44, 37, 30, 0.9);
-    --dev-glass-primary: rgba(212, 196, 168, 0.04);
-    --dev-border:      rgba(212, 196, 168, 0.25);
-    --dev-border-glow: rgba(212, 196, 168, 0.1);
-    --dev-text:        #f4ebd8;
-    --dev-text-muted:  #a69076;
-    --dev-card-bg:     rgba(50, 42, 34, 0.95);
+    --bg-color: #050a14;
+    --card-bg: rgba(20, 25, 40, 0.6);
+    --text-primary: #ffffff;
+    --text-secondary: #94a3b8;
+    --accent-color: #8b5cf6;
+    --accent-hover: #7c3aed;
+    --gradient-main: linear-gradient(135deg, #6366f1, #8b5cf6);
+
+    --font-heading: 'Outfit', sans-serif;
+    --font-hero: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+    
+    /* Keep some dev-specific colors but modernize them */
+    --dev-primary: #8b5cf6;
+    --dev-primary-light: #c084fc;
+    --dev-primary-glow: rgba(139, 92, 246, 0.2);
+    --dev-text: #ffffff;
+    --dev-text-muted: #94a3b8;
+    --dev-card-bg: rgba(15, 23, 42, 0.8);
+    --dev-border: rgba(255, 255, 255, 0.1);
 }
 
 /* â•â•â•â•â•â•â•â•â•â•â• BASE BODY â•â•â•â•â•â•â•â•â•â•â• */
 body.developer-terminal {
-    background-color: var(--dev-bg);
-    background-image:
-        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(212, 196, 168, 0.06) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 0% 100%, rgba(139, 0, 0, 0.03) 0%, transparent 50%),
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    background-attachment: fixed;
-    color: var(--dev-text);
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
     overflow-x: hidden;
-    font-family: 'Cinzel', serif;
+    font-family: var(--font-body);
 }
 
 /* â•â•â•â•â•â•â•â•â•â•â• SCROLLBAR â•â•â•â•â•â•â•â•â•â•â• */
 /* â• â• â• â• â• â• â• â• â• â• â•  SCROLLBAR â• â• â• â• â• â• â• â• â• â• â•  */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
 ::-webkit-scrollbar-thumb {
-    background: rgba(212, 196, 168, 0.2);
-    border-radius: 10px;
+    background: rgba(217, 70, 239, 0.5);
+    border-radius: 6px;
+    transition: background 0.3s ease;
 }
-::-webkit-scrollbar-thumb:hover { background: var(--dev-primary); }
+::-webkit-scrollbar-thumb:hover { background: rgba(217, 70, 239, 0.7); }
 
 /* ═══ NEWSPAPER TOP BAR ═══ */
 .newspaper-top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 2px solid rgba(212, 196, 168, 0.4);
-    border-bottom: 2px solid rgba(212, 196, 168, 0.4);
-    padding: 0.5rem 0;
-    margin-bottom: 2rem;
-    font-family: 'Cinzel', serif;
-    color: var(--dev-primary);
-    text-transform: uppercase;
-    position: relative;
-    animation: slideDown 0.5s ease both;
+    display: none; /* We will replace this with a modern header in HTML */
 }
 
 .newspaper-top-bar::before {
@@ -201,9 +191,7 @@ body.developer-terminal {
 .hero-section {
     text-align: center;
     position: relative;
-    border-top: 4px double var(--dev-text-muted);
-    border-bottom: 4px double var(--dev-text-muted);
-    padding: 2rem 0;
+    padding: 4rem 0;
     margin-bottom: 2rem;
 }
 
@@ -222,16 +210,14 @@ body.developer-terminal {
 }
 
 .leader-greeting {
-    font-family: 'Cinzel', serif;
+    font-family: var(--font-heading);
     font-size: 0.85rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.35em;
-    color: var(--dev-primary);
+    color: var(--accent-color);
     text-transform: uppercase;
     margin-bottom: 1rem;
-    opacity: 0.8;
-    text-shadow: none;
-    animation: fadeInDown 0.8s ease both;
+    opacity: 0.9;
 }
 
 @keyframes fadeInDown {
@@ -240,14 +226,16 @@ body.developer-terminal {
 }
 
 .glitch-title {
-    font-family: 'Cinzel', serif;
+    font-family: var(--font-hero);
     font-size: clamp(2.8rem, 6vw, 5.5rem);
-    font-weight: 900;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
-    position: relative;
-    color: var(--dev-primary-light);
-    filter: none;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
 }
 
 @keyframes titleGlow {
@@ -297,25 +285,26 @@ body.developer-terminal {
     color: var(--dev-primary);
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â• DEV GRID â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════ DEV GRID ═══════════ */
 .dev-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.75rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
 }
 
 @media (max-width: 1024px) {
     .dev-grid { grid-template-columns: 1fr; }
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â• GLASS CARDS â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════ GLASS CARDS ═══════════ */
 .glass-card {
-    background: var(--dev-card-bg);
-    backdrop-filter: blur(24px);
-    border-radius: 1.5rem;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 1.25rem;
     border: 1px solid var(--dev-border);
-    padding: 2rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 1.25rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
     overflow: hidden;
 }
@@ -335,11 +324,11 @@ body.developer-terminal {
 .card-inner {
     display: flex;
     flex-direction: column;
-    gap: 2rem; /* Increased from 1.5rem for breathing space */
+    gap: 1.25rem;
     height: 100%;
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â• CARD HEADER â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════ CARD HEADER ═══════════ */
 .card-header-premium {
     display: flex;
     justify-content: space-between;
@@ -353,22 +342,21 @@ body.developer-terminal {
 }
 
 .title-wrap h3 {
-    font-family: 'Cinzel', serif;
-    font-size: 1.05rem;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
     font-weight: 700;
-    color: var(--dev-text);
-    letter-spacing: 0.02em;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
 }
 
 .icon-box {
     width: 48px; height: 48px;
-    background: linear-gradient(135deg, rgba(212, 196, 168,0.15), rgba(212, 196, 168,0.05));
-    border: 1px solid rgba(212, 196, 168,0.2);
-    border-radius: 0.9rem;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05));
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 1rem;
     display: flex; align-items: center; justify-content: center;
     font-size: 1.25rem;
-    color: var(--dev-primary);
-    box-shadow: 0 0 20px rgba(212, 196, 168,0.1);
+    color: var(--accent-color);
     transition: all 0.3s ease;
 }
 
@@ -390,18 +378,17 @@ body.developer-terminal {
     font-family: 'JetBrains Mono', monospace;
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â• GATE STATUS PANEL â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════ GATE STATUS PANEL ═══════════ */
 .gate-status-panel {
     background: rgba(0,0,0,0.45);
-    padding: 2.5rem 2.25rem; /* More breathing space */
-    border-radius: 1.25rem;
+    padding: 1.25rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid rgba(212, 196, 168,0.08);
-    position: relative;
-    overflow: hidden;
-    margin: 0.5rem 0;
+    gap: 1rem;
+    transition: all 0.3s ease;
 }
 
 .gate-status-panel::before {
@@ -425,7 +412,7 @@ body.developer-terminal {
 
 #maintenance-status-msg {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 1.4rem;
+    font-size: 1.1rem;
     font-weight: 800;
     letter-spacing: 0.05em;
 }
@@ -479,13 +466,12 @@ body.developer-terminal {
 }
 
 .gate-desc {
-    font-size: 0.88rem;
-    color: rgba(148,163,184,0.8);
-    line-height: 1.75;
-    letter-spacing: 0.01em;
+    font-size: 0.75rem;
+    color: rgba(148,163,184,0.7);
+    line-height: 1.5;
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â• LOG WINDOW â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════ LOG WINDOW ═══════════ */
 .terminal-log-window {
     background: rgba(0,0,0,0.45);
     height: 260px;
@@ -556,16 +542,16 @@ body.developer-terminal {
 }
 
 .diag-card {
-    background: var(--dev-card-bg);
-    padding: 1.75rem; /* Increased from 1.5rem */
-    border-radius: 1.25rem;
+    background: var(--card-bg);
+    padding: 1.75rem;
+    border-radius: 1.5rem;
     border: 1px solid var(--dev-border);
     display: flex;
     flex-direction: column;
     gap: 1rem;
     position: relative;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .diag-card::before {
@@ -859,24 +845,17 @@ body.developer-terminal {
     flex-shrink: 0;
 }
 
-.role-public     { color: #10b981; border-color: rgba(16,185,129,0.35); background: rgba(16,185,129,0.08); }
-.role-admin      { color: #6366f1; border-color: rgba(99,102,241,0.35); background: rgba(99,102,241,0.08); }
-.role-restricted { color: #f59e0b; border-color: rgba(245,158,11,0.35); background: rgba(245,158,11,0.08); }
-.role-system     { color: #94a3b8; border-color: rgba(148,163,184,0.3); background: rgba(148,163,184,0.06); }
-.role-lead       { color: var(--dev-primary); border-color: rgba(212, 196, 168,0.35); background: rgba(212, 196, 168,0.08); text-shadow: none; }
-
-/* Page name */
 .page-name {
-    font-family: 'Cinzel', serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--dev-text);
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     gap: 0.5rem;
     flex-wrap: wrap;
     line-height: 1.35;
-    letter-spacing: 0.01em;
+    letter-spacing: -0.01em;
 }
 
 .current-tag {
@@ -931,17 +910,17 @@ body.developer-terminal {
 .page-size i { color: rgba(212, 196, 168,0.4); font-size: 0.6rem; }
 
 .page-open-btn {
-    font-family: 'Cinzel', serif;
-    font-size: 0.68rem;
-    font-weight: 600;
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 700;
     letter-spacing: 0.04em;
-    color: var(--dev-primary);
-    background: rgba(212, 196, 168,0.07);
-    border: 1px solid rgba(212, 196, 168,0.18);
-    border-radius: 0.5rem;
-    padding: 0.35rem 0.7rem;
+    color: var(--accent-color);
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 0.75rem;
+    padding: 0.4rem 0.85rem;
     text-decoration: none;
-    transition: all 0.25s ease;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     gap: 0.35rem;
@@ -992,37 +971,35 @@ body.developer-terminal {
 }
 
 .devwall-title {
-    font-family: 'Cinzel', serif;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--dev-text);
-    letter-spacing: 0.01em;
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
     margin: 0 0 0.2rem;
 }
 
 .devwall-sub {
-    font-family: 'Cinzel', serif;
-    font-size: 0.75rem;
-    color: rgba(148,163,184,0.5);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
     margin: 0;
-    letter-spacing: 0.01em;
 }
 
 .devwall-add-btn {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.65rem 1.25rem;
-    border-radius: 0.75rem;
-    font-family: 'Cinzel', serif;
-    font-weight: 600;
-    font-size: 0.85rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 1rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.9rem;
     cursor: pointer;
-    border: 1px solid rgba(212, 196, 168,0.25);
-    background: linear-gradient(135deg, rgba(212, 196, 168,0.1), rgba(212, 196, 168,0.04));
-    color: var(--dev-primary);
-    transition: all 0.25s ease;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(139, 92, 246, 0.1);
+    color: var(--accent-color);
+    transition: all 0.3s ease;
 }
 
 .devwall-add-btn:hover {
@@ -1188,10 +1165,10 @@ body.developer-terminal {
 }
 
 .note-card-title {
-    font-family: 'Cinzel', serif;
-    font-size: 0.82rem;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
     font-weight: 800;
-    color: rgba(0,0,0,0.8);
+    color: rgba(0,0,0,0.85);
     line-height: 1.3;
     flex: 1;
     word-break: break-word;
@@ -1203,35 +1180,34 @@ body.developer-terminal {
     color: rgba(0,0,0,0.2);
     cursor: pointer;
     padding: 0;
-    font-size: 0.68rem;
-    transition: color 0.2s ease, transform 0.2s ease;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
     flex-shrink: 0;
     line-height: 1;
 }
 
 .note-delete-btn:hover {
-    color: rgba(180,30,30,0.85);
-    transform: scale(1.25);
+    color: rgba(239, 68, 68, 0.8);
+    transform: scale(1.2);
 }
 
 .note-body {
-    font-family: 'Cinzel', serif;
-    font-size: 0.78rem;
-    color: rgba(0,0,0,0.65);
-    line-height: 1.7;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: rgba(0,0,0,0.7);
+    line-height: 1.6;
     white-space: pre-wrap;
     word-break: break-word;
     flex: 1;
 }
 
 .note-timestamp {
-    font-family: 'Cinzel', serif;
-    font-size: 0.6rem;
-    color: rgba(0,0,0,0.3);
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    color: rgba(0,0,0,0.4);
     margin-top: auto;
     padding-top: 0.5rem;
     border-top: 1px solid rgba(0,0,0,0.1);
-    letter-spacing: 0.01em;
 }
 
 /* â”€â”€ Note color themes â€” real sticky note paper colors â”€â”€ */
@@ -1547,3 +1523,41 @@ body.developer-terminal {
     .devwall-compose { border-radius: 1.1rem; padding: 1.25rem; }
 }
 
+/* Ambient Background blobs */
+body.developer-terminal::before,
+body.developer-terminal::after {
+  content: '';
+  position: fixed;
+  width: 50vw;
+  height: 50vw;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: -1;
+  opacity: 0.4;
+  animation: float-blobs 20s infinite alternate ease-in-out;
+  will-change: transform;
+}
+
+body.developer-terminal::before {
+  top: -10%;
+  left: -10%;
+  background: radial-gradient(circle, #7c3aed, transparent);
+}
+
+body.developer-terminal::after {
+  bottom: -10%;
+  right: -10%;
+  background: radial-gradient(circle, #db2777, transparent);
+  animation-delay: -10s;
+}
+
+@keyframes float-blobs {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, 50px) scale(1.1); }
+}
+
+@media (max-width: 768px) {
+    .developer-container { padding: 1rem; }
+    .diag-group { grid-template-columns: 1fr; }
+    .pages-grid { grid-template-columns: 1fr; }
+}

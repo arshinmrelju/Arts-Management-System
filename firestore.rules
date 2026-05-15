@@ -111,6 +111,11 @@ service cloud.firestore {
       allow read, delete: if isAdmin();
     }
 
+    match /complaints/{docId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
     // --- CATCH-ALL ---
     match /{document=**} {
       allow read: if true;

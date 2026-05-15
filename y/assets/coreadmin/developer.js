@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getFirestore, doc, getDoc, getDocs, setDoc, serverTimestamp, collection, query, orderBy, limit, onSnapshot, getCountFromServer, where, Timestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, getDocs, setDoc, updateDoc, serverTimestamp, collection, query, orderBy, limit, onSnapshot, getCountFromServer, where, Timestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 import { firebaseConfig } from "../core/firebase-config.js";
 
@@ -48,6 +48,7 @@ onAuthStateChanged(auth, async (user) => {
         startUptimeCounter();
         initTerminalLogs();
         initAnalytics();
+        initComplaints();
     } else {
         authGuard.classList.remove('hidden');
         authLogin.classList.add('hidden');
@@ -501,6 +502,112 @@ function showSMSStatus(text, type) {
     if (type === "error") status.style.color = "#ef4444";
     else if (type === "success") status.style.color = "#10b981";
     else status.style.color = "#d4c4a8";
+}
+
+// ==========================================
+// SYSTEM COMPLAINTS MANAGEMENT
+// ==========================================
+
+function initComplaints() {
+    const list = document.getElementById('complaint-list');
+    const badge = document.getElementById('complaint-count-badge');
+    
+    if (!list) return;
+
+    const q = query(collection(db, "complaints"), orderBy("timestamp", "desc"), limit(50));
+
+    onSnapshot(q, (snapshot) => {
+        list.innerHTML = '';
+        let pendingCount = 0;
+
+        if (snapshot.empty) {
+            list.innerHTML = '<div class="log-line">No reports in archives. System stable.</div>';
+            badge.textContent = '0 PENDING';
+            badge.className = 'badge-active role-public';
+            return;
+        }
+
+        snapshot.forEach(docSnap => {
+            const data = docSnap.data();
+            const id = docSnap.id;
+            if (data.status === 'pending') pendingCount++;
+
+            const line = document.createElement('div');
+            line.className = 'log-line';
+            line.style.cursor = 'pointer';
+            line.onclick = () => viewComplaintDetails(id, data);
+
+            const timeStr = data.timestamp ? new Date(data.timestamp.toDate()).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "---";
+            const statusColor = data.status === 'pending' ? '#ef4444' : (data.status === 'resolved' ? '#10b981' : '#f59e0b');
+            
+            line.innerHTML = `[${timeStr}] <span style="color: ${statusColor};">[${data.status.toUpperCase()}]</span> ${data.subject} <span style="opacity: 0.5;">- ${data.userName}</span>`;
+            list.appendChild(line);
+        });
+
+        badge.textContent = `${pendingCount} PENDING`;
+        badge.className = pendingCount > 0 ? 'badge-active' : 'badge-active role-public';
+        if (pendingCount > 0) {
+            badge.style.background = "rgba(239,68,68,0.15)";
+            badge.style.color = "#ef4444";
+        } else {
+            badge.style.background = "rgba(16,185,129,0.15)";
+            badge.style.color = "#10b981";
+        }
+    });
+}
+
+let activeComplaintId = null;
+
+function viewComplaintDetails(id, data) {
+    activeComplaintId = id;
+    const overlay = document.getElementById('complaint-action-overlay');
+    
+    document.getElementById('ca-subject').textContent = data.subject || "No Subject";
+    document.getElementById('ca-user').textContent = `${data.userName} (${data.userEmail})`;
+    document.getElementById('ca-category').textContent = data.category || "General";
+    document.getElementById('ca-time').textContent = data.timestamp ? data.timestamp.toDate().toLocaleString() : "Unknown";
+    document.getElementById('ca-status').textContent = (data.status || "pending").toUpperCase();
+    document.getElementById('ca-description').textContent = data.description || "No description provided.";
+    document.getElementById('ca-note').value = data.developerNote || "";
+
+    // Set status color
+    const statusElem = document.getElementById('ca-status');
+    if (data.status === 'resolved') statusElem.style.color = '#10b981';
+    else if (data.status === 'pending') statusElem.style.color = '#ef4444';
+    else statusElem.style.color = '#f59e0b';
+
+    overlay.classList.remove('hidden');
+}
+
+document.getElementById('ca-resolve-btn').onclick = () => updateComplaintStatus('resolved');
+document.getElementById('ca-dismiss-btn').onclick = () => updateComplaintStatus('dismissed');
+
+async function updateComplaintStatus(status) {
+    if (!activeComplaintId) return;
+    
+    const note = document.getElementById('ca-note').value;
+    const btn = status === 'resolved' ? document.getElementById('ca-resolve-btn') : document.getElementById('ca-dismiss-btn');
+    const originalText = btn.textContent;
+    
+    btn.disabled = true;
+    btn.textContent = 'SYNCING...';
+
+    try {
+        await updateDoc(doc(db, "complaints", activeComplaintId), {
+            status: status,
+            developerNote: note,
+            resolvedAt: serverTimestamp(),
+            resolvedBy: auth.currentUser.email
+        });
+        
+        document.getElementById('complaint-action-overlay').classList.add('hidden');
+    } catch (err) {
+        console.error("Error updating complaint:", err);
+        alert("Failed to update: " + err.message);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = originalText;
+    }
 }
 
 
