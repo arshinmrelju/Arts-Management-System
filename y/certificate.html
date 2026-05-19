@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Certificates | College Union PRC</title>
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicon.png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Great+Vibes&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- html2pdf.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    :root {
+      --bg-color: #030712;
+      --card-bg: rgba(17, 24, 39, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f3f4f6;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --accent-primary: #8b5cf6;
+      --accent-secondary: #ec4899;
+      --gradient-main: linear-gradient(135deg, #6366f1, #8b5cf6);
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      
+      --gold: #fbbf24;
+      --silver: #94a3b8;
+      --bronze: #d97706;
+      --success: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Floating Background Gradients */
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      width: 40vw;
+      height: 40vw;
+      border-radius: 50%;
+      filter: blur(100px);
+      z-index: -1;
+      opacity: 0.35;
+      pointer-events: none;
+      animation: float 25s infinite alternate ease-in-out;
+    }
+
+    body::before {
+      top: -10%;
+      left: -10%;
+      background: radial-gradient(circle, var(--accent-primary), transparent 70%);
+    }
+
+    body::after {
+      bottom: -10%;
+      right: -10%;
+      background: radial-gradient(circle, var(--accent-secondary), transparent 70%);
+      animation-delay: -12s;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(4vw, 6vh) scale(1.15); }
+    }
+
+    /* Mandala slow rotation */
+    .bg-mandala {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80vw;
+      height: 80vw;
+      max-width: 900px;
+      max-height: 900px;
+      opacity: 0.02;
+      z-index: -1;
+      pointer-events: none;
+      animation: spin 150s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    /* Header Styles */
+    header {
+      padding: 1.5rem 2rem;
+      background: rgba(3, 7, 18, 0.5);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: white;
+    }
+
+    .logo img {
+      height: 42px;
+      width: auto;
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.25));
+    }
+
+    .logo-text {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      font-size: 1.25rem;
+      background: linear-gradient(to right, #f472b6, #c084fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .btn-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.6rem 1.25rem;
+      border-radius: 0.75rem;
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-home:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 3.5rem;
+      max-width: 700px;
+    }
+
+    .hero h1 {
+      font-family: var(--font-heading);
+      font-size: 3rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ffffff 30%, #e2e8f0 70%, var(--accent-primary) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    /* Search Container */
+    .search-box {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 1rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 1.1rem 1.5rem 1.1rem 3.5rem;
+      border-radius: 1.25rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      color: white;
+      font-size: 1.05rem;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .search-input:focus {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 25px rgba(139, 92, 246, 0.3), inset 0 0 0 1px rgba(139, 92, 246, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1.25rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      pointer-events: none;
+      transition: color 0.3s;
+    }
+
+    .search-input:focus ~ .search-icon {
+      color: var(--accent-primary);
+    }
+
+    .search-tip {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 3.5rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Results Layout */
+    .results-container {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .results-title {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .results-count {
+      background: rgba(139, 92, 246, 0.15);
+      color: #c084fc;
+      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-weight: 700;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+
+    .award-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 1.5rem;
+      padding: 1.75rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .award-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--accent-primary);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .award-card.rank-1st::before { background: var(--gold); opacity: 1; }
+    .award-card.rank-2nd::before { background: var(--silver); opacity: 1; }
+    .award-card.rank-3rd::before { background: var(--bronze); opacity: 1; }
+
+    .award-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+    }
+
+    .award-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .award-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .student-name {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: white;
+    }
+
+    .badge-rank {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .rank-1st .badge-rank { background: rgba(251, 191, 36, 0.12); color: var(--gold); border: 1px solid rgba(251, 191, 36, 0.2); }
+    .rank-2nd .badge-rank { background: rgba(148, 163, 184, 0.12); color: var(--silver); border: 1px solid rgba(148, 163, 184, 0.2); }
+    .rank-3rd .badge-rank { background: rgba(217, 119, 6, 0.12); color: var(--bronze); border: 1px solid rgba(217, 119, 6, 0.2); }
+
+    .award-meta {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot-separator {
+      color: var(--text-muted);
+    }
+
+    .badge-dept {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+    }
+
+    .award-event {
+      color: #c084fc;
+      font-weight: 600;
+    }
+
+    .btn-verify {
+      background: var(--gradient-main);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 0.75rem;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-verify:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 25px -5px rgba(99, 102, 241, 0.6);
+      filter: brightness(1.1);
+    }
+
+    /* States Cards */
+    .state-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 1.5rem;
+      padding: 3rem 2rem;
+      text-align: center;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      animation: zoomIn 0.3s ease-out;
+    }
+
+    @keyframes zoomIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .state-card i {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .state-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .state-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Premium Preview Modal */
+    #pdf-preview-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+    }
+
+    .modal-content {
+      background: #202328;
+      border: 1px solid var(--glass-border);
+      border-radius: 1.5rem;
+      width: 95%;
+      max-width: 1200px;
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 50px 100px -20px rgba(0,0,0,0.8);
+      animation: alertSlideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes alertSlideUp {
+      from { transform: translateY(30px) scale(0.95); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .pdf-toolbar {
+      padding: 1.25rem 2rem;
+      background: #181a1f;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(0,0,0,0.2);
+    }
+
+    .toolbar-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .toolbar-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: white;
+    }
+
+    .toolbar-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .group-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--glass-border);
+      padding: 0.35rem 0.85rem;
+      border-radius: 0.75rem;
+    }
+
+    .group-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .member-select {
+      background: #111316;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      padding: 0.35rem 1.5rem 0.35rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.85rem;
+      outline: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-download-pdf {
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 0.65rem 1.25rem;
+      border-radius: 0.75rem;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s;
+      box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-download-pdf:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-close-modal {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-secondary);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    .btn-close-modal:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    #pdf-preview-container {
+      flex: 1;
+      overflow: hidden;
+      background: #121417;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      position: relative;
+    }
+
+    #certificate-preview-element {
+      box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.8);
+      transform-origin: center center;
+      flex-shrink: 0;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+
+<body>
+  
+  <!-- Rotating Mandala BG -->
+  <svg class="bg-mandala" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="100" r="90" stroke="currentColor" stroke-width="0.2" fill="none" />
+    <circle cx="100" cy="100" r="70" stroke="currentColor" stroke-width="0.2" fill="none" />
+    <path d="M100 10 Q115 10 115 30 T100 50 T85 30 T100 10" transform="rotate(0 100 100)" fill="none" stroke="currentColor" stroke-width="0.3"/>
+    <path d="M100 10 Q115 10 115 30 T100 50 T85 30 T100 10" transform="rotate(30 100 100)" fill="none" stroke="currentColor" stroke-width="0.3"/>
+    <path d="M100 10 Q115 10 115 30 T100 50 T85 30 T100 10" transform="rotate(60 100 100)" fill="none" stroke="currentColor" stroke-width="0.3"/>
+    <path d="M100 10 Q115 10 115 30 T100 50 T85 30 T100 10" transform="rotate(90 100 100)" fill="none" stroke="currentColor" stroke-width="0.3"/>
+    <path d="M100 10 Q115 10 115 30 T100 50 T85 30 T100 10" transform="rotate(120 100 100)" fill="none" stroke="currentColor" stroke-width="0.3"/>
+    <path d="M100 10 Q115 10 115 30 T100 50 T85 30 T100 10" transform="rotate(150 100 100)" fill="none" stroke="currentColor" stroke-width="0.3"/>
+    <path d="M100 10 Q115 10 115 30 T100 50 T85 30 T100 10" transform="rotate(180 100 100)" fill="none" stroke="currentColor" stroke-width="0.3"/>
+    <path d="M100 10 Q115 10 115 30 T100 50 T85 30 T100 10" transform="rotate(210 100 100)" fill="none" stroke="currentColor" stroke-width="0.3"/>
+    <path d="M100 10 Q115 10 115 30 T100 50 T85 30 T100 10" transform="rotate(240 100 100)" fill="none" stroke="currentColor" stroke-width="0.3"/>
+    <path d="M100 10 Q115 10 115 30 T100 50 T85 30 T100 10" transform="rotate(270 100 100)" fill="none" stroke="currentColor" stroke-width="0.3"/>
+    <path d="M100 10 Q115 10 115 30 T100 50 T85 30 T100 10" transform="rotate(300 100 100)" fill="none" stroke="currentColor" stroke-width="0.3"/>
+    <path d="M100 10 Q115 10 115 30 T100 50 T85 30 T100 10" transform="rotate(330 100 100)" fill="none" stroke="currentColor" stroke-width="0.3"/>
+  </svg>
+
+  <!-- Header -->
+  <header>
+    <a href="/" class="logo">
+      <img src="/assets/Pazhassiraja_College_Pulpally_Logo.png" alt="PRC Logo">
+      <span class="logo-text">COLLEGE UNION PRC</span>
+    </a>
+    <a href="/" class="btn-home">
+      <i class="fas fa-home"></i> Home
+    </a>
+  </header>
+
+  <!-- Main Portal -->
+  <main>
+    <div class="hero">
+      <h1>Arts Festival Certificates</h1>
+      <p>Enter your chest number or full name to view and download your official digital certificate of achievement.</p>
+    </div>
+
+    <!-- Search bar -->
+    <div class="search-box">
+      <input type="text" class="search-input" id="portal-search" placeholder="Enter Chest Number (e.g. A-101) or Participant Name..." autocomplete="off">
+      <i class="fas fa-search search-icon"></i>
+    </div>
+
+    <div class="search-tip">
+      <i class="fas fa-info-circle"></i> Tip: Group leaders can customize individual member names before downloading!
+    </div>
+
+    <!-- Results Panel -->
+    <div class="results-container hidden" id="results-wrapper">
+      <div class="results-title">
+        <span>Search Results</span>
+        <span class="results-count" id="results-count-badge">0 Certificates</span>
+      </div>
+      <div id="results-list" style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1rem;">
+        <!-- Results injection -->
+      </div>
+    </div>
+
+    <!-- Initial Search View -->
+    <div class="state-card" id="state-initial">
+      <i class="fas fa-certificate" style="color: #6366f1;"></i>
+      <h3>Looking for certificates?</h3>
+      <p>Prizes awarded and verified by the Fine Arts administration will appear here. Start typing your Chest Number or Name above to query the database.</p>
+    </div>
+
+    <!-- No Results View -->
+    <div class="state-card hidden" id="state-empty">
+      <i class="fas fa-search" style="color: var(--accent-secondary);"></i>
+      <h3>No certificates found</h3>
+      <p>We couldn't find any verified award logs matching this query. Please check your chest number spelling or make sure results for this event have been officially accepted by the convenor.</p>
+    </div>
+
+    <!-- Loading View -->
+    <div class="state-card hidden" id="state-loading">
+      <i class="fas fa-spinner fa-spin" style="color: var(--accent-primary);"></i>
+      <h3>Searching awards record...</h3>
+      <p>Connecting to secure Firestore nodes. Please stand by while we fetch the certificates catalog.</p>
+    </div>
+  </main>
+
+  <!-- Dynamic Scaling Preview Modal -->
+  <div id="pdf-preview-modal">
+    <div class="modal-content">
+      <div class="pdf-toolbar">
+        <div class="toolbar-left">
+          <div class="toolbar-title" id="toolbar-cert-title">Digital Certificate Preview</div>
+          <div class="toolbar-subtitle">1123 x 794 Px - Print Ready Landscape Frame</div>
+        </div>
+        <div class="toolbar-right">
+          <!-- Custom Member Selector for Groups -->
+          <div class="group-controls hidden" id="group-controls">
+            <span class="group-label">Participant:</span>
+            <select class="member-select" id="group-member-dropdown" onchange="updateCertificateName(this.value)">
+              <!-- Options -->
+            </select>
+          </div>
+          
+          <button class="btn-download-pdf" id="btn-download-trigger">
+            <i class="fas fa-download"></i> Download PDF
+          </button>
+          
+          <button class="btn-close-modal" id="btn-close-trigger" aria-label="Close Preview">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+
+      <div id="pdf-preview-container">
+        <!-- Render element clones -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Offscreen Original Print Node (Hidden) -->
+  <div style="display: none; position: absolute; left: -9999px; top: -9999px;">
+    <div id="certificate-template"
+        style="width: 1123px; height: 794px; background: #f3efe6; color: #232323; position: relative; font-family: 'Outfit', sans-serif; overflow: hidden; box-sizing: border-box; border: 25px solid #232323; box-shadow: inset 0 0 0 10px rgba(0,0,0,0.1), inset 0 0 20px rgba(0,0,0,0.2);">
+
+        <!-- Inner subtle border matching design -->
+        <div style="position: absolute; inset: 15px; border: 1px solid rgba(0,0,0,0.1); z-index: 10;"></div>
+
+        <!-- Geometric Shapes -->
+        <div style="position: absolute; top: -50px; left: -50px; width: 450px; height: 400px; background: #13393e; clip-path: polygon(0 0, 100% 0, 45% 100%, 0 35%); z-index: 1;"></div>
+        <div style="position: absolute; top: 0; left: 240px; width: 250px; height: 180px; background: #d78263; clip-path: polygon(0 0, 100% 0, 0 100%); z-index: 0;"></div>
+
+        <div style="position: absolute; bottom: 80px; left: -80px; width: 400px; height: 400px; background: #e0b431; clip-path: polygon(100% 0, 100% 100%, 0 100%); z-index: 1; transform: rotate(15deg);"></div>
+        <div style="position: absolute; bottom: -50px; left: -30px; width: 500px; height: 350px; background: #b84421; clip-path: polygon(0 0, 100% 100%, 0 100%); z-index: 2;"></div>
+
+        <div style="position: absolute; bottom: -20px; right: 180px; width: 300px; height: 180px; background: #13393e; clip-path: polygon(100% 0, 100% 100%, 0 100%); z-index: 0;"></div>
+        <div style="position: absolute; bottom: -60px; right: -50px; width: 380px; height: 380px; background: #d78263; clip-path: polygon(0 0, 100% 100%, 0 100%); z-index: 1;"></div>
+
+        <div style="position: absolute; top: -60px; right: -80px; width: 400px; height: 500px; background: #e0b431; clip-path: polygon(100% 0, 100% 100%, 5% 50%, 0 0); z-index: 1;"></div>
+        <div style="position: absolute; top: 0; right: 200px; width: 250px; height: 150px; background: #b84421; clip-path: polygon(100% 0, 100% 100%, 0 0); z-index: 0;"></div>
+
+        <!-- Gold Reward Badge -->
+        <div style="position: absolute; top: 120px; right: 180px; z-index: 5; text-align: center;">
+            <div style="position: relative; width: 130px; height: 130px; background: #dcdde1; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.25); z-index: 2;">
+                <div style="position: absolute; inset: -4px; border-radius: 50%; border: 4px dotted #dcdde1; box-sizing: border-box;"></div>
+                <div style="width: 106px; height: 106px; background: #1b1b1b; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 10px rgba(0,0,0,0.8);">
+                    <div style="color: #fff; font-size: 15px; font-weight: 800; line-height: 1.2; letter-spacing: 1px;">BEST OF<br>REWARD</div>
+                </div>
+            </div>
+            <!-- Ribbon Tails -->
+            <div style="position: absolute; bottom: -40px; left: 20px; width: 40px; height: 70px; background: #1b1b1b; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%); z-index: 1;"></div>
+            <div style="position: absolute; bottom: -40px; right: 20px; width: 40px; height: 70px; background: #1b1b1b; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%); z-index: 1;"></div>
+        </div>
+
+        <!-- Content Container -->
+        <div style="position: relative; z-index: 10; padding: 80px 100px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box;">
+            
+            <div style="text-align: center; margin-top: 30px; margin-bottom: 20px;">
+                <h1 style="margin: 0; font-size: 68px; font-weight: 900; color: #232323; letter-spacing: 1px; line-height: 1.1;">CERTIFICATE</h1>
+                <p style="margin: 0; font-size: 26px; color: #4a4a4a; font-weight: 500; letter-spacing: 0.5px;">of Achievement</p>
+            </div>
+
+            <div style="margin: 25px 0 15px 0; font-size: 16px; color: #5a5a5a; font-weight: 500;">
+                This Certificate is Presented to
+            </div>
+
+            <div style="margin: 10px 0 25px 0; width: 100%; text-align: center;">
+                <h2 id="cert-display-name" style="margin: 0; font-family: 'Great Vibes', cursive; font-size: 85px; font-weight: 400; color: #1a1a1a; display: inline-block; padding: 0 50px; line-height: 1;">Student Name</h2>
+                <div style="width: 500px; height: 2px; background: repeating-linear-gradient(to right, transparent, transparent 5px, rgba(0,0,0,0.2) 5px, rgba(0,0,0,0.2) 10px); margin: 0 auto; margin-top: 15px;"></div>
+            </div>
+
+            <div style="max-width: 600px; text-align: center; font-size: 13px; color: #5a5a5a; line-height: 1.8; margin-bottom: auto;">
+                This is to certify that the above mentioned student from the Department of <span id="cert-display-dept" style="font-weight: 700; color: #232323;">Department Name</span> has been awarded <span id="cert-display-rank" style="font-weight: 700; color: #b84421;">1st</span> Prize in <span id="cert-display-program" style="font-weight: 700; color: #232323;">Program / Event</span> Competition.<br><br>
+                <span id="cert-display-event" style="font-weight: 800; color: #232323; font-size: 15px;">NAVARANG</span> - <span id="cert-display-subtitle" style="font-weight: 600;">Fine Arts Fest 2025-26</span>
+            </div>
+
+            <!-- Signatures Section -->
+            <div style="width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; padding: 0 20px; align-items: end;">
+                <div id="cert-sig-col-1" style="text-align: center;">
+                    <div class="sig-mock" style="font-family: 'Great Vibes', cursive; font-size: 32px; height: 50px; color: #232323; line-height: 1.5;">Signature</div>
+                    <div style="border-top: 1px solid #7a7a7a; padding-top: 8px;">
+                        <strong class="sig-name" style="font-size: 12px; display: block; color: #232323; letter-spacing: 1px; text-transform: uppercase;">Name</strong>
+                        <span class="sig-title" style="font-size: 10px; display: block; font-weight: 600; color: #5a5a5a; text-transform: uppercase; letter-spacing: 0.5px;">Secretary</span>
+                    </div>
+                </div>
+                <div id="cert-sig-col-2" style="text-align: center;">
+                    <div class="sig-mock" style="font-family: 'Great Vibes', cursive; font-size: 32px; height: 50px; color: #232323; line-height: 1.5;">Signature</div>
+                    <div style="border-top: 1px solid #7a7a7a; padding-top: 8px;">
+                        <strong class="sig-name" style="font-size: 12px; display: block; color: #232323; letter-spacing: 1px; text-transform: uppercase;">Name</strong>
+                        <span class="sig-title" style="font-size: 10px; display: block; font-weight: 600; color: #5a5a5a; text-transform: uppercase; letter-spacing: 0.5px;">Convenor</span>
+                    </div>
+                </div>
+                <div id="cert-sig-col-3" style="text-align: center;">
+                    <div class="sig-mock" style="font-family: 'Great Vibes', cursive; font-size: 32px; height: 50px; color: #232323; line-height: 1.5;">Signature</div>
+                    <div style="border-top: 1px solid #7a7a7a; padding-top: 8px;">
+                        <strong class="sig-name" style="font-size: 12px; display: block; color: #232323; letter-spacing: 1px; text-transform: uppercase;">Name</strong>
+                        <span class="sig-title" style="font-size: 10px; display: block; font-weight: 600; color: #5a5a5a; text-transform: uppercase; letter-spacing: 0.5px;">Convenor</span>
+                    </div>
+                </div>
+                <div id="cert-sig-col-4" style="text-align: center;">
+                    <div class="sig-mock" style="font-family: 'Great Vibes', cursive; font-size: 32px; height: 50px; color: #232323; line-height: 1.5;">Signature</div>
+                    <div style="border-top: 1px solid #7a7a7a; padding-top: 8px;">
+                        <strong class="sig-name" style="font-size: 12px; display: block; color: #232323; letter-spacing: 1px; text-transform: uppercase;">Name</strong>
+                        <span class="sig-title" style="font-size: 10px; display: block; font-weight: 600; color: #5a5a5a; text-transform: uppercase; letter-spacing: 0.5px;">Principal</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+  </div>
+
+  <!-- Firebase Services & Script logic -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+    import { firebaseConfig } from "./assets/core/firebase-config.js";
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Global Database Configurations
+    let systemYear = "2025-26";
+    let certSettings = {};
+    let activeAward = null;
+    let allRegistrations = [];
+
+    // Preload system config parameters
+    async function loadSystemConfig() {
+      try {
+        const yearSnap = await getDoc(doc(db, "system_config", "system_year"));
+        if (yearSnap.exists()) {
+          systemYear = yearSnap.data().year || "2025-26";
+        }
+        
+        const settingsSnap = await getDoc(doc(db, "system_config", "certificate_settings"));
+        if (settingsSnap.exists()) {
+          certSettings = settingsSnap.data();
+        }
+
+        // Apply UI Customization (branding) if configured
+        const uiSnap = await getDoc(doc(db, "system_config", "ui_identity"));
+        if (uiSnap.exists()) {
+          const uiData = uiSnap.data();
+          if (uiData.artsName) {
+            const logoTextEl = document.querySelector('.logo-text');
+            if (logoTextEl) logoTextEl.textContent = uiData.artsName.toUpperCase();
+          }
+        }
+      } catch (err) {
+        console.error("Config Loading Failed:", err);
+      }
+    }
+
+    // Dynamic Title Casing
+    function toTitleCase(str) {
+      if (!str) return '';
+      return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    // Normalize String for indexing / exact matches
+    function normalizeString(str) {
+      if (!str) return '';
+      return str.trim().toLowerCase().replace(/\s+/g, ' ');
+    }
+
+    // Toggle Loading & Search States
+    function showState(state) {
+      const states = ['state-initial', 'state-empty', 'state-loading', 'results-wrapper'];
+      states.forEach(s => {
+        const el = document.getElementById(s);
+        if (el) {
+          if (s === state) el.classList.remove('hidden');
+          else el.classList.add('hidden');
+        }
+      });
+    }
+
+    // Fetch and search certificates
+    async function performSearch(queryText) {
+      const searchKey = queryText.trim();
+      if (!searchKey) {
+        showState('state-initial');
+        return;
+      }
+
+      showState('state-loading');
+
+      try {
+        const scoreLogsRef = collection(db, "score_logs");
+        const queryNorm = normalizeString(searchKey);
+        
+        let matchedAwards = [];
+
+        // Check if query looks like a Chest Number (e.g. starts with letter and hyphen or has digits)
+        const isChestNumber = /^[A-Za-z]+-\d+$/.test(searchKey) || /^[A-Za-z]\d+$/.test(searchKey) || /^\d+$/.test(searchKey);
+
+        if (isChestNumber) {
+          // 1. Search registrations matching chestNumber
+          const regsRef = collection(db, "registrations");
+          const qRegs1 = query(regsRef, where("academicYear", "==", systemYear), where("chestNumber", "==", searchKey));
+          const qRegs2 = query(regsRef, where("academicYear", "==", systemYear), where("chessNumber", "==", searchKey)); // fallback typo in DB
+          
+          const [snap1, snap2] = await Promise.all([getDocs(qRegs1), getDocs(qRegs2)]);
+          
+          let regDocIds = new Set();
+          let regsMap = new Map();
+          
+          [snap1, snap2].forEach(snapshot => {
+            snapshot.forEach(doc => {
+              if (!doc.data().isDeleted) {
+                regDocIds.add(doc.id);
+                regsMap.set(doc.id, { id: doc.id, ...doc.data() });
+              }
+            });
+          });
+
+          if (regDocIds.size > 0) {
+            // 2. Query score_logs where participantId matches the registration IDs
+            // Firestore limit is 10 in "in" queries, so we partition or fetch all & filter
+            const qScores = query(scoreLogsRef, where("academicYear", "==", systemYear));
+            const scoresSnap = await getDocs(qScores);
+            
+            scoresSnap.forEach(scoreDoc => {
+              const scoreData = scoreDoc.data();
+              if (regDocIds.has(scoreData.participantId) && scoreData.position && scoreData.position !== 'None') {
+                const regData = regsMap.get(scoreData.participantId);
+                matchedAwards.push({
+                  id: scoreDoc.id,
+                  regData: regData,
+                  ...scoreData
+                });
+              }
+            });
+          }
+        } 
+        
+        // Always execute Name Query fallback to allow Name-based searches or dual checks
+        const qScoresAll = query(scoreLogsRef, where("academicYear", "==", systemYear));
+        const scoresSnap = await getDocs(qScoresAll);
+        
+        scoresSnap.forEach(scoreDoc => {
+          const scoreData = scoreDoc.data();
+          if (scoreData.position && scoreData.position !== 'None') {
+            const nameNorm = normalizeString(scoreData.participantName);
+            const matchesName = nameNorm.includes(queryNorm) || queryNorm.includes(nameNorm);
+            
+            // Avoid duplicate additions
+            if (matchesName && !matchedAwards.some(a => a.id === scoreDoc.id)) {
+              matchedAwards.push({
+                id: scoreDoc.id,
+                regData: null, // we will load registration details dynamically if needed for group members
+                ...scoreData
+              });
+            }
+          }
+        });
+
+        // If registration data is missing for matched awards, pre-fetch matching registrations to assist group detection
+        const missingRegAwards = matchedAwards.filter(a => !a.regData);
+        if (missingRegAwards.length > 0) {
+          const regsRef = collection(db, "registrations");
+          const qRegs = query(regsRef, where("academicYear", "==", systemYear));
+          const regsSnap = await getDocs(qRegs);
+          
+          let allRegs = [];
+          regsSnap.forEach(doc => {
+            if (!doc.data().isDeleted) {
+              allRegs.push({ id: doc.id, ...doc.data() });
+            }
+          });
+
+          // Associate matching registrations
+          matchedAwards.forEach(award => {
+            if (!award.regData) {
+              const normAwardItem = normalizeString(award.itemName);
+              const normAwardDept = normalizeString(award.department);
+              const normAwardPart = normalizeString(award.participantName);
+
+              const match = allRegs.find(r => {
+                const normRegItem = normalizeString(r.program);
+                const normRegDept = normalizeString(r.department);
+                const normRegName = normalizeString(r.studentName);
+                const normRegGroup = normalizeString(r.groupName);
+
+                const deptsMatch = (normRegDept === normAwardDept) || 
+                  (normRegDept && normAwardDept && (normRegDept.startsWith(normAwardDept) || normAwardDept.startsWith(normRegDept)));
+                const itemsMatch = normRegItem === normAwardItem;
+
+                if (!itemsMatch || !deptsMatch) return false;
+                if (r.regType === 'Group') return true;
+
+                return normRegName === normAwardPart || normRegGroup === normAwardPart;
+              });
+
+              if (match) {
+                award.regData = match;
+              }
+            }
+          });
+        }
+
+        renderAwards(matchedAwards);
+
+      } catch (err) {
+        console.error("Search Error:", err);
+        showState('state-empty');
+      }
+    }
+
+    // Render Award Results
+    function renderAwards(awards) {
+      const resultsWrapper = document.getElementById('results-wrapper');
+      const resultsList = document.getElementById('results-list');
+      const resultsCountBadge = document.getElementById('results-count-badge');
+
+      if (awards.length === 0) {
+        showState('state-empty');
+        return;
+      }
+
+      resultsList.innerHTML = '';
+      resultsCountBadge.textContent = `${awards.length} ${awards.length === 1 ? 'Certificate' : 'Certificates'}`;
+
+      awards.forEach(award => {
+        const card = document.createElement('div');
+        const rankClass = award.position === '1' || award.position === '1st' ? 'rank-1st' :
+                          award.position === '2' || award.position === '2nd' ? 'rank-2nd' : 'rank-3rd';
+        
+        card.className = `award-card ${rankClass}`;
+        
+        const rankText = award.position.includes('st') || award.position.includes('nd') || award.position.includes('rd') ? 
+                         award.position : `${award.position}${award.position === '1' ? 'st' : award.position === '2' ? 'nd' : 'rd'} Rank`;
+
+        const groupIndicator = award.regData?.regType === 'Group' ? 
+                               `<span style="margin: 0 4px;">•</span><span class="badge-dept" style="color:var(--accent-secondary); border-color:rgba(236,72,153,0.2); background:rgba(236,72,153,0.05); font-weight:700;"><i class="fas fa-users"></i> GROUP</span>` : '';
+
+        const effectiveChest = award.regData?.chestNumber || award.regData?.chessNumber || 'N/A';
+
+        card.innerHTML = `
+          <div class="award-info">
+            <div class="award-header">
+              <span class="student-name">${toTitleCase(award.participantName)}</span>
+              <span class="badge-rank"><i class="fas fa-medal"></i> ${rankText}</span>
+            </div>
+            <div class="award-meta">
+              <span class="award-event">${award.itemName}</span>
+              <span class="dot-separator">•</span>
+              <span class="badge-dept">${award.department}</span>
+              <span class="dot-separator">•</span>
+              <span style="font-size:0.75rem; color:var(--text-muted);">Chest: ${effectiveChest}</span>
+              ${groupIndicator}
+            </div>
+          </div>
+          <button class="btn-verify" data-id="${award.id}">
+            <i class="fas fa-eye"></i> View Certificate
+          </button>
+        `;
+
+        // Wire View button click listener
+        card.querySelector('.btn-verify').addEventListener('click', () => {
+          openCertificateView(award);
+        });
+
+        resultsList.appendChild(card);
+      });
+
+      showState('results-wrapper');
+    }
+
+    // Open Modal and dynamically construct/scale Certificate
+    function openCertificateView(award) {
+      activeAward = award;
+      const modal = document.getElementById('pdf-preview-modal');
+      const container = document.getElementById('pdf-preview-container');
+      const groupControls = document.getElementById('group-controls');
+      const dropdown = document.getElementById('group-member-dropdown');
+
+      container.innerHTML = '';
+      
+      // Load standard template configuration from DOM
+      const originalTemplate = document.getElementById('certificate-template');
+      const clone = originalTemplate.cloneNode(true);
+      clone.id = 'certificate-preview-element';
+      clone.style.display = 'block';
+
+      // Populate clone parameters
+      clone.querySelector('#cert-display-name').textContent = toTitleCase(award.participantName);
+      clone.querySelector('#cert-display-dept').textContent = award.department;
+      clone.querySelector('#cert-display-rank').textContent = award.position.includes('st') || award.position.includes('nd') || award.position.includes('rd') ? award.position : `${award.position}${award.position === '1' ? 'st' : award.position === '2' ? 'nd' : 'rd'}`;
+      clone.querySelector('#cert-display-program').textContent = award.itemName;
+      
+      // Dynamic config signatures
+      clone.querySelector('#cert-display-event').textContent = certSettings.eventName || "NAVARANG";
+      clone.querySelector('#cert-display-subtitle').textContent = `${certSettings.festSubtitle || "Fine Arts Fest"} ${certSettings.eventYear || "2025-26"}`;
+
+      // Signature lines mapping
+      for (let i = 1; i <= 4; i++) {
+        const sigArea = clone.querySelector(`#cert-sig-col-${i}`);
+        if (sigArea) {
+          const sigName = certSettings[`sig${i}Name`];
+          const sigTitle = certSettings[`sig${i}Title`];
+          const sigDept = certSettings[`sig${i}Dept`];
+
+          if (sigName || sigTitle || sigDept) {
+            sigArea.style.display = 'block';
+            sigArea.querySelector('.sig-name').textContent = sigName || '';
+            sigArea.querySelector('.sig-title').textContent = sigTitle || '';
+          } else {
+            sigArea.style.display = 'none';
+          }
+        }
+      }
+
+      container.appendChild(clone);
+
+      // Handle Group member logic
+      if (award.regData?.regType === 'Group' && award.regData.groupMembers && award.regData.groupMembers.length > 0) {
+        groupControls.classList.remove('hidden');
+        dropdown.innerHTML = '';
+        
+        // Add Leader Option first
+        const leadOpt = document.createElement('option');
+        leadOpt.value = award.participantName;
+        leadOpt.textContent = `${toTitleCase(award.participantName)} (Group / Leader)`;
+        dropdown.appendChild(leadOpt);
+
+        // Add member options
+        award.regData.groupMembers.forEach(member => {
+          if (normalizeString(member.name) !== normalizeString(award.participantName)) {
+            const opt = document.createElement('option');
+            opt.value = member.name;
+            opt.textContent = toTitleCase(member.name);
+            dropdown.appendChild(opt);
+          }
+        });
+      } else {
+        groupControls.classList.add('hidden');
+      }
+
+      // Display Modal and Scale Canvas immediately to fit window size
+      modal.style.display = 'flex';
+      resizePreviewCanvas();
+    }
+
+    // Scaling Calculation for the 1123px x 794px canvas
+    function resizePreviewCanvas() {
+      const container = document.getElementById('pdf-preview-container');
+      const clone = document.getElementById('certificate-preview-element');
+      if (!container || !clone) return;
+
+      const padX = 40;
+      const padY = 40;
+      
+      const containerW = container.clientWidth - padX;
+      const containerH = container.clientHeight - padY;
+
+      const scaleX = containerW / 1123;
+      const scaleY = containerH / 794;
+      const scale = Math.min(scaleX, scaleY, 1);
+
+      clone.style.transform = `scale(${scale})`;
+    }
+
+    // Dynamic Select Name modification
+    window.updateCertificateName = function(name) {
+      const canvas = document.getElementById('certificate-preview-element');
+      if (canvas) {
+        canvas.querySelector('#cert-display-name').textContent = toTitleCase(name);
+      }
+    };
+
+    // Close preview window
+    function closePreviewWindow() {
+      const modal = document.getElementById('pdf-preview-modal');
+      modal.style.display = 'none';
+      document.getElementById('pdf-preview-container').innerHTML = '';
+      activeAward = null;
+    }
+
+    // Print client-side PDF using html2pdf
+    async function triggerPDFDownload() {
+      const canvas = document.getElementById('certificate-preview-element');
+      const triggerBtn = document.getElementById('btn-download-trigger');
+      
+      if (!canvas || !activeAward) return;
+
+      const originalHTML = triggerBtn.innerHTML;
+      triggerBtn.disabled = true;
+      triggerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Exporting...';
+
+      const displayName = canvas.querySelector('#cert-display-name').textContent.trim().replace(/\s+/g, '_');
+      const eventName = activeAward.itemName.replace(/\s+/g, '_');
+      const fileName = `Certificate_${displayName}_${eventName}.pdf`;
+
+      // Copy template offscreen to prevent scaled canvas resolution degradation
+      const exportNode = canvas.cloneNode(true);
+      exportNode.style.transform = 'none';
+      exportNode.style.margin = '0';
+      
+      const offscreenDiv = document.createElement('div');
+      offscreenDiv.style.position = 'absolute';
+      offscreenDiv.style.left = '-9999px';
+      offscreenDiv.style.top = '-9999px';
+      offscreenDiv.style.display = 'block';
+      offscreenDiv.appendChild(exportNode);
+      document.body.appendChild(offscreenDiv);
+
+      const options = {
+        margin: 0,
+        filename: fileName,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+          scale: 2, 
+          useCORS: true, 
+          logging: false, 
+          letterRendering: true, 
+          backgroundColor: '#f3efe6' 
+        },
+        jsPDF: { unit: 'px', format: [1123, 794], orientation: 'landscape' }
+      };
+
+      try {
+        await html2pdf().set(options).from(exportNode).save();
+        triggerBtn.innerHTML = '<i class="fas fa-check"></i> Exported!';
+        setTimeout(() => {
+          triggerBtn.disabled = false;
+          triggerBtn.innerHTML = originalHTML;
+          closePreviewWindow();
+        }, 1500);
+      } catch (err) {
+        console.error("PDF Export Failure:", err);
+        alert("Oops! Certificate generation failed. Please try again.");
+        triggerBtn.disabled = false;
+        triggerBtn.innerHTML = originalHTML;
+      } finally {
+        offscreenDiv.remove();
+      }
+    }
+
+    // Set up search trigger logic
+    let debounceTimer;
+    const searchInput = document.getElementById('portal-search');
+    
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        performSearch(e.target.value);
+      }, 550);
+    });
+
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        clearTimeout(debounceTimer);
+        performSearch(e.target.value);
+      }
+    });
+
+    // Close on overlay Click
+    document.getElementById('pdf-preview-modal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('pdf-preview-modal')) {
+        closePreviewWindow();
+      }
+    });
+
+    // Button event listeners
+    document.getElementById('btn-close-trigger').addEventListener('click', closePreviewWindow);
+    document.getElementById('btn-download-trigger').addEventListener('click', triggerPDFDownload);
+    
+    // Handle scale resizing dynamically
+    window.addEventListener('resize', resizePreviewCanvas);
+
+    // Initial Load sequence
+    loadSystemConfig();
+  </script>
+</body>
+
+</html>
