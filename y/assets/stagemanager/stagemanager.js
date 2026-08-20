@@ -2,6 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebas
 import { getFirestore, doc, getDoc, collection, getDocs, query, where, orderBy, onSnapshot, updateDoc, deleteField, addDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, getRedirectResult } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 import { firebaseConfig } from "../core/firebase-config.js";
+import { handleEmailAuth, handleForgotPassword, handleGoogleAuth } from "../core/portal-auth-helper.js";
 
 // Config imported above
 
@@ -73,7 +74,36 @@ window.reAuthorizeYouTube = async () => {
     }
 };
 
-document.getElementById('google-login-btn').onclick = window.reAuthorizeYouTube;
+const emailAuthForm = document.getElementById('email-auth-form');
+if (emailAuthForm) {
+    emailAuthForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('auth-email-input')?.value.trim();
+        const password = document.getElementById('auth-password-input')?.value;
+        await handleEmailAuth(auth, email, password, loginMsg);
+    });
+}
+
+const forgotLink = document.getElementById('forgot-password-link');
+if (forgotLink) {
+    forgotLink.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('auth-email-input')?.value.trim();
+        await handleForgotPassword(auth, email, loginMsg);
+    });
+}
+
+const googleBtn = document.getElementById('google-login-btn');
+if (googleBtn) {
+    googleBtn.onclick = async () => {
+        if (typeof window.reAuthorizeYouTube === 'function') {
+            window.reAuthorizeYouTube();
+        } else {
+            const provider = new GoogleAuthProvider();
+            await handleGoogleAuth(auth, provider, loginMsg);
+        }
+    };
+}
 
 document.getElementById('logout-btn').onclick = () => {
     if (confirm("Logout?")) signOut(auth);

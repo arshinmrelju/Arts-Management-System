@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" href="/assets/favicon.png">
     <link rel="apple-touch-icon" href="/assets/favicon.png">
     <link rel="stylesheet" href="assets/admin/admin.css">
+    <link rel="stylesheet" href="assets/core/portal-login.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Great+Vibes&display=swap"
@@ -25,20 +26,62 @@
 
 
     <!-- Login View -->
-    <div id="login-view" class="login-view-wrapper">
-        <div class="login-container">
-            <div class="login-logo">
-                <img src="assets/Pazhassiraja_College_Pulpally_Logo.png" alt="College Logo" style="height: 70px;">
+    <div id="login-view" class="portal-auth-wrapper">
+        <div class="portal-auth-card">
+            <!-- Left Hero Showcase -->
+            <div class="portal-auth-hero">
+                <img src="assets/college_hero.jpg" alt="College Campus Showcase" class="hero-bg" onerror="this.onerror=null; this.src='assets/Pazhassiraja_College_Pulpally_Logo.png'; this.style.objectFit='contain'; this.style.padding='3rem';">
+                <div class="portal-auth-hero-overlay">
+                    <div class="portal-auth-hero-badge"><i class="fas fa-shield-halved"></i> Secure Administration</div>
+                    <h2 class="portal-auth-hero-title">Pazhassiraja College Pulpally</h2>
+                    <p class="portal-auth-hero-desc">Union Arts & Administrative Gateway. Manage registrations, schedules, and live scoring in real-time.</p>
+                </div>
             </div>
-            <h1>Administrative Portal</h1>
-            <p class="subtitle">Secure gateway for authorized institution personnel and administrators only.</p>
 
-            <button id="google-login-btn" class="btn-google">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-                Sign in with Google
-            </button>
+            <!-- Right Auth Form -->
+            <div class="portal-auth-form-container">
+                <div class="portal-brand-header">
+                    <img src="assets/Pazhassiraja_College_Pulpally_Logo.png" alt="PRC Logo">
+                    <span>Union PRC</span>
+                </div>
 
-            <div id="status-message"></div>
+                <h1 class="portal-auth-title">Welcome to Admin Portal</h1>
+                <p class="portal-auth-subtitle">Sign in with your email and password. If you have an invitation, you'll be automatically registered.</p>
+
+                <form id="email-auth-form" onsubmit="return false;">
+                    <div class="portal-form-group">
+                        <label class="portal-form-label" for="auth-email-input">Email</label>
+                        <input type="email" id="auth-email-input" class="portal-form-input" placeholder="m@example.com" required autocomplete="email">
+                    </div>
+
+                    <div class="portal-form-group">
+                        <div class="portal-form-label-row">
+                            <label class="portal-form-label" for="auth-password-input">Password</label>
+                            <a id="forgot-password-link" href="#" class="portal-forgot-link">Forgot your password?</a>
+                        </div>
+                        <input type="password" id="auth-password-input" class="portal-form-input" placeholder="••••••••" required autocomplete="current-password">
+                    </div>
+
+                    <button type="submit" id="email-signin-btn" class="portal-btn-primary">
+                        Sign in / Register
+                    </button>
+                </form>
+
+                <div class="portal-divider">
+                    <span>Or continue with</span>
+                </div>
+
+                <button type="button" id="google-login-btn" class="portal-btn-google">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                    Login with Google
+                </button>
+
+                <div id="status-message" class="portal-auth-status"></div>
+
+                <div class="portal-auth-footer-note">
+                    Need help? Contact your administrator for an invitation.
+                </div>
+            </div>
         </div>
     </div>
 

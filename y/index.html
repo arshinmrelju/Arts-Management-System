@@ -53,6 +53,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="assets/core/portal-login.css">
   <title>Pazhassiraja College Fine Arts | PRC Union</title>
   <style>
     * {
@@ -1028,9 +1029,9 @@
       line-height: 1.6;
     }
 
-    /* Loading / Login Overlay - Updated to match new theme */
+    /* Login Overlay - now uses portal-login.css via .portal-auth-wrapper */
     #auth-overlay {
-      background: var(--bg-color);
+      z-index: 10000;
     }
 
     /* Re-using same style for Modal as cards */
@@ -1292,56 +1293,60 @@
       display: none !important;
     }
 
-    /* Ultra-Compact Branding-First Eye-Catchy Login UI */
+    /* Ultra-Modern Ambient Glassmorphism Login Gateway UI */
     #auth-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: #020617;
+      background: #030712;
       z-index: 10000;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 1rem;
       overflow: hidden;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 32px 32px;
     }
 
     #auth-overlay::before,
     #auth-overlay::after {
       content: '';
       position: absolute;
-      width: 130vw;
-      height: 130vw;
+      width: 120vw;
+      height: 120vw;
       border-radius: 50%;
       filter: blur(140px);
       z-index: -1;
-      opacity: 0.15;
-      animation: authGlaze 25s infinite alternate ease-in-out;
+      opacity: 0.22;
+      animation: authGlaze 22s infinite alternate ease-in-out;
       will-change: transform;
     }
 
     #auth-overlay::before {
-      top: -40%;
-      left: -30%;
-      background: radial-gradient(circle, #4f46e5, #9333ea, transparent 70%);
+      top: -35%;
+      left: -25%;
+      background: radial-gradient(circle, #6366f1, #8b5cf6, #d946ef, transparent 70%);
     }
 
     #auth-overlay::after {
-      bottom: -40%;
-      right: -30%;
-      background: radial-gradient(circle, #f59e0b, #dc2626, transparent 70%);
-      animation-delay: -12s;
+      bottom: -35%;
+      right: -25%;
+      background: radial-gradient(circle, #06b6d4, #ec4899, #f59e0b, transparent 70%);
+      animation-delay: -11s;
     }
 
     @keyframes authGlaze {
       0% {
-        transform: translate(-5%, -5%) scale(1) rotate(0deg);
+        transform: translate(-4%, -4%) scale(1) rotate(0deg);
       }
-
+      50% {
+        transform: translate(6%, 3%) scale(1.08) rotate(10deg);
+      }
       100% {
-        transform: translate(5%, 5%) scale(1.1) rotate(15deg);
+        transform: translate(-2%, 8%) scale(1.15) rotate(-8deg);
       }
     }
 
@@ -1349,28 +1354,31 @@
       width: 100%;
       max-width: 440px;
       height: 600px;
-      /* Further reduced for ultra-compatibility */
-      /* perspective: 3000px; */
-      /* animation: cardHover 8s infinite ease-in-out; */
+      perspective: 1200px;
+      position: relative;
     }
 
-    /* @keyframes cardHover {
+    .flip-card::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 2.5rem;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(217, 70, 239, 0.4), rgba(6, 182, 212, 0.3));
+      filter: blur(20px);
+      opacity: 0.4;
+      z-index: -1;
+      transition: opacity 0.5s ease;
+    }
 
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-10px);
-      }
-    } */
+    .flip-card:hover::before {
+      opacity: 0.65;
+    }
 
     .flip-card-inner {
       position: relative;
       width: 100%;
       height: 100%;
-      transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: transform 0.85s cubic-bezier(0.34, 1.45, 0.64, 1);
       transform-style: preserve-3d;
     }
 
@@ -1385,50 +1393,75 @@
       height: 100%;
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
-      border-radius: 3rem;
+      border-radius: 2.25rem;
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      backdrop-filter: blur(28px) saturate(190%);
+      -webkit-backdrop-filter: blur(28px) saturate(190%);
     }
 
     .flip-card-front {
-      backdrop-filter: blur(50px);
-      -webkit-backdrop-filter: blur(50px);
-      background: rgba(15, 23, 42, 0.82);
-      border: none;
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       box-shadow:
-        0 25px 50px -12px rgba(0, 0, 0, 0.7),
-        0 0 20px 2px rgba(217, 70, 239, 0.1),
-        0 0 1px 1px rgba(255, 255, 255, 0.1) inset;
+        0 25px 60px -15px rgba(0, 0, 0, 0.8),
+        0 0 30px rgba(168, 85, 247, 0.12),
+        inset 0 1px 1px rgba(255, 255, 255, 0.25);
     }
 
     .flip-card-back {
-      padding: 2rem;
+      padding: 1.75rem;
       transform: rotateY(-180deg);
-      background: transparent;
+      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow:
+        0 25px 60px -15px rgba(0, 0, 0, 0.8),
+        0 0 30px rgba(6, 182, 212, 0.12),
+        inset 0 1px 1px rgba(255, 255, 255, 0.25);
     }
 
     .auth-card {
-      padding: 2.5rem 2.25rem 2rem;
-      /* Ultra-tight padding */
+      padding: 2.25rem 2rem 1.75rem;
       height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
+      position: relative;
+      z-index: 1;
     }
 
     .auth-badge {
-      padding: 0.4rem 1.25rem;
-      background: linear-gradient(135deg, #a855f7, #ec4899);
-      color: white;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 1.15rem;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.35);
       border-radius: 2rem;
-      font-size: 0.6rem;
-      font-weight: 900;
-      letter-spacing: 0.2em;
+      font-size: 0.625rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 10px 20px -5px rgba(236, 72, 153, 0.4);
+      margin-bottom: 1.25rem;
+      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.15);
+      color: #e9d5ff;
+      backdrop-filter: blur(10px);
+    }
+
+    .auth-badge .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 8px #34d399;
+      animation: pulseDot 1.8s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.75); }
     }
 
     .auth-card .logo {
@@ -1436,100 +1469,201 @@
       justify-content: center;
       width: 100%;
       margin-bottom: 0.75rem;
+      position: relative;
     }
 
     .auth-card .logo img {
-      height: 65px;
-      /* Compact logo */
-      filter: drop-shadow(0 0 25px rgba(236, 72, 153, 0.2));
+      height: 68px;
+      filter: drop-shadow(0 0 25px rgba(192, 132, 252, 0.35));
+      animation: logoFloat 6s ease-in-out infinite;
+    }
+
+    @keyframes logoFloat {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-6px) scale(1.02);
+      }
     }
 
     .brand-hero-title {
       font-size: 1.25rem;
       font-weight: 900;
       margin-bottom: 0.25rem;
-      background: linear-gradient(135deg, #fff 0%, #a5b4fc 50%, #d946ef 100%);
+      background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 40%, #e879f9 70%, #ffffff 100%);
+      background-size: 200% auto;
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       line-height: 1.1;
-      opacity: 0.9;
+      animation: shimmerTitle 8s linear infinite;
+    }
+
+    @keyframes shimmerTitle {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
     }
 
     .auth-card h2 {
-      font-size: 2.4rem;
+      font-size: 2.25rem;
       font-weight: 900;
-      margin-bottom: 0.5rem;
-      color: #fff;
-      letter-spacing: -0.04em;
+      margin-bottom: 0.4rem;
+      color: #ffffff;
+      letter-spacing: -0.03em;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
     .auth-card p {
-      font-size: 0.9rem;
-      line-height: 1.4;
+      font-size: 0.875rem;
+      line-height: 1.45;
       color: #94a3b8;
       margin-bottom: 1.5rem;
-      /* Reduced margin */
-      max-width: 300px;
-      font-weight: 500;
+      max-width: 310px;
+      font-weight: 400;
     }
 
     .btn-super-eye-catchy {
       width: 100%;
-      background: #fff;
+      position: relative;
+      background: #ffffff;
       color: #0f172a;
       border: none;
-      padding: 1rem;
+      padding: 0.95rem 1.25rem;
       border-radius: 1.25rem;
-      font-weight: 900;
-      font-size: 0.95rem;
+      font-weight: 800;
+      font-size: 0.925rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.6rem;
+      gap: 0.65rem;
       cursor: pointer;
-      /* transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); */
-      box-shadow: 0 12px 25px -5px rgba(255, 255, 255, 0.15);
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow:
+        0 10px 25px -5px rgba(255, 255, 255, 0.25),
+        0 0 20px rgba(99, 102, 241, 0.2);
     }
 
-    /* .btn-super-eye-catchy:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 18px 35px -8px rgba(255, 255, 255, 0.25);
-    } */
+    .btn-super-eye-catchy::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 50%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+      transform: rotate(25deg);
+      transition: all 0.75s ease;
+      opacity: 0;
+    }
+
+    .btn-super-eye-catchy:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        0 16px 35px -5px rgba(255, 255, 255, 0.35),
+        0 0 30px rgba(168, 85, 247, 0.35);
+      color: #020617;
+    }
+
+    .btn-super-eye-catchy:hover::after {
+      left: 140%;
+      opacity: 1;
+    }
+
+    .btn-super-eye-catchy:active {
+      transform: translateY(-1px) scale(0.99);
+    }
+
+    .btn-super-eye-catchy svg {
+      transition: transform 0.3s ease;
+    }
+
+    .btn-super-eye-catchy:hover svg {
+      transform: scale(1.1) rotate(5deg);
+    }
 
     .btn-vibrant-glass {
-      margin-top: 1rem;
+      margin-top: 0.85rem;
       width: 100%;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1.5px solid rgba(255, 255, 255, 0.06);
-      color: #94a3b8;
-      padding: 1rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #cbd5e1;
+      padding: 0.9rem 1.25rem;
       border-radius: 1.25rem;
       font-weight: 700;
-      font-size: 0.8rem;
-      letter-spacing: 0.05em;
+      font-size: 0.775rem;
+      letter-spacing: 0.06em;
       cursor: pointer;
-      /* transition: all 0.3s ease; */
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       text-transform: uppercase;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
     }
 
-    /* .btn-vibrant-glass:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.15);
-      color: white;
-    } */
+    .btn-vibrant-glass:hover {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.18), rgba(217, 70, 239, 0.18));
+      border-color: rgba(217, 70, 239, 0.4);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(217, 70, 239, 0.25);
+    }
+
+    .btn-vibrant-glass:active {
+      transform: translateY(0);
+    }
+
+    .swipe-badge {
+      margin-top: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.675rem;
+      font-weight: 600;
+      color: #64748b;
+      letter-spacing: 0.05em;
+    }
+
+    .swipe-badge i {
+      font-size: 0.65rem;
+      color: #a855f7;
+      animation: swipeBounce 2s infinite ease-in-out;
+    }
+
+    @keyframes swipeBounce {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(-4px); }
+    }
 
     .auth-brand-footer {
       margin-top: auto;
-      font-size: 0.55rem;
-      font-weight: 900;
-      letter-spacing: 0.4em;
-      color: rgba(255, 255, 255, 0.15);
+      font-size: 0.575rem;
+      font-weight: 800;
+      letter-spacing: 0.35em;
+      color: rgba(255, 255, 255, 0.22);
       text-transform: uppercase;
-      padding-bottom: 0.5rem;
+      padding-top: 0.5rem;
+    }
+
+    /* Custom scrollbar for leaderboard inside login flip card */
+    #public-leaderboard-content::-webkit-scrollbar {
+      width: 5px;
+    }
+    #public-leaderboard-content::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 4px;
+    }
+    #public-leaderboard-content::-webkit-scrollbar-thumb {
+      background: rgba(168, 85, 247, 0.4);
+      border-radius: 4px;
+    }
+    #public-leaderboard-content::-webkit-scrollbar-thumb:hover {
+      background: rgba(168, 85, 247, 0.7);
     }
 
     /* Leaderboard Refinements */
@@ -3200,23 +3334,8 @@
     }
 
 
-    #auth-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 9999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #0f172a;
-      /* Fallback */
-      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-    }
-
     #auth-overlay.hidden {
-      display: none;
+      display: none !important;
     }
 
 
@@ -3532,18 +3651,7 @@
     }
 
 
-    /* Enhanced Button Interactions */
-    .btn-vibrant-glass:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: var(--accent-color);
-      transform: scale(1.05) translateY(-2px);
-      box-shadow: 0 10px 25px rgba(217, 70, 239, 0.3);
-    }
-
-    .btn-super-eye-catchy:hover {
-      transform: scale(1.03) translateY(-2px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-    }
+    /* Enhanced Button Interactions — handled in main CSS block above */
 
     /* Cartoon Chase Animation */
     .cartoon-scene-container {
@@ -3931,137 +4039,86 @@
   </button>
 
   <!-- Auth Overlay -->
-  <div id="auth-overlay">
-    <!-- Floating Decorative Elements -->
-    <div style="position: absolute; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: -1;">
-      <svg class="mandala-decoration"
-        style="top: -5vw; right: -5vw; width: 45vw; height: 45vw; opacity: 0.2; fill: #4f46e5; animation: rotateSlow 70s linear infinite;"
-        viewBox="0 0 200 200">
-        <path
-          d="M100 0C100 0 110 50 150 50C190 50 200 100 200 100C200 100 150 110 150 150C150 190 100 200 100 200C100 200 90 150 50 150C10 150 0 100 0 100C0 100 50 90 50 50C50 10 100 0 100 0Z" />
-      </svg>
-      <svg class="mandala-decoration"
-        style="bottom: -10vw; left: -10vw; width: 55vw; height: 55vw; opacity: 0.15; fill: #f59e0b; animation: rotateSlow 90s linear reverse infinite;"
-        viewBox="0 0 200 200">
-        <path
-          d="M100 0C100 0 110 50 150 50C190 50 200 100 200 100C200 100 150 110 150 150C150 190 100 200 100 200C100 200 90 150 50 150C10 150 0 100 0 100C0 100 50 90 50 50C50 10 100 0 100 0Z" />
-      </svg>
+  <div id="auth-overlay" class="portal-auth-wrapper">
+    <div class="portal-auth-card" id="auth-flip-card">
+
+      <!-- Left Hero Showcase -->
+      <div class="portal-auth-hero">
+        <img src="assets/college_hero.jpg" alt="PRC Arts Fest" class="hero-bg"
+          onerror="this.onerror=null; this.src='/assets/Pazhassiraja_College_Pulpally_Logo.png'; this.style.objectFit='contain'; this.style.padding='3rem';">
+        <div class="portal-auth-hero-overlay">
+          <div class="portal-auth-hero-badge"><i class="fas fa-star"></i> PRC Arts Festival</div>
+          <h2 class="portal-auth-hero-title">Pazhassiraja College Pulpally</h2>
+          <p class="portal-auth-hero-desc">Union Arts OS — the unified ecosystem for orchestrating talent, managing registrations, and celebrating creativity.</p>
+        </div>
+      </div>
+
+      <!-- Right Auth Form -->
+      <div class="portal-auth-form-container">
+        <div class="portal-brand-header">
+          <img src="/assets/Pazhassiraja_College_Pulpally_Logo.png" alt="PRC Logo">
+          <span>Union PRC</span>
+        </div>
+
+        <h1 class="portal-auth-title">Welcome to PRC Arts OS</h1>
+        <p class="portal-auth-subtitle">Sign in with your Google Workspace account to access the arts management portal. Only authorized personnel can log in.</p>
+
+        <button id="google-signin-btn" class="portal-btn-google" style="margin-top: 0.5rem;">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+          Continue with Google Workspace
+        </button>
+
+        <div id="auth-status" class="portal-auth-status"></div>
+
+        <div class="portal-divider">
+          <span>Or</span>
+        </div>
+
+        <button id="view-standings-btn" class="portal-btn-primary" style="background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0;">
+          <i class="fas fa-trophy" style="color: #f59e0b; margin-right: 0.4rem;"></i>
+          View Live Standings
+        </button>
+
+        <div class="portal-auth-footer-note">
+          Access is restricted to authorized PRC Union personnel and department coordinators.
+        </div>
+      </div>
     </div>
 
-    <style>
-      @keyframes rotateSlow {
-        from {
-          transform: rotate(0deg);
-        }
-
-        to {
-          transform: rotate(360deg);
-        }
-      }
-    </style>
-
-    <div class="flip-card" id="auth-flip-card">
-      <div class="flip-card-inner">
-        <!-- Front side (Login) -->
-        <div class="flip-card-front">
-          <div class="auth-card">
-            <div class="auth-badge" id="auth-year-badge">PRC ARTS • 2025-26</div>
-
-            <div class="logo">
-              <img src="/assets/Pazhassiraja_College_Pulpally_Logo.png" alt="College Logo">
-            </div>
-
-            <div class="brand-hero-title">PRC UNION ARTS OS</div>
-            <h2>Gateway Access</h2>
-            <p>Connect to the unified arts ecosystem. Orchestrate talent, manage excellence, and define the future of
-              creativity.</p>
-
-            <button id="google-signin-btn" class="btn-super-eye-catchy">
-              <svg style="width: 24px; height: 24px;" viewBox="0 0 24 24">
-                <path
-                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                  fill="#4285F4" />
-                <path
-                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                  fill="#34A853" />
-                <path
-                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
-                  fill="#FBBC05" />
-                <path
-                  d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                  fill="#EA4335" />
-              </svg>
-              Authenticate via Google Workspace
-            </button>
-
-            <div id="auth-status" class="error-msg"></div>
-
-            <button id="view-standings-btn" class="btn-vibrant-glass">
-              Global Standings Portal
-            </button>
-
-            <div class="swipe-badge">
-              <i class="fas fa-chevron-left"></i> Swipe for Scores
-            </div>
-
-            <div class="cartoon-scene-container">
-              <div class="mouse-hole"></div>
-              <div class="jerry"><i class="fas fa-otter"></i></div>
-              <div class="tom"><i class="fas fa-cat"></i></div>
-              <div class="cartoon-dust"></div>
-            </div>
-
-            <div class="auth-brand-footer">
-              Authorized Personnel Only
-            </div>
-          </div>
+    <!-- Public Leaderboard Panel (shown when View Standings is clicked) -->
+    <div id="leaderboard-panel" class="portal-auth-card" style="display:none; max-width: 500px; flex-direction: column; padding: 0; overflow: hidden;">
+      <div style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <div style="font-size: 0.7rem; color: #a5b4fc; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.25rem;">Global Ecosystem</div>
+          <h2 style="margin:0; font-size: 1.5rem; font-weight: 900; color: #fff; font-family: 'Outfit', sans-serif;">Live Standings</h2>
         </div>
-
-        <!-- Back side (Leaderboard) -->
-        <div class="flip-card-back">
-          <div class="auth-card"
-            style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; text-align: center;">
-            <div class="leaderboard-header">
-              <div class="auth-badge live-status-badge"
-                style="margin-bottom: 0; background: rgba(255, 255, 255, 0.15);">
-                <span class="live-pulse"></span>
-                Live Status
-              </div>
-              <button id="share-leaderboard-btn" title="Share"
-                style="background: rgba(255, 255, 255, 0.15); border: 2px solid rgba(255, 255, 255, 0.2); color: #fff; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;">
-                <i class="fas fa-share-alt" style="font-size: 1.1rem;"></i>
-              </button>
-            </div>
-
-            <div
-              style="font-size: 1rem; color: #a5b4fc; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 0;">
-              GLOBAL ECOSYSTEM</div>
-            <h2 class="leaderboard-title">
-              Live Standings
-            </h2>
-
-            <!-- Removed "Live Department Standings" Text -->
-
-            <div id="public-leaderboard-content"
-              style="flex: 1; overflow-y: auto; width: 100%; padding-right: 0.5rem; text-align: left; margin-bottom: 0.5rem;">
-              <div class="skeleton-loader">
-                <div class="skeleton-item"></div>
-                <div class="skeleton-item" style="opacity: 0.8;"></div>
-                <div class="skeleton-item" style="opacity: 0.6;"></div>
-                <div class="skeleton-item" style="opacity: 0.4;"></div>
-                <div class="skeleton-item" style="opacity: 0.2;"></div>
-              </div>
-            </div>
-
-            <button id="back-to-login-btn" class="btn-vibrant-glass">
-              Return to Gateway
-            </button>
-
-            <div class="swipe-badge">
-              Swipe for Access <i class="fas fa-chevron-right"></i>
-            </div>
-          </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <span style="display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 2rem; padding: 0.3rem 0.85rem; font-size: 0.7rem; font-weight: 700; color: #fff; letter-spacing: 0.1em;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#34d399; box-shadow: 0 0 8px #34d399; animation: pulseDot 1.8s infinite; display:inline-block;"></span>
+            Live
+          </span>
+          <button id="share-leaderboard-btn" title="Share"
+            style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
+            <i class="fas fa-share-alt" style="font-size: 0.9rem;"></i>
+          </button>
         </div>
+      </div>
+
+      <div id="public-leaderboard-content"
+        style="flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; text-align: left; max-height: 420px;">
+        <div class="skeleton-loader">
+          <div class="skeleton-item"></div>
+          <div class="skeleton-item" style="opacity: 0.8;"></div>
+          <div class="skeleton-item" style="opacity: 0.6;"></div>
+          <div class="skeleton-item" style="opacity: 0.4;"></div>
+          <div class="skeleton-item" style="opacity: 0.2;"></div>
+        </div>
+      </div>
+
+      <div style="padding: 1rem 1.5rem; border-top: 1px solid #e2e8f0;">
+        <button id="back-to-login-btn" class="portal-btn-primary">
+          <i class="fas fa-arrow-left" style="margin-right: 0.4rem;"></i> Return to Gateway
+        </button>
       </div>
     </div>
   </div>
@@ -5899,8 +5956,9 @@
       };
     }
 
-    // Public Flip & Leaderboard Logic
-    const authFlipCard = document.getElementById('auth-flip-card');
+    // Public Leaderboard Panel Logic (new portal-style: swap panels instead of CSS flip)
+    const authFlipCard = document.getElementById('auth-flip-card'); // main login card
+    const leaderboardPanel = document.getElementById('leaderboard-panel');
     const viewStandingsBtn = document.getElementById('view-standings-btn');
     const backToLoginBtn = document.getElementById('back-to-login-btn');
     const publicLeaderboardContent = document.getElementById('public-leaderboard-content');
@@ -5908,12 +5966,14 @@
     let currentLeaderboardSummary = "";
 
     const flipToBack = () => {
-      if (authFlipCard) authFlipCard.classList.add('flipped');
+      if (authFlipCard) authFlipCard.style.display = 'none';
+      if (leaderboardPanel) leaderboardPanel.style.display = 'flex';
       startPublicLeaderboardListener();
     };
 
     const flipToFront = () => {
-      if (authFlipCard) authFlipCard.classList.remove('flipped');
+      if (leaderboardPanel) leaderboardPanel.style.display = 'none';
+      if (authFlipCard) authFlipCard.style.display = 'flex';
     };
 
     if (viewStandingsBtn) viewStandingsBtn.onclick = flipToBack;
@@ -5968,15 +6028,15 @@
       };
     }
 
-    // Swipe Support for Auth Flip Card
+    // Swipe Support for Auth Overlay
     let touchStartX = 0;
     let touchEndX = 0;
 
-    authFlipCard?.addEventListener('touchstart', e => {
+    authOverlay?.addEventListener('touchstart', e => {
       touchStartX = e.changedTouches[0].screenX;
     }, { passive: true });
 
-    authFlipCard?.addEventListener('touchend', e => {
+    authOverlay?.addEventListener('touchend', e => {
       touchEndX = e.changedTouches[0].screenX;
       handleSwipe();
     }, { passive: true });

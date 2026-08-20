@@ -14,6 +14,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/stagemanager/stagemanager.css">
+    <link rel="stylesheet" href="assets/core/portal-login.css">
 </head>
 
 <body>
@@ -24,21 +25,62 @@
     </div>
 
     <!-- Login View -->
-    <div id="login-view" class="login-view-wrapper">
-        <div class="login-container">
-            <div style="margin-bottom: 2rem;">
-                <i class="fas fa-microphone-lines" style="font-size: 3rem; color: var(--accent-primary);"></i>
+    <div id="login-view" class="portal-auth-wrapper">
+        <div class="portal-auth-card">
+            <!-- Left Hero Showcase -->
+            <div class="portal-auth-hero">
+                <img src="assets/college_hero.jpg" alt="Stage Manager Showcase" class="hero-bg" onerror="this.onerror=null; this.src='assets/Pazhassiraja_College_Pulpally_Logo.png'; this.style.objectFit='contain'; this.style.padding='3rem';">
+                <div class="portal-auth-hero-overlay">
+                    <div class="portal-auth-hero-badge"><i class="fas fa-microphone-lines"></i> Event Stage Control</div>
+                    <h2 class="portal-auth-hero-title">Stage Manager Portal</h2>
+                    <p class="portal-auth-hero-desc">Access live stage schedules, monitor program timing, and manage event announcements.</p>
+                </div>
             </div>
-            <h1>Stage Manager Portal</h1>
-            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Access your stage schedule and manage events.
-            </p>
 
-            <button id="google-login-btn" class="btn-google">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
-                    style="width: 20px;">
-                Sign in with Google
-            </button>
-            <div id="login-msg" style="margin-top: 1rem; min-height: 1.25rem; font-size: 0.9rem;"></div>
+            <!-- Right Auth Form -->
+            <div class="portal-auth-form-container">
+                <div class="portal-brand-header">
+                    <img src="assets/Pazhassiraja_College_Pulpally_Logo.png" alt="PRC Logo">
+                    <span>Stage Manager</span>
+                </div>
+
+                <h1 class="portal-auth-title">Welcome to Stage Manager</h1>
+                <p class="portal-auth-subtitle">Sign in with your stage coordinator email and password to manage assigned stage schedules.</p>
+
+                <form id="email-auth-form" onsubmit="return false;">
+                    <div class="portal-form-group">
+                        <label class="portal-form-label" for="auth-email-input">Email</label>
+                        <input type="email" id="auth-email-input" class="portal-form-input" placeholder="stagemanager@example.com" required autocomplete="email">
+                    </div>
+
+                    <div class="portal-form-group">
+                        <div class="portal-form-label-row">
+                            <label class="portal-form-label" for="auth-password-input">Password</label>
+                            <a id="forgot-password-link" href="#" class="portal-forgot-link">Forgot your password?</a>
+                        </div>
+                        <input type="password" id="auth-password-input" class="portal-form-input" placeholder="••••••••" required autocomplete="current-password">
+                    </div>
+
+                    <button type="submit" id="email-signin-btn" class="portal-btn-primary">
+                        Sign in / Register
+                    </button>
+                </form>
+
+                <div class="portal-divider">
+                    <span>Or continue with</span>
+                </div>
+
+                <button type="button" id="google-login-btn" class="portal-btn-google">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                    Login with Google
+                </button>
+
+                <div id="login-msg" class="portal-auth-status"></div>
+
+                <div class="portal-auth-footer-note">
+                    Need help? Contact the chief convenor for stage manager access.
+                </div>
+            </div>
         </div>
     </div>
 

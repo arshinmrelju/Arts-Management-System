@@ -3,6 +3,7 @@ import { getFirestore, doc, setDoc, getDoc, collection, getDocs, query, where, o
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 import { getDatabase, ref, set, push, onDisconnect, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 import { firebaseConfig } from "../core/firebase-config.js";
+import { handleEmailAuth, handleForgotPassword, handleGoogleAuth } from "../core/portal-auth-helper.js";
 
 // Logger helper
 const debugContent = document.getElementById('debug-content');
@@ -134,6 +135,32 @@ window.fetchSystemYear = async function () {
         auth = getAuth(app);
         rtdb = getDatabase(app);
         log("Firebase initialized successfully.");
+
+        // Setup Auth Listeners
+        const emailAuthForm = document.getElementById('email-auth-form');
+        if (emailAuthForm) {
+            emailAuthForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('auth-email-input')?.value.trim();
+                const password = document.getElementById('auth-password-input')?.value;
+                await handleEmailAuth(auth, email, password, statusMsg);
+            });
+        }
+
+        const forgotLink = document.getElementById('forgot-password-link');
+        if (forgotLink) {
+            forgotLink.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('auth-email-input')?.value.trim();
+                await handleForgotPassword(auth, email, statusMsg);
+            });
+        }
+
+        if (googleLoginBtn) {
+            googleLoginBtn.addEventListener('click', async () => {
+                await handleGoogleAuth(auth, provider, statusMsg);
+            });
+        }
     } catch (e) {
         log("Initialization error:", e.message);
     }

@@ -3,6 +3,7 @@ import { getFirestore, getDoc, getDocs, collection, addDoc, query, orderBy, onSn
 import { getDatabase, ref, onValue, query as dbQuery, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 import { firebaseConfig } from "../core/firebase-config.js";
+import { handleEmailAuth, handleForgotPassword, handleGoogleAuth } from "../core/portal-auth-helper.js";
 
 // Config imported above
 
@@ -103,18 +104,35 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 // Independent Login Logic
-id('google-login-btn').onclick = async () => {
-    const provider = new GoogleAuthProvider();
-    const status = id('status-message');
-    status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+const emailAuthForm = id('email-auth-form');
+if (emailAuthForm) {
+    emailAuthForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = id('auth-email-input')?.value.trim();
+        const password = id('auth-password-input')?.value;
+        const status = id('status-message');
+        await handleEmailAuth(auth, email, password, status);
+    });
+}
 
-    try {
-        await signInWithPopup(auth, provider);
-    } catch (error) {
-        console.error("Login Error:", error);
-        status.innerHTML = `<span style="color: #ef4444;">Login failed: ${error.message}</span>`;
-    }
-};
+const forgotLink = id('forgot-password-link');
+if (forgotLink) {
+    forgotLink.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const email = id('auth-email-input')?.value.trim();
+        const status = id('status-message');
+        await handleForgotPassword(auth, email, status);
+    });
+}
+
+const googleBtn = id('google-login-btn');
+if (googleBtn) {
+    googleBtn.onclick = async () => {
+        const provider = new GoogleAuthProvider();
+        const status = id('status-message');
+        await handleGoogleAuth(auth, provider, status);
+    };
+}
 
 // Logout Logic
 id('logout-btn').onclick = () => {

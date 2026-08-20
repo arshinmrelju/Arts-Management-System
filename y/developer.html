@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/coreadmin/coreadmin.css?v=5">
     <link rel="stylesheet" href="assets/coreadmin/developer_terminal.css?v=13">
+    <link rel="stylesheet" href="assets/core/portal-login.css">
 </head>
 
 <body class="developer-terminal">
@@ -23,29 +24,72 @@
     <!-- Background Blobs (Managed via CSS) -->
 
     <!-- Auth Guard Overlay -->
-    <div id="auth-guard" class="management-scene hidden">
-        <div class="developer-area" style="text-align: center; max-width: 440px; padding: 4rem; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(30px); border-radius: 2rem; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 0 80px rgba(139, 92, 246, 0.1);">
-            <div id="auth-unauthorized" class="hidden">
+    <div id="auth-guard" class="management-scene portal-auth-wrapper hidden">
+        <div class="developer-area" style="width: 100%; max-width: 1020px; padding: 0; background: transparent; border: none; box-shadow: none;">
+            <div id="auth-unauthorized" class="hidden" style="max-width: 440px; margin: 0 auto; padding: 4rem; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(30px); border-radius: 2rem; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 0 80px rgba(139, 92, 246, 0.1); text-align: center;">
                 <div style="width: 80px; height: 80px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 2rem; box-shadow: 0 0 30px rgba(239,68,68,0.1);">
                     <i class="fas fa-lock fa-2x" style="color: #ef4444;"></i>
                 </div>
-                <h1 style="font-family:'Outfit',sans-serif; font-size: 1.8rem; font-weight: 800; margin-bottom: 1rem; letter-spacing:-0.02em;">Restricted Access</h1>
-                <p id="auth-error-msg" style="opacity: 0.55; font-size: 0.95rem; line-height: 1.7; margin-bottom: 2.5rem;">This sanctum is reserved for the sovereign administrators.</p>
+                <h1 style="font-family:'Outfit',sans-serif; font-size: 1.8rem; font-weight: 800; margin-bottom: 1rem; letter-spacing:-0.02em; color: #fff;">Restricted Access</h1>
+                <p id="auth-error-msg" style="opacity: 0.55; font-size: 0.95rem; line-height: 1.7; margin-bottom: 2.5rem; color: #fff;">This sanctum is reserved for the sovereign administrators.</p>
                 <button onclick="auth.signOut()" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none; padding: 1.1rem 2rem; border-radius: 1rem; font-family:'Outfit',sans-serif; font-weight: 700; font-size:0.9rem; letter-spacing:0.05em; cursor: pointer; display: block; width: 100%; transition: 0.3s; box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);">SIGN OUT & TRY ANOTHER</button>
             </div>
 
-            <div id="auth-login">
-                <div style="width: 80px; height: 80px; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 2rem; box-shadow: 0 0 30px rgba(139, 92, 246, 0.1);">
-                    <i class="fas fa-shield-halved fa-2x" style="color: #8b5cf6;"></i>
+            <div id="auth-login" class="portal-auth-card" style="text-align: left;">
+                <!-- Left Hero Showcase -->
+                <div class="portal-auth-hero">
+                    <img src="assets/college_hero.jpg" alt="Developer Terminal Showcase" class="hero-bg" onerror="this.onerror=null; this.src='assets/Pazhassiraja_College_Pulpally_Logo.png'; this.style.objectFit='contain'; this.style.padding='3rem';">
+                    <div class="portal-auth-hero-overlay">
+                        <div class="portal-auth-hero-badge"><i class="fas fa-terminal"></i> Sovereign Developer</div>
+                        <h2 class="portal-auth-hero-title">Central Archives</h2>
+                        <p class="portal-auth-hero-desc">System logs, database maintenance, real-time metrics, and core developer tools.</p>
+                    </div>
                 </div>
-                <h1 style="font-family:'Outfit',sans-serif; font-size: 1.8rem; font-weight: 800; margin-bottom: 1rem; letter-spacing:-0.02em;">Secure Portal</h1>
-                <p style="opacity: 0.55; font-size: 0.95rem; line-height: 1.7; margin-bottom: 2.5rem;">Identify yourself to access the Central Archives.</p>
-                
-                <button id="google-login-btn" style="background: white; color: #1f2937; border: none; padding: 1rem 2rem; border-radius: 0.85rem; font-family:'Inter', sans-serif; font-weight: 700; font-size:0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.75rem; width: 100%; transition: 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
-                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width: 18px; height: 18px;">
-                    Sign in with Google
-                </button>
-                <div id="login-status" style="margin-top: 1.5rem; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; color: var(--dev-text-muted);"></div>
+
+                <!-- Right Auth Form -->
+                <div class="portal-auth-form-container">
+                    <div class="portal-brand-header">
+                        <img src="assets/Pazhassiraja_College_Pulpally_Logo.png" alt="PRC Logo">
+                        <span>Central Archives</span>
+                    </div>
+
+                    <h1 class="portal-auth-title">Welcome to Developer Portal</h1>
+                    <p class="portal-auth-subtitle">Sign in with developer credentials to access technical tools and archives.</p>
+
+                    <form id="email-auth-form" onsubmit="return false;">
+                        <div class="portal-form-group">
+                            <label class="portal-form-label" for="auth-email-input">Email</label>
+                            <input type="email" id="auth-email-input" class="portal-form-input" placeholder="dev@example.com" required autocomplete="email">
+                        </div>
+
+                        <div class="portal-form-group">
+                            <div class="portal-form-label-row">
+                                <label class="portal-form-label" for="auth-password-input">Password</label>
+                                <a id="forgot-password-link" href="#" class="portal-forgot-link">Forgot your password?</a>
+                            </div>
+                            <input type="password" id="auth-password-input" class="portal-form-input" placeholder="••••••••" required autocomplete="current-password">
+                        </div>
+
+                        <button type="submit" id="email-signin-btn" class="portal-btn-primary">
+                            Sign in / Register
+                        </button>
+                    </form>
+
+                    <div class="portal-divider">
+                        <span>Or continue with</span>
+                    </div>
+
+                    <button type="button" id="google-login-btn" class="portal-btn-google">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                        Login with Google
+                    </button>
+
+                    <div id="login-status" class="portal-auth-status"></div>
+
+                    <div class="portal-auth-footer-note">
+                        Need help? Contact lead developer for override token.
+                    </div>
+                </div>
             </div>
         </div>
     </div>

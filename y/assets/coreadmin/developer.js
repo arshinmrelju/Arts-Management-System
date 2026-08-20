@@ -2,6 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebas
 import { getFirestore, doc, getDoc, getDocs, setDoc, updateDoc, serverTimestamp, collection, query, orderBy, limit, onSnapshot, getCountFromServer, where, Timestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 import { firebaseConfig } from "../core/firebase-config.js";
+import { handleEmailAuth, handleForgotPassword, handleGoogleAuth } from "../core/portal-auth-helper.js";
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -58,19 +59,36 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
-// Google Login Logic
-document.getElementById('google-login-btn').onclick = async () => {
-    const provider = new GoogleAuthProvider();
-    const status = document.getElementById('login-status');
-    status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Initializing Secure Uplink...';
+// Auth Event Handlers
+const emailAuthForm = document.getElementById('email-auth-form');
+if (emailAuthForm) {
+    emailAuthForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('auth-email-input')?.value.trim();
+        const password = document.getElementById('auth-password-input')?.value;
+        const status = document.getElementById('login-status');
+        await handleEmailAuth(auth, email, password, status);
+    });
+}
 
-    try {
-        await signInWithPopup(auth, provider);
-    } catch (error) {
-        console.error("Login Error:", error);
-        status.innerHTML = `<span style="color: #ef4444;">Access Denied: ${error.message}</span>`;
-    }
-};
+const forgotLink = document.getElementById('forgot-password-link');
+if (forgotLink) {
+    forgotLink.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('auth-email-input')?.value.trim();
+        const status = document.getElementById('login-status');
+        await handleForgotPassword(auth, email, status);
+    });
+}
+
+const googleBtn = document.getElementById('google-login-btn');
+if (googleBtn) {
+    googleBtn.onclick = async () => {
+        const provider = new GoogleAuthProvider();
+        const status = document.getElementById('login-status');
+        await handleGoogleAuth(auth, provider, status);
+    };
+}
 
 // Uptime Counter
 function startUptimeCounter() {
