@@ -29,11 +29,11 @@
         <div class="portal-auth-card">
             <!-- Left Hero Showcase -->
             <div class="portal-auth-hero">
-                <img src="assets/college_hero.jpg" alt="Stage Manager Showcase" class="hero-bg" onerror="this.onerror=null; this.src='assets/Pazhassiraja_College_Pulpally_Logo.png'; this.style.objectFit='contain'; this.style.padding='3rem';">
+                <img src="assets/arts_login_hero.jpg" alt="Union PRC Arts Festival" class="hero-bg" onerror="this.onerror=null; this.src='assets/Pazhassiraja_College_Pulpally_Logo.png'; this.style.objectFit='contain'; this.style.padding='3rem';">
                 <div class="portal-auth-hero-overlay">
                     <div class="portal-auth-hero-badge"><i class="fas fa-microphone-lines"></i> Event Stage Control</div>
                     <h2 class="portal-auth-hero-title">Stage Manager Portal</h2>
-                    <p class="portal-auth-hero-desc">Access live stage schedules, monitor program timing, and manage event announcements.</p>
+                    <p class="portal-auth-hero-desc">Access live arts stage schedules, track performances, and announce events in real-time.</p>
                 </div>
             </div>
 
@@ -42,43 +42,56 @@
                 <div class="portal-brand-header">
                     <img src="assets/Pazhassiraja_College_Pulpally_Logo.png" alt="PRC Logo">
                     <span>Stage Manager</span>
+                    <span class="portal-badge-mini">Stage</span>
                 </div>
 
-                <h1 class="portal-auth-title">Welcome to Stage Manager</h1>
-                <p class="portal-auth-subtitle">Sign in with your stage coordinator email and password to manage assigned stage schedules.</p>
+                <h1 class="portal-auth-title">Login to continue</h1>
+                <p class="portal-auth-subtitle">Sign in with coordinator credentials to manage assigned stage schedules and performances.</p>
 
                 <form id="email-auth-form" onsubmit="return false;">
                     <div class="portal-form-group">
-                        <label class="portal-form-label" for="auth-email-input">Email</label>
-                        <input type="email" id="auth-email-input" class="portal-form-input" placeholder="stagemanager@example.com" required autocomplete="email">
+                        <div class="portal-input-pill-wrapper">
+                            <span class="portal-input-icon-left"><i class="fa-solid fa-envelope"></i></span>
+                            <input type="email" id="auth-email-input" class="portal-form-input" placeholder="Coordinator Email / Username" required autocomplete="email">
+                        </div>
                     </div>
 
                     <div class="portal-form-group">
-                        <div class="portal-form-label-row">
-                            <label class="portal-form-label" for="auth-password-input">Password</label>
-                            <a id="forgot-password-link" href="#" class="portal-forgot-link">Forgot your password?</a>
+                        <div class="portal-input-pill-wrapper">
+                            <span class="portal-input-icon-left"><i class="fa-solid fa-lock"></i></span>
+                            <input type="password" id="auth-password-input" class="portal-form-input has-toggle" placeholder="Password" required autocomplete="current-password">
+                            <button type="button" class="portal-password-toggle-btn" data-target="auth-password-input" aria-label="Toggle password visibility">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
                         </div>
-                        <input type="password" id="auth-password-input" class="portal-form-input" placeholder="••••••••" required autocomplete="current-password">
+                    </div>
+
+                    <div class="portal-options-row">
+                        <label class="portal-checkbox-label">
+                            <input type="checkbox" id="remember-me-checkbox" class="portal-checkbox-input">
+                            <span>Remember me</span>
+                        </label>
+                        <a id="forgot-password-link" href="#" class="portal-forgot-link">Forgot password?</a>
                     </div>
 
                     <button type="submit" id="email-signin-btn" class="portal-btn-primary">
-                        Sign in / Register
+                        Login
                     </button>
                 </form>
 
                 <div class="portal-divider">
-                    <span>Or continue with</span>
+                    <span>or sign in using</span>
                 </div>
 
                 <button type="button" id="google-login-btn" class="portal-btn-google">
                     <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-                    Login with Google
+                    <span>Continue with Google</span>
                 </button>
 
                 <div id="login-msg" class="portal-auth-status"></div>
 
                 <div class="portal-auth-footer-note">
-                    Need help? Contact the chief convenor for stage manager access.
+                    Need help? Contact the chief convenor for stage coordinator access.
                 </div>
             </div>
         </div>

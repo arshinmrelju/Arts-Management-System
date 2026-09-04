@@ -1,48 +1,128 @@
-/* ==========================================
-   CONVERGE-STYLE PORTAL AUTHENTICATION CSS
-   ========================================== */
+/* ==========================================================================
+   PRC ARTS OS - ARTISTIC PORTAL AUTHENTICATION CSS
+   Layout inspired by modern floating card & pill-input design,
+   infused with Fine Arts Festival aesthetics and fluid waves.
+   ========================================================================== */
 
 .portal-auth-wrapper {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
+    width: 100dvw;
     height: 100vh;
+    height: 100dvh;
     z-index: 99999;
-    background: #f8fafc;
+    background: #f1f5f9;
+    background-image: 
+        radial-gradient(at 15% 15%, rgba(99, 102, 241, 0.12) 0px, transparent 55%),
+        radial-gradient(at 85% 85%, rgba(245, 158, 11, 0.10) 0px, transparent 55%),
+        radial-gradient(at 50% 50%, rgba(168, 85, 247, 0.08) 0px, transparent 60%);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1.5rem;
+    padding: 1rem;
     box-sizing: border-box;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     color: #0f172a;
-    overflow-y: auto;
+    overflow: hidden !important;
+}
+
+/* Fluid Wave Background SVG elements */
+.portal-auth-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 60vw;
+    height: 60vw;
+    max-width: 800px;
+    max-height: 800px;
+    background: radial-gradient(circle, rgba(129, 140, 248, 0.18) 0%, rgba(192, 132, 252, 0.08) 50%, transparent 70%);
+    border-radius: 43% 57% 70% 30% / 30% 45% 55% 70%;
+    filter: blur(40px);
+    z-index: 0;
+    animation: portalFloatShape 18s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+.portal-auth-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: -10%;
+    right: -10%;
+    width: 55vw;
+    height: 55vw;
+    max-width: 750px;
+    max-height: 750px;
+    background: radial-gradient(circle, rgba(251, 191, 36, 0.14) 0%, rgba(244, 114, 182, 0.08) 50%, transparent 70%);
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    filter: blur(45px);
+    z-index: 0;
+    animation: portalFloatShape 22s ease-in-out infinite alternate-reverse;
+    pointer-events: none;
+}
+
+@keyframes portalFloatShape {
+    0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    50% { transform: translate(30px, 20px) rotate(180deg) scale(1.05); }
+    100% { transform: translate(-20px, 40px) rotate(360deg) scale(0.95); }
 }
 
 .portal-auth-wrapper.hidden {
     display: none !important;
 }
 
+/* ==========================================================================
+   Main Floating Card
+   ========================================================================== */
 .portal-auth-card {
     display: flex;
     flex-direction: row;
     width: 100%;
-    max-width: 1020px;
+    max-width: 1060px;
+    height: auto;
+    max-height: min(650px, calc(100dvh - 2rem));
     background: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 20px 50px -10px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(15, 23, 42, 0.05);
-    overflow: hidden;
-    min-height: 580px;
+    border-radius: 32px;
+    box-shadow: 
+        0 25px 60px -15px rgba(15, 23, 42, 0.15),
+        0 0 0 1px rgba(15, 23, 42, 0.05),
+        0 10px 25px -5px rgba(99, 102, 241, 0.06);
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
     margin: auto;
-    transition: all 0.3s ease;
+    position: relative;
+    z-index: 10;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Left Hero Banner Showcase */
+.portal-auth-card::-webkit-scrollbar {
+    width: 6px;
+}
+
+.portal-auth-card::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.portal-auth-card::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.35);
+    border-radius: 9999px;
+}
+
+.portal-auth-card::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 116, 139, 0.6);
+}
+
+/* ==========================================================================
+   Left Hero / Arts Fest Showcase
+   ========================================================================== */
 .portal-auth-hero {
-    flex: 1.1;
+    flex: 1.15;
     position: relative;
-    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    background: linear-gradient(145deg, #1e1b4b 0%, #311042 50%, #0f172a 100%);
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -53,19 +133,30 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     display: block;
     position: absolute;
     top: 0;
     left: 0;
     z-index: 1;
+    transition: transform 8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.portal-auth-card:hover .portal-auth-hero img.hero-bg {
+    transform: scale(1.03);
 }
 
 .portal-auth-hero-overlay {
     position: relative;
     z-index: 2;
-    padding: 2.5rem;
+    padding: 3rem 2.8rem;
     color: #ffffff;
-    background: linear-gradient(to top, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.2) 100%);
+    background: linear-gradient(
+        to top,
+        rgba(15, 23, 42, 0.92) 0%,
+        rgba(30, 27, 75, 0.65) 45%,
+        rgba(15, 23, 42, 0.25) 100%
+    );
     width: 100%;
     height: 100%;
     display: flex;
@@ -78,44 +169,56 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 0.4rem 0.85rem;
-    border-radius: 100px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.03em;
+    background: rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 0.45rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
     width: fit-content;
-    margin-bottom: 1rem;
+    margin-bottom: 1.1rem;
     text-transform: uppercase;
+    color: #fef08a;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.portal-auth-hero-badge i {
+    color: #fbbf24;
+    font-size: 0.85rem;
 }
 
 .portal-auth-hero-title {
     font-family: 'Outfit', 'Inter', sans-serif;
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 800;
-    line-height: 1.25;
-    margin: 0 0 0.5rem 0;
+    line-height: 1.22;
+    margin: 0 0 0.65rem 0;
     color: #ffffff;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .portal-auth-hero-desc {
-    font-size: 0.9rem;
-    line-height: 1.5;
-    opacity: 0.85;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    opacity: 0.9;
     margin: 0;
     color: #e2e8f0;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
-/* Right Auth Form Section */
+/* ==========================================================================
+   Right Auth Form Section
+   ========================================================================== */
 .portal-auth-form-container {
     flex: 1;
-    padding: 3rem 3.5rem;
+    padding: 2.25rem 2.8rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     background: #ffffff;
     box-sizing: border-box;
 }
@@ -124,118 +227,250 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.15rem;
 }
 
 .portal-brand-header img {
-    height: 38px;
+    height: 40px;
     width: auto;
     object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.06));
 }
 
 .portal-brand-header span {
     font-family: 'Outfit', sans-serif;
-    font-weight: 700;
+    font-weight: 800;
     font-size: 1.25rem;
     color: #0f172a;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
+}
+
+.portal-brand-header .portal-badge-mini {
+    margin-left: auto;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #6366f1;
+    background: rgba(99, 102, 241, 0.08);
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(99, 102, 241, 0.15);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
 .portal-auth-title {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.65rem;
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-size: 1.85rem;
     font-weight: 800;
     color: #0f172a;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.4rem 0;
     letter-spacing: -0.025em;
 }
 
 .portal-auth-subtitle {
     font-size: 0.88rem;
     color: #64748b;
-    line-height: 1.55;
+    line-height: 1.5;
     margin: 0 0 1.75rem 0;
 }
 
+/* ==========================================================================
+   Pill-Shaped Form Inputs with Embedded Icons
+   ========================================================================== */
 .portal-form-group {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.15rem;
 }
 
-.portal-form-label-row {
+.portal-input-pill-wrapper {
+    position: relative;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.45rem;
+    width: 100%;
 }
 
-.portal-form-label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #334155;
-    display: block;
+.portal-input-icon-left {
+    position: absolute;
+    left: 1.25rem;
+    color: #94a3b8;
+    font-size: 0.95rem;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+    z-index: 2;
 }
 
-.portal-forgot-link {
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: #0f172a;
-    text-decoration: none;
-    transition: opacity 0.2s;
-    cursor: pointer;
-}
-
-.portal-forgot-link:hover {
-    opacity: 0.75;
-    text-decoration: underline;
+.portal-input-pill-wrapper:focus-within .portal-input-icon-left {
+    color: #4f46e5;
 }
 
 .portal-form-input {
     width: 100%;
-    height: 44px;
-    padding: 0 0.9rem;
-    background: #ffffff;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
+    height: 48px;
+    padding: 0 1.25rem 0 3.1rem;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 9999px;
     font-size: 0.92rem;
+    font-family: 'Inter', inherit;
     color: #0f172a;
     box-sizing: border-box;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: all 0.25s ease;
+}
+
+.portal-form-input.has-toggle {
+    padding-right: 3.2rem;
 }
 
 .portal-form-input::placeholder {
     color: #94a3b8;
+    font-weight: 400;
+}
+
+.portal-form-input:hover {
+    background: #ffffff;
+    border-color: #cbd5e1;
 }
 
 .portal-form-input:focus {
     outline: none;
-    border-color: #0f172a;
-    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
+    background: #ffffff;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
 }
 
+.portal-password-toggle-btn {
+    position: absolute;
+    right: 1.1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 0.35rem;
+    border-radius: 50%;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s, background-color 0.2s;
+    z-index: 3;
+}
+
+.portal-password-toggle-btn:hover {
+    color: #334155;
+    background: rgba(0, 0, 0, 0.04);
+}
+
+/* ==========================================================================
+   Options Row (Remember Me & Forgot Password)
+   ========================================================================== */
+.portal-options-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.85rem 0.25rem 1.4rem 0.25rem;
+    font-size: 0.85rem;
+}
+
+.portal-checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    cursor: pointer;
+    user-select: none;
+    color: #475569;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.portal-checkbox-label:hover {
+    color: #1e293b;
+}
+
+/* Circular/Pill Custom Checkbox */
+.portal-checkbox-input {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 50%;
+    outline: none;
+    margin: 0;
+    cursor: pointer;
+    background: #ffffff;
+    display: grid;
+    place-content: center;
+    transition: all 0.2s ease;
+}
+
+.portal-checkbox-input::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    background: #ffffff;
+}
+
+.portal-checkbox-input:checked {
+    background: #0f172a;
+    border-color: #0f172a;
+}
+
+.portal-checkbox-input:checked::before {
+    transform: scale(1);
+}
+
+.portal-forgot-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #475569;
+    text-decoration: none;
+    transition: color 0.2s;
+    cursor: pointer;
+}
+
+.portal-forgot-link:hover {
+    color: #0f172a;
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   Action Buttons (Pill-Shaped)
+   ========================================================================== */
 .portal-btn-primary {
     width: 100%;
-    height: 44px;
+    height: 48px;
     background: #0f172a;
     color: #ffffff;
     border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.92rem;
+    border-radius: 9999px;
+    font-family: 'Inter', inherit;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.015em;
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    margin-top: 0.4rem;
+    box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.3);
 }
 
 .portal-btn-primary:hover {
     background: #1e293b;
+    transform: translateY(-1px);
+    box-shadow: 0 14px 25px -5px rgba(15, 23, 42, 0.38);
 }
 
 .portal-btn-primary:active {
-    transform: scale(0.99);
+    transform: translateY(0) scale(0.99);
 }
 
 .portal-divider {
@@ -256,16 +491,18 @@
 }
 
 .portal-divider span {
-    padding: 0 0.75rem;
+    padding: 0 0.85rem;
 }
 
+/* Pill Google Button */
 .portal-btn-google {
     width: 100%;
-    height: 44px;
+    height: 48px;
     background: #ffffff;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 9999px;
     color: #0f172a;
+    font-family: 'Inter', inherit;
     font-weight: 600;
     font-size: 0.92rem;
     cursor: pointer;
@@ -273,66 +510,135 @@
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    transition: background-color 0.2s, border-color 0.2s;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    transition: all 0.25s ease;
 }
 
 .portal-btn-google:hover {
     background: #f8fafc;
-    border-color: #94a3b8;
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+}
+
+.portal-btn-google:active {
+    transform: translateY(0);
 }
 
 .portal-btn-google img {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
 }
 
+/* Secondary Action Button (e.g. Standings) */
+.portal-btn-secondary {
+    width: 100%;
+    height: 48px;
+    background: #f8fafc;
+    color: #0f172a;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.92rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.portal-btn-secondary:hover {
+    background: #ffffff;
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Feedback & Status Messages
+   ========================================================================== */
 .portal-auth-status {
     margin-top: 1rem;
-    font-size: 0.85rem;
+    font-size: 0.86rem;
     text-align: center;
     min-height: 1.25rem;
-    border-radius: 6px;
-    padding: 0.35rem 0.5rem;
-    transition: all 0.3s;
+    border-radius: 9999px;
+    padding: 0.45rem 1rem;
+    transition: all 0.3s ease;
+    display: none;
+}
+
+.portal-auth-status:not(:empty) {
+    display: block;
 }
 
 .portal-auth-status.error {
     background: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
+    color: #dc2626;
+    border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .portal-auth-status.success {
     background: rgba(16, 185, 129, 0.1);
-    color: #10b981;
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
 .portal-auth-footer-note {
     margin-top: 1.75rem;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     color: #64748b;
     text-align: center;
-    line-height: 1.4;
+    line-height: 1.45;
 }
 
-/* Mobile & Tablet Responsiveness */
-@media (max-width: 868px) {
+/* ==========================================================================
+   Mobile & Responsive Breakpoints
+   ========================================================================== */
+@media (max-width: 900px) {
+    .portal-auth-wrapper {
+        padding: 0.75rem;
+        align-items: center;
+        overflow: hidden !important;
+    }
+
     .portal-auth-card {
         flex-direction: column;
-        max-width: 480px;
-        min-height: auto;
+        max-width: 460px;
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        max-height: calc(100dvh - 1.5rem);
+        border-radius: 26px;
+        margin: auto;
+        overflow-y: auto !important;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
     }
 
     .portal-auth-hero {
         flex: none;
-        height: 180px;
+        height: 170px;
+    }
+
+    .portal-auth-hero img.hero-bg {
+        object-position: 50% 30%;
     }
 
     .portal-auth-hero-overlay {
-        padding: 1.5rem;
+        padding: 1.25rem 1.5rem;
     }
 
     .portal-auth-hero-title {
         font-size: 1.3rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .portal-auth-hero-badge {
+        padding: 0.35rem 0.8rem;
+        font-size: 0.72rem;
+        margin-bottom: 0.5rem;
     }
 
     .portal-auth-hero-desc {
@@ -340,6 +646,122 @@
     }
 
     .portal-auth-form-container {
-        padding: 2rem 1.5rem;
+        flex: 0 1 auto;
+        padding: 1.4rem 1.5rem 1.6rem 1.5rem;
+        justify-content: flex-start;
+    }
+
+    .portal-brand-header {
+        margin-bottom: 0.85rem;
+    }
+
+    .portal-auth-title {
+        font-size: 1.4rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .portal-auth-subtitle {
+        font-size: 0.84rem;
+        margin-bottom: 1.15rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .portal-auth-wrapper {
+        padding: 0.5rem;
+        align-items: center;
+        overflow: hidden !important;
+    }
+
+    .portal-auth-card {
+        width: 100%;
+        max-width: 420px;
+        height: auto;
+        min-height: 0;
+        max-height: calc(100dvh - 1rem);
+        border-radius: 24px;
+        margin: auto;
+        overflow-y: auto !important;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+    }
+
+    .portal-auth-hero {
+        height: 160px;
+    }
+
+    .portal-auth-hero img.hero-bg {
+        object-position: 50% 28%;
+    }
+
+    .portal-auth-hero-overlay {
+        padding: 1.15rem 1.25rem;
+    }
+
+    .portal-auth-hero-title {
+        font-size: 1.2rem;
+        line-height: 1.25;
+    }
+
+    .portal-auth-hero-badge {
+        font-size: 0.7rem;
+        padding: 0.28rem 0.7rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .portal-auth-form-container {
+        flex: 0 1 auto;
+        padding: 1.25rem 1.25rem 1.5rem 1.25rem;
+        justify-content: flex-start;
+    }
+
+    .portal-brand-header {
+        margin-bottom: 0.75rem;
+    }
+
+    .portal-brand-header img {
+        height: 30px;
+    }
+
+    .portal-brand-header span {
+        font-size: 1.05rem;
+    }
+
+    .portal-auth-title {
+        font-size: 1.3rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .portal-auth-subtitle {
+        font-size: 0.82rem;
+        line-height: 1.4;
+        margin-bottom: 1rem;
+    }
+
+    .portal-form-group {
+        margin-bottom: 0.85rem;
+    }
+
+    .portal-form-input,
+    .portal-btn-primary,
+    .portal-btn-google,
+    .portal-btn-secondary {
+        height: 44px;
+        font-size: 0.88rem;
+    }
+
+    .portal-options-row {
+        margin: 0.55rem 0.2rem 0.95rem 0.2rem;
+        font-size: 0.8rem;
+    }
+
+    .portal-divider {
+        margin: 0.9rem 0;
+    }
+
+    .portal-auth-footer-note {
+        margin-top: 1rem;
+        font-size: 0.76rem;
     }
 }

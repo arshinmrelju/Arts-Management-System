@@ -38,11 +38,11 @@
             <div id="auth-login" class="portal-auth-card" style="text-align: left;">
                 <!-- Left Hero Showcase -->
                 <div class="portal-auth-hero">
-                    <img src="assets/college_hero.jpg" alt="Developer Terminal Showcase" class="hero-bg" onerror="this.onerror=null; this.src='assets/Pazhassiraja_College_Pulpally_Logo.png'; this.style.objectFit='contain'; this.style.padding='3rem';">
+                    <img src="assets/arts_login_hero.jpg" alt="Union PRC Arts Festival" class="hero-bg" onerror="this.onerror=null; this.src='assets/Pazhassiraja_College_Pulpally_Logo.png'; this.style.objectFit='contain'; this.style.padding='3rem';">
                     <div class="portal-auth-hero-overlay">
                         <div class="portal-auth-hero-badge"><i class="fas fa-terminal"></i> Sovereign Developer</div>
                         <h2 class="portal-auth-hero-title">Central Archives</h2>
-                        <p class="portal-auth-hero-desc">System logs, database maintenance, real-time metrics, and core developer tools.</p>
+                        <p class="portal-auth-hero-desc">System telemetry, database operations, real-time metrics, and core developer tools.</p>
                     </div>
                 </div>
 
@@ -51,37 +51,50 @@
                     <div class="portal-brand-header">
                         <img src="assets/Pazhassiraja_College_Pulpally_Logo.png" alt="PRC Logo">
                         <span>Central Archives</span>
+                        <span class="portal-badge-mini">Dev</span>
                     </div>
 
-                    <h1 class="portal-auth-title">Welcome to Developer Portal</h1>
-                    <p class="portal-auth-subtitle">Sign in with developer credentials to access technical tools and archives.</p>
+                    <h1 class="portal-auth-title">Login to continue</h1>
+                    <p class="portal-auth-subtitle">Sign in with developer credentials to access technical tools and system archives.</p>
 
                     <form id="email-auth-form" onsubmit="return false;">
                         <div class="portal-form-group">
-                            <label class="portal-form-label" for="auth-email-input">Email</label>
-                            <input type="email" id="auth-email-input" class="portal-form-input" placeholder="dev@example.com" required autocomplete="email">
+                            <div class="portal-input-pill-wrapper">
+                                <span class="portal-input-icon-left"><i class="fa-solid fa-envelope"></i></span>
+                                <input type="email" id="auth-email-input" class="portal-form-input" placeholder="Developer Email / Username" required autocomplete="email">
+                            </div>
                         </div>
 
                         <div class="portal-form-group">
-                            <div class="portal-form-label-row">
-                                <label class="portal-form-label" for="auth-password-input">Password</label>
-                                <a id="forgot-password-link" href="#" class="portal-forgot-link">Forgot your password?</a>
+                            <div class="portal-input-pill-wrapper">
+                                <span class="portal-input-icon-left"><i class="fa-solid fa-lock"></i></span>
+                                <input type="password" id="auth-password-input" class="portal-form-input has-toggle" placeholder="Password" required autocomplete="current-password">
+                                <button type="button" class="portal-password-toggle-btn" data-target="auth-password-input" aria-label="Toggle password visibility">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
                             </div>
-                            <input type="password" id="auth-password-input" class="portal-form-input" placeholder="••••••••" required autocomplete="current-password">
+                        </div>
+
+                        <div class="portal-options-row">
+                            <label class="portal-checkbox-label">
+                                <input type="checkbox" id="remember-me-checkbox" class="portal-checkbox-input">
+                                <span>Remember me</span>
+                            </label>
+                            <a id="forgot-password-link" href="#" class="portal-forgot-link">Forgot password?</a>
                         </div>
 
                         <button type="submit" id="email-signin-btn" class="portal-btn-primary">
-                            Sign in / Register
+                            Login
                         </button>
                     </form>
 
                     <div class="portal-divider">
-                        <span>Or continue with</span>
+                        <span>or sign in using</span>
                     </div>
 
                     <button type="button" id="google-login-btn" class="portal-btn-google">
                         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-                        Login with Google
+                        <span>Continue with Google</span>
                     </button>
 
                     <div id="login-status" class="portal-auth-status"></div>

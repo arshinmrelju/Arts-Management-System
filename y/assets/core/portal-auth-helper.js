@@ -137,3 +137,58 @@ function getFriendlyErrorMessage(error) {
             return error.message || 'Authentication failed.';
     }
 }
+
+/**
+ * Initialize interactive UI features: Password Toggle and Remember Me
+ */
+export function initAuthInteractions(storageKey = 'prc_saved_email') {
+    // 1. Password Visibility Toggle
+    const toggleBtns = document.querySelectorAll('.portal-password-toggle-btn');
+    toggleBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = btn.getAttribute('data-target') || 'auth-password-input';
+            const input = document.getElementById(targetId);
+            const icon = btn.querySelector('i');
+            if (input) {
+                const isPassword = input.type === 'password';
+                input.type = isPassword ? 'text' : 'password';
+                if (icon) {
+                    icon.className = isPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+                }
+            }
+        });
+    });
+
+    // 2. Remember Me Feature
+    const emailInput = document.getElementById('auth-email-input');
+    const rememberCheckbox = document.getElementById('remember-me-checkbox');
+    const emailForm = document.getElementById('email-auth-form');
+
+    if (emailInput && rememberCheckbox) {
+        const savedEmail = localStorage.getItem(storageKey);
+        if (savedEmail) {
+            emailInput.value = savedEmail;
+            rememberCheckbox.checked = true;
+        }
+
+        if (emailForm) {
+            emailForm.addEventListener('submit', () => {
+                if (rememberCheckbox.checked) {
+                    localStorage.setItem(storageKey, emailInput.value.trim());
+                } else {
+                    localStorage.removeItem(storageKey);
+                }
+            });
+        }
+    }
+}
+
+// Auto-run UI enhancements when DOM is ready
+if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => initAuthInteractions());
+    } else {
+        initAuthInteractions();
+    }
+}

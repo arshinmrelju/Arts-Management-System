@@ -1300,15 +1300,26 @@
       left: 0;
       width: 100%;
       height: 100%;
+      height: 100dvh;
       background: #030712;
       z-index: 10000;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 1rem;
-      overflow: hidden;
+      overflow: hidden !important;
       background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
       background-size: 32px 32px;
+    }
+
+    #auth-flip-card {
+      height: auto;
+      min-height: 0;
+      max-height: min(650px, calc(100dvh - 2rem));
+      overflow-y: auto !important;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
     }
 
     #auth-overlay::before,
@@ -1940,7 +1951,8 @@
       }
 
       #auth-flip-card {
-        height: min(580px, 90vh) !important;
+        height: auto !important;
+        max-height: calc(100dvh - 2rem) !important;
       }
 
       .leaderboard-item {
@@ -4044,8 +4056,8 @@
 
       <!-- Left Hero Showcase -->
       <div class="portal-auth-hero">
-        <img src="assets/college_hero.jpg" alt="PRC Arts Fest" class="hero-bg"
-          onerror="this.onerror=null; this.src='/assets/Pazhassiraja_College_Pulpally_Logo.png'; this.style.objectFit='contain'; this.style.padding='3rem';">
+        <img src="assets/arts_login_hero.jpg" alt="PRC Arts Fest" class="hero-bg"
+          onerror="this.onerror=null; this.src='assets/Pazhassiraja_College_Pulpally_Logo.png'; this.style.objectFit='contain'; this.style.padding='3rem';">
         <div class="portal-auth-hero-overlay">
           <div class="portal-auth-hero-badge"><i class="fas fa-star"></i> PRC Arts Festival</div>
           <h2 class="portal-auth-hero-title">Pazhassiraja College Pulpally</h2>
@@ -4056,27 +4068,28 @@
       <!-- Right Auth Form -->
       <div class="portal-auth-form-container">
         <div class="portal-brand-header">
-          <img src="/assets/Pazhassiraja_College_Pulpally_Logo.png" alt="PRC Logo">
+          <img src="assets/Pazhassiraja_College_Pulpally_Logo.png" alt="PRC Logo">
           <span>Union PRC</span>
+          <span class="portal-badge-mini">Arts OS</span>
         </div>
 
-        <h1 class="portal-auth-title">Welcome to PRC Arts OS</h1>
-        <p class="portal-auth-subtitle">Sign in with your Google Workspace account to access the arts management portal. Only authorized personnel can log in.</p>
+        <h1 class="portal-auth-title">Login to continue</h1>
+        <p class="portal-auth-subtitle">Sign in with your Google Workspace account to access the arts management portal. Authorized personnel only.</p>
 
         <button id="google-signin-btn" class="portal-btn-google" style="margin-top: 0.5rem;">
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-          Continue with Google Workspace
+          <span>Continue with Google Workspace</span>
         </button>
 
         <div id="auth-status" class="portal-auth-status"></div>
 
         <div class="portal-divider">
-          <span>Or</span>
+          <span>or explore publicly</span>
         </div>
 
-        <button id="view-standings-btn" class="portal-btn-primary" style="background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0;">
+        <button id="view-standings-btn" class="portal-btn-secondary">
           <i class="fas fa-trophy" style="color: #f59e0b; margin-right: 0.4rem;"></i>
-          View Live Standings
+          <span>View Live Standings</span>
         </button>
 
         <div class="portal-auth-footer-note">
