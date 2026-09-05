@@ -157,12 +157,31 @@ window.fetchSystemYear = async function () {
 
             const updatedBy = data.updatedBy || "System";
             const updatedAt = data.updatedAt ? new Date(data.updatedAt.toDate()).toLocaleDateString() : "Unknown";
+            const prevYear = data.previousYear;
+            const recordsWrapped = data.recordsWrapped;
 
-            yearStatus.innerHTML = `<i class="fas fa-check-circle" style="color: var(--accent-color);"></i> Current: <strong>${year}</strong> (Updated by ${updatedBy} on ${updatedAt})`;
+            let extraInfo = "";
+            if (prevYear) {
+                extraInfo = ` &nbsp;|&nbsp; <span style="color: #a78bfa;"><i class="fas fa-archive"></i> Archived: <strong>${prevYear}</strong>${recordsWrapped ? ` (${recordsWrapped} records)` : ''}</span>`;
+            }
+
+            yearStatus.innerHTML = `<i class="fas fa-check-circle" style="color: var(--accent-color);"></i> Active: <strong>${year}</strong> &nbsp;·&nbsp; Updated by ${updatedBy} on ${updatedAt}${extraInfo}`;
+
+            // Update wrap-target-year-select default to previous year if available
+            const wrapSelect = document.getElementById('wrap-target-year-select');
+            if (wrapSelect && prevYear) {
+                // Try to select the previous year in dropdown
+                for (const opt of wrapSelect.options) {
+                    if (opt.value === prevYear) {
+                        opt.selected = true;
+                        break;
+                    }
+                }
+            }
         } else {
             // No year set, use default
             yearInput.value = "2025-26";
-            yearStatus.innerHTML = `<i class="fas fa-info-circle" style="color: #f59e0b;"></i> Using default user. Click "Save Configuration" to set it.`;
+            yearStatus.innerHTML = `<i class="fas fa-info-circle" style="color: #f59e0b;"></i> No year configured. Click "Save Config" to set it.`;
         }
     } catch (error) {
         console.error("Error fetching system year:", error);
@@ -171,33 +190,166 @@ window.fetchSystemYear = async function () {
     }
 };
 
+const ALL_EVENT_COLLECTIONS = [
+    'registrations',
+    'score_logs',
+    'leaderboard',
+    'program_dates',
+    'whitelisted_emails',
+    'pending_registrations',
+    'appeals',
+    'pending_results',
+    'chest_series_configs',
+    'registration_links'
+];
+
+// Helper to atomically wrap untagged or previous records to a target academic year
+async function wrapAllLegacyData(targetYear, onProgress) {
+    let grandTotal = 0;
+
+    for (const collName of ALL_EVENT_COLLECTIONS) {
+        try {
+            const q = query(collection(db, collName));
+            const snapshot = await getDocs(q);
+
+            let docsToWrap = [];
+            snapshot.forEach(docSnap => {
+                const data = docSnap.data();
+                // If the document is missing academicYear, wrap it to targetYear
+                if (!data.academicYear) {
+                    docsToWrap.push(docSnap.ref);
+                }
+            });
+
+            // Write in chunks of 400 to safely stay under Firestore batch limit (500)
+            const chunkSize = 400;
+            for (let i = 0; i < docsToWrap.length; i += chunkSize) {
+                const chunk = docsToWrap.slice(i, i + chunkSize);
+                const batch = writeBatch(db);
+                chunk.forEach(ref => {
+                    batch.update(ref, { academicYear: targetYear });
+                });
+                await batch.commit();
+            }
+
+            grandTotal += docsToWrap.length;
+            if (typeof onProgress === 'function') {
+                onProgress(collName, docsToWrap.length);
+            }
+        } catch (err) {
+            console.warn(`Error wrapping collection ${collName}:`, err);
+        }
+    }
+    return grandTotal;
+}
+
 window.updateSystemYear = async function () {
     const yearInput = document.getElementById('system-year-input');
     const yearStatus = document.getElementById('year-status');
-    const year = yearInput.value;
+    const newYear = yearInput.value.trim();
 
-    yearStatus.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Saving...`;
+    if (!newYear) return;
+
+    yearStatus.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Checking current configuration...`;
 
     try {
-        await setDoc(doc(db, "system_config", "current_year"), {
-            year: year,
-            updatedAt: serverTimestamp(),
-            updatedBy: auth.currentUser.email
+        const yearDocSnap = await getDoc(doc(db, "system_config", "current_year"));
+        const prevYear = yearDocSnap.exists() ? (yearDocSnap.data().year || "2025-26") : "2025-26";
+
+        if (newYear === prevYear) {
+            yearStatus.innerHTML = `<i class="fas fa-info-circle" style="color: #60a5fa;"></i> Academic Year is already active as <strong>${newYear}</strong>. No changes needed.`;
+            return;
+        }
+
+        const confirmMsg = `⚠️ SWITCH ACADEMIC YEAR\n\n` +
+            `Current Academic Year: ${prevYear}\n` +
+            `New Academic Year: ${newYear}\n\n` +
+            `When you switch to ${newYear}:\n` +
+            `1. ALL existing data across the database (registrations, scores, leaderboard, whitelist, program dates, chest series, etc.) will be permanently preserved and wrapped under '${prevYear}'.\n` +
+            `2. The new year '${newYear}' will start with a 100% CLEAN SLATE (0 registrations, 0 score logs, empty whitelist, etc.).\n` +
+            `3. No data is lost; old data remains archived under '${prevYear}'.\n\n` +
+            `Do you want to proceed?`;
+
+        if (!confirm(confirmMsg)) {
+            yearInput.value = prevYear;
+            yearStatus.innerHTML = `<i class="fas fa-check-circle" style="color: var(--accent-color);"></i> Kept current year: <strong>${prevYear}</strong>`;
+            return;
+        }
+
+        yearStatus.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Step 1/3: Wrapping all previous data under '${prevYear}'...`;
+
+        // Step 1: Wrap all untagged records across all event collections to prevYear
+        const totalWrapped = await wrapAllLegacyData(prevYear, (collName, count) => {
+            yearStatus.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Step 1/3: Wrapping ${collName}... (${count} updated)`;
         });
 
-        yearStatus.innerHTML = `<i class="fas fa-check-circle" style="color: var(--accent-color);"></i> Config updated to <strong>${year}</strong>!`;
+        yearStatus.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Step 2/3: Initializing fresh leaderboard for '${newYear}'...`;
+
+        // Step 2: Initialize fresh 0-0 leaderboard for newYear
+        const DEPARTMENTS = [
+            "Department of Biochemistry",
+            "Department of Commerce",
+            "Department of Economics",
+            "Department of English",
+            "Department of History",
+            "Department of Journalism and Mass Communication",
+            "Department of Microbiology",
+            "Department of Travel and Tourism"
+        ];
+
+        const lbBatch = writeBatch(db);
+        DEPARTMENTS.forEach(dept => {
+            const lbDocRef = doc(db, "leaderboard", `${dept}_${newYear}`);
+            lbBatch.set(lbDocRef, {
+                score: 0,
+                department: dept,
+                academicYear: newYear,
+                lastUpdated: new Date().toISOString()
+            }, { merge: true });
+        });
+        await lbBatch.commit();
+
+        yearStatus.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Step 3/3: Activating '${newYear}' in system config...`;
+
+        // Step 3: Update system_config/current_year
+        await setDoc(doc(db, "system_config", "current_year"), {
+            year: newYear,
+            previousYear: prevYear,
+            updatedAt: serverTimestamp(),
+            updatedBy: auth.currentUser?.email || "Core Admin",
+            wrappedYear: prevYear,
+            recordsWrapped: totalWrapped
+        });
+
+        // Record audit transition
+        try {
+            await addDoc(collection(db, "academic_transitions"), {
+                fromYear: prevYear,
+                toYear: newYear,
+                transitionedAt: serverTimestamp(),
+                transitionedBy: auth.currentUser?.email || "Core Admin",
+                recordsWrapped: totalWrapped
+            });
+        } catch (e) {
+            console.warn("Could not save transition history:", e);
+        }
+
+        yearStatus.innerHTML = `<i class="fas fa-check-circle" style="color: #10b981;"></i> Successfully switched to <strong>${newYear}</strong>! All previous data safely wrapped to <strong>${prevYear}</strong>.`;
+
+        alert(`✅ Academic Year successfully transitioned to ${newYear}!\n\n• All previous data was safely wrapped and tagged as '${prevYear}'.\n• All portals now start with a clean slate for '${newYear}'.\n• Fresh leaderboard initialized to 0.`);
 
         setTimeout(() => {
-            fetchSystemYear(); // Refresh to show updated info
-        }, 2000);
+            fetchSystemYear();
+            auditLegacyData();
+        }, 1500);
+
     } catch (error) {
         console.error("Error updating system year:", error);
         yearStatus.innerHTML = `<i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i> Error: ${error.message}`;
+        alert("Failed to switch academic year: " + error.message);
     }
 };
 
-
-// System Arts Identity Control
 // Data Audit & Migration Logic
 let auditData = {};
 
@@ -208,6 +360,7 @@ window.auditLegacyData = async function () {
     const controls = id('migration-controls');
     const totalCountSpan = id('total-untagged-count');
     const status = id('migration-status');
+    const activeYear = document.getElementById('system-year-input')?.value || "2025-26";
 
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Scanning...';
@@ -215,18 +368,25 @@ window.auditLegacyData = async function () {
     auditData = {};
 
     try {
-        const collections = ['registrations', 'score_logs', 'leaderboard', 'program_dates', 'whitelisted_emails'];
         let totalUntagged = 0;
         let rowsHtml = '';
 
-        for (const collName of collections) {
+        for (const collName of ALL_EVENT_COLLECTIONS) {
             const q = query(collection(db, collName));
             const snapshot = await getDocs(q);
 
             let untaggedCount = 0;
+            let currentYearCount = 0;
+            let otherYearCount = 0;
+
             snapshot.forEach(docSnap => {
-                if (!docSnap.data().academicYear) {
+                const y = docSnap.data().academicYear;
+                if (!y) {
                     untaggedCount++;
+                } else if (y === activeYear) {
+                    currentYearCount++;
+                } else {
+                    otherYearCount++;
                 }
             });
 
@@ -234,14 +394,18 @@ window.auditLegacyData = async function () {
             totalUntagged += untaggedCount;
 
             rowsHtml += `
-                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                            <td style="padding: 0.75rem 1rem;">${collName}</td>
-                            <td style="padding: 0.75rem 1rem; font-weight: 700; color: ${untaggedCount > 0 ? '#fca5a5' : 'var(--success)'}">${untaggedCount}</td>
-                            <td style="padding: 0.75rem 1rem;">
-                                ${untaggedCount > 0 ? '<span style="color: #f87171;"><i class="fas fa-eye-slash"></i> Hidden</span>' : '<span style="color: var(--success);"><i class="fas fa-check-circle"></i> OK</span>'}
-                            </td>
-                        </tr>
-                    `;
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 0.75rem 1rem; font-weight: 600;">${collName}</td>
+                    <td style="padding: 0.75rem 1rem; color: #93c5fd;">${currentYearCount}</td>
+                    <td style="padding: 0.75rem 1rem; color: #a78bfa;">${otherYearCount}</td>
+                    <td style="padding: 0.75rem 1rem; font-weight: 700; color: ${untaggedCount > 0 ? '#fca5a5' : 'var(--success)'}">${untaggedCount}</td>
+                    <td style="padding: 0.75rem 1rem;">
+                        ${untaggedCount > 0 
+                            ? '<span style="color: #f87171; display: inline-flex; align-items: center; gap: 4px;"><i class="fas fa-exclamation-circle"></i> Untagged</span>' 
+                            : '<span style="color: var(--success); display: inline-flex; align-items: center; gap: 4px;"><i class="fas fa-check-circle"></i> Protected</span>'}
+                    </td>
+                </tr>
+            `;
         }
 
         tableBody.innerHTML = rowsHtml;
@@ -250,14 +414,11 @@ window.auditLegacyData = async function () {
         if (totalUntagged > 0) {
             totalCountSpan.textContent = totalUntagged;
             controls.style.display = 'block';
-
-            // Update year displays
-            const currentYear = document.getElementById('system-year-input').value || "2025-26";
-            document.querySelectorAll('.current-year-display').forEach(el => el.textContent = currentYear);
+            document.querySelectorAll('.current-year-display').forEach(el => el.textContent = activeYear);
         } else {
             controls.style.display = 'none';
             status.style.color = 'var(--success)';
-            status.textContent = "Great! No untagged (hidden) records found.";
+            status.textContent = "All database records are properly tagged and protected with academic years.";
         }
 
     } catch (error) {
@@ -265,7 +426,7 @@ window.auditLegacyData = async function () {
         alert("Scan failed: " + error.message);
     } finally {
         btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-sync"></i> Re-scan';
+        btn.innerHTML = '<i class="fas fa-sync"></i> Re-scan Database';
     }
 };
 
@@ -273,60 +434,33 @@ window.migrateLegacyData = async function () {
     const btn = document.getElementById('migrate-btn');
     const status = document.getElementById('migration-status');
     const originalText = btn.innerHTML;
-    const currentYear = document.getElementById('system-year-input').value || "2025-26";
+    const wrapYearSelect = document.getElementById('wrap-target-year-select');
+    const targetYear = (wrapYearSelect ? wrapYearSelect.value : null) || document.getElementById('system-year-input').value || "2025-26";
 
-    if (!confirm(`Are you sure you want to restore all hidden data and tag it with ${currentYear}?`)) return;
+    if (!confirm(`Are you sure you want to wrap all untagged records and tag them with Academic Year '${targetYear}'?`)) return;
 
     btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Restoring...';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Wrapping records...';
     status.style.display = 'block';
     status.style.color = 'var(--text-secondary)';
-    status.textContent = "Processing collections...";
+    status.textContent = `Wrapping records to ${targetYear}...`;
 
     try {
-        const colls = Object.keys(auditData).filter(key => auditData[key] > 0);
-        let totalUpdated = 0;
-
-        for (const collName of colls) {
-            status.textContent = `Restoring ${collName}...`;
-            const q = query(collection(db, collName));
-            const snapshot = await getDocs(q);
-
-            const batch = writeBatch(db);
-            let batchCount = 0;
-
-            snapshot.forEach(docSnap => {
-                const data = docSnap.data();
-                if (!data.academicYear) {
-                    if (collName === 'whitelisted_emails') {
-                        // For whitelist, we just add the academicYear field
-                        // When switching back to an old year, these will now appear
-                        batch.update(docSnap.ref, { academicYear: currentYear });
-                    } else {
-                        batch.update(docSnap.ref, { academicYear: currentYear });
-                    }
-                    batchCount++;
-                    totalUpdated++;
-                }
-            });
-
-            if (batchCount > 0) {
-                await batch.commit();
-            }
-        }
+        let totalUpdated = await wrapAllLegacyData(targetYear, (collName, count) => {
+            status.textContent = `Wrapping ${collName}... (${count} updated)`;
+        });
 
         status.style.color = 'var(--success)';
-        status.innerHTML = `<i class="fas fa-check-circle"></i> Success! ${totalUpdated} records restored and tagged with ${currentYear}.`;
+        status.innerHTML = `<i class="fas fa-check-circle"></i> Success! ${totalUpdated} records successfully wrapped and tagged with '${targetYear}'.`;
 
-        // Re-audit to update table
-        setTimeout(() => auditLegacyData(), 1500);
+        setTimeout(() => auditLegacyData(), 1200);
 
-        alert(`Recovery successful! ${totalUpdated} records are now visible.`);
+        alert(`Wrap complete! ${totalUpdated} records are now safely archived under '${targetYear}'.`);
     } catch (error) {
         console.error("Migration error:", error);
         status.style.color = 'var(--error)';
         status.textContent = "Error: " + error.message;
-        alert("Restore failed: " + error.message);
+        alert("Wrap failed: " + error.message);
     } finally {
         btn.disabled = false;
         btn.innerHTML = originalText;

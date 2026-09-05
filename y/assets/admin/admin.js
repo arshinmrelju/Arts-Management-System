@@ -2366,11 +2366,15 @@ window.refreshChestPanel = async () => {
         select.appendChild(opt);
     });
 
-    // Fetch series configs once
+    // Fetch series configs for current system year
     try {
-        const snap = await getDocs(collection(db, "chest_series_configs"));
+        chestSeriesConfigs = {};
+        const q = query(collection(db, "chest_series_configs"), where("academicYear", "==", systemYear));
+        const snap = await getDocs(q);
         snap.forEach(doc => {
-            chestSeriesConfigs[doc.id] = doc.data().seriesBase;
+            const data = doc.data();
+            const prog = data.program || doc.id.replace(`_${systemYear}`, '');
+            chestSeriesConfigs[prog] = data.seriesBase;
         });
     } catch (e) { log("Error fetching series configs:", e); }
 
@@ -2400,12 +2404,15 @@ window.applyChestSeries = async () => {
     if (!program) return;
 
     try {
-        await setDoc(doc(db, "chest_series_configs", program), {
+        const yearScopedId = `${program}_${systemYear}`;
+        await setDoc(doc(db, "chest_series_configs", yearScopedId), {
+            program: program,
             seriesBase: series,
+            academicYear: systemYear,
             updatedAt: serverTimestamp()
         });
         chestSeriesConfigs[program] = series;
-        log(`Series base ${series} applied to ${program}`);
+        log(`Series base ${series} applied to ${program} for ${systemYear}`);
         loadChestParticipants();
     } catch (e) {
         log("Error saving series config:", e);
@@ -2651,17 +2658,27 @@ const checkWhitelistStatus = async (email) => {
         const yearScopedId = `${emailLower}_${systemYear}`;
         const yearSnap = await getDoc(doc(db, "whitelisted_emails", yearScopedId));
         if (yearSnap.exists()) {
-            return yearSnap.data();
+            const data = yearSnap.data();
+            if (!data.academicYear || data.academicYear === systemYear) {
+                return data;
+            }
         }
 
-        // 2. Try legacy single document ID
+        // 2. Try legacy single document ID (must verify academicYear matches systemYear)
         const docSnap = await getDoc(doc(db, "whitelisted_emails", emailLower));
         if (docSnap.exists()) {
-            return docSnap.data();
+            const data = docSnap.data();
+            if (data.academicYear === systemYear) {
+                return data;
+            }
         }
 
-        // 3. Fallback: query by email field
-        const q = query(collection(db, "whitelisted_emails"), where("email", "==", emailLower));
+        // 3. Fallback: query by email field AND academicYear
+        const q = query(
+            collection(db, "whitelisted_emails"),
+            where("email", "==", emailLower),
+            where("academicYear", "==", systemYear)
+        );
         const querySnapshot = await getDocs(q);
         if (!querySnapshot.empty) {
             return querySnapshot.docs[0].data();

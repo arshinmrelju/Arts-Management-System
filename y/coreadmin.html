@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -300,15 +300,11 @@
                                             style="width: 100%; border-collapse: collapse; font-size: 0.8rem; background: rgba(0,0,0,0.2); border-radius: 0.5rem; overflow: hidden;">
                                             <thead>
                                                 <tr style="background: rgba(255,255,255,0.05); text-align: left;">
-                                                    <th style="padding: 0.6rem 1rem; color: var(--text-secondary);">
-                                                        Collection
-                                                    </th>
-                                                    <th style="padding: 0.6rem 1rem; color: var(--text-secondary);">
-                                                        Untagged
-                                                        (Hidden)</th>
-                                                    <th style="padding: 0.6rem 1rem; color: var(--text-secondary);">
-                                                        Status
-                                                    </th>
+                                                    <th style="padding: 0.6rem 1rem; color: var(--text-secondary);">Collection</th>
+                                                    <th style="padding: 0.6rem 1rem; color: #93c5fd;">Active Year</th>
+                                                    <th style="padding: 0.6rem 1rem; color: #a78bfa;">Archived</th>
+                                                    <th style="padding: 0.6rem 1rem; color: #fca5a5;">Untagged</th>
+                                                    <th style="padding: 0.6rem 1rem; color: var(--text-secondary);">Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="audit-table-body">
@@ -322,21 +318,28 @@
                                             style="background: rgba(239, 68, 68, 0.1); padding: 1rem; border-radius: 0.5rem; border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 1rem;">
                                             <div
                                                 style="font-size: 0.8rem; font-weight: 600; color: #fca5a5; margin-bottom: 0.5rem;">
-                                                <i class="fas fa-exclamation-triangle"></i> Recovery Action Required
+                                                <i class="fas fa-exclamation-triangle"></i> Untagged Records Found
                                             </div>
-                                            <p style="font-size: 0.75rem; color: #fecaca; margin: 0;">
-                                                Found <strong id="total-untagged-count">0</strong> hidden records.
-                                                Bringing
-                                                them
-                                                back will tag them with the current academic year (<strong
-                                                    class="current-year-display">2025-26</strong>).
+                                            <p style="font-size: 0.75rem; color: #fecaca; margin: 0 0 0.75rem 0;">
+                                                Found <strong id="total-untagged-count">0</strong> untagged records.
+                                                Choose a year to archive them to:
                                             </p>
+                                            <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                                                <label style="font-size: 0.75rem; color: #fecaca; white-space: nowrap;">Wrap to Year:</label>
+                                                <select id="wrap-target-year-select"
+                                                    style="flex: 1; min-width: 120px; background: rgba(0,0,0,0.3); color: white; border: 1px solid rgba(239,68,68,0.3); border-radius: 0.5rem; padding: 0.4rem 0.75rem; font-size: 0.8rem; outline: none;">
+                                                    <option value="2024-25">2024-25</option>
+                                                    <option value="2025-26" selected>2025-26</option>
+                                                    <option value="2026-27">2026-27</option>
+                                                    <option value="2027-28">2027-28</option>
+                                                </select>
+                                            </div>
                                         </div>
 
                                         <button class="btn-primary" onclick="migrateLegacyData()" id="migrate-btn"
                                             style="background: #ef4444; color: white; height: 44px; font-size: 0.9rem; width: 100%; font-weight: 700;">
-                                            <i class="fas fa-magic"></i>
-                                            Confirm & Restore All Data
+                                            <i class="fas fa-tag"></i>
+                                            Wrap All Untagged Records
                                         </button>
                                     </div>
 
