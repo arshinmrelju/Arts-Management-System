@@ -16,13 +16,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --bg-color: #050a14;
-      --card-bg: rgba(20, 25, 40, 0.6);
+      --bg-color: #0b091a;
+      --card-bg: rgba(26, 21, 56, 0.75);
       --text-primary: #ffffff;
-      --text-secondary: #94a3b8;
-      --accent-color: #8b5cf6;
-      --accent-hover: #7c3aed;
-      --gradient-main: linear-gradient(135deg, #6366f1, #8b5cf6);
+      --text-secondary: #cbd5e1;
+      --accent-color: #fbbf24;
+      --accent-hover: #f59e0b;
+      --gradient-main: linear-gradient(135deg, #fbbf24 0%, #ec4899 50%, #7c3aed 100%);
+      --gradient-btn: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
       --font-heading: 'Outfit', sans-serif;
       --font-body: 'Inter', sans-serif;
       --error: #ef4444;
@@ -50,25 +51,26 @@
     body::after {
       content: '';
       position: fixed;
-      width: 50vw;
-      height: 50vw;
+      width: 55vw;
+      height: 55vw;
       border-radius: 50%;
-      filter: blur(80px);
+      filter: blur(90px);
       z-index: -1;
-      opacity: 0.4;
+      opacity: 0.35;
       animation: float 20s infinite alternate ease-in-out;
+      will-change: transform;
     }
 
     body::before {
       top: -10%;
       left: -10%;
-      background: radial-gradient(circle, #7c3aed, transparent);
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.5) 0%, rgba(49, 46, 129, 0.25) 50%, transparent 75%);
     }
 
     body::after {
       bottom: -10%;
       right: -10%;
-      background: radial-gradient(circle, #db2777, transparent);
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.35) 0%, rgba(219, 39, 119, 0.25) 50%, transparent 75%);
       animation-delay: -10s;
     }
 
@@ -132,15 +134,16 @@
     .container {
       width: 100%;
       max-width: 500px;
-      background: rgba(15, 23, 42, 0.75);
+      background: rgba(26, 21, 56, 0.75);
       backdrop-filter: blur(30px);
       -webkit-backdrop-filter: blur(30px);
       padding: 3rem 2.5rem 2.25rem;
       border-radius: 2.5rem;
       box-shadow:
-        0 50px 100px -20px rgba(0, 0, 0, 0.8),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+        0 50px 100px -20px rgba(0, 0, 0, 0.85),
+        0 0 40px rgba(124, 58, 237, 0.15),
+        inset 0 0 0 1px rgba(251, 191, 36, 0.15);
+      border: 1px solid rgba(251, 191, 36, 0.18);
       animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1);
       margin: 2rem auto;
       position: relative;
@@ -154,11 +157,8 @@
       left: 0;
       right: 0;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.4), transparent);
     }
-
-
-
 
     .logo {
       display: flex;
@@ -170,7 +170,7 @@
       font-family: var(--font-heading);
       font-weight: 800;
       font-size: 1.5rem;
-      background: linear-gradient(to right, #f472b6, #a78bfa, #db2777);
+      background: linear-gradient(135deg, #fbbf24 0%, #ec4899 50%, #a78bfa 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -179,7 +179,7 @@
     .logo img {
       height: 40px;
       width: auto;
-      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+      filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.3));
     }
 
     h2 {
@@ -189,11 +189,9 @@
       font-weight: 700;
     }
 
-
     .form-group {
       margin-bottom: 1.5rem;
     }
-
 
     .form-label {
       display: block;
@@ -209,7 +207,6 @@
     .form-group:focus-within .form-label {
       color: var(--accent-color);
     }
-
 
     .form-input {
       width: 100%;
@@ -227,25 +224,23 @@
     .form-input:focus {
       background: rgba(255, 255, 255, 0.08);
       border-color: var(--accent-color);
-      box-shadow: 0 0 25px rgba(139, 92, 246, 0.2);
+      box-shadow: 0 0 25px rgba(251, 191, 36, 0.25);
       transform: scale(1.01);
     }
 
-
-
     .cta-btn {
       width: 100%;
-      background: var(--gradient-main);
-      color: white;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      color: #0b091a;
       padding: 1.25rem;
       border-radius: 1.25rem;
       border: none;
-      font-weight: 700;
+      font-weight: 800;
       font-family: var(--font-heading);
       letter-spacing: 0.15em;
       text-transform: uppercase;
       cursor: pointer;
-      box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.5);
+      box-shadow: 0 15px 35px -5px rgba(245, 158, 11, 0.45);
       transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
       margin-top: 1rem;
       position: relative;
@@ -259,7 +254,7 @@
       left: -100%;
       width: 50%;
       height: 200%;
-      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
       transform: rotate(25deg);
       transition: none;
     }
@@ -270,11 +265,9 @@
 
     .cta-btn:hover:not(:disabled) {
       transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 25px 50px -10px rgba(99, 102, 241, 0.6);
-      filter: brightness(1.1);
+      box-shadow: 0 20px 45px -5px rgba(245, 158, 11, 0.65);
+      filter: brightness(1.08);
     }
-
-
 
     .cta-btn:disabled {
       opacity: 0.5;
@@ -320,9 +313,9 @@
       top: calc(100% + 8px);
       left: 0;
       width: 100%;
-      background: rgba(15, 23, 42, 0.95);
+      background: rgba(20, 16, 44, 0.95);
       backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(251, 191, 36, 0.2);
       border-radius: 0.75rem;
       z-index: 100;
       max-height: 250px;
@@ -341,8 +334,8 @@
     }
 
     .custom-dropdown-item:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
+      background: rgba(251, 191, 36, 0.12);
+      color: #fde047;
     }
 
     /* Success Screen */
@@ -517,8 +510,8 @@
 
     .custom-alert-btn {
       width: 100%;
-      background: var(--gradient-main);
-      color: white;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      color: #0b091a;
       border: none;
       padding: 1rem;
       border-radius: 1.25rem;
@@ -528,13 +521,13 @@
       letter-spacing: 0.05em;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 10px 20px -5px rgba(244, 63, 94, 0.4);
+      box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.45);
     }
 
     .custom-alert-btn:hover {
       transform: translateY(-2px);
-      filter: brightness(1.1);
-      box-shadow: 0 15px 30px -5px rgba(244, 63, 94, 0.5);
+      filter: brightness(1.08);
+      box-shadow: 0 15px 30px -5px rgba(245, 158, 11, 0.6);
     }
   </style>
 
@@ -546,13 +539,13 @@
   <div
     style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: -1;">
     <svg class="mandala-decoration"
-      style="top: -10vw; right: -10vw; width: 40vw; height: 40vw; fill: #4f46e5; animation: rotateSlow 80s linear infinite;"
+      style="top: -10vw; right: -10vw; width: 40vw; height: 40vw; fill: #7c3aed; animation: rotateSlow 80s linear infinite; opacity: 0.12;"
       viewBox="0 0 200 200">
       <path
         d="M100 0C100 0 110 50 150 50C190 50 200 100 200 100C200 100 150 110 150 150C150 190 100 200 100 200C100 200 90 150 50 150C10 150 0 100 0 100C0 100 50 90 50 50C50 10 100 0 100 0Z" />
     </svg>
     <svg class="mandala-decoration"
-      style="bottom: -15vw; left: -15vw; width: 50vw; height: 50vw; fill: #db2777; animation: rotateSlow 120s linear reverse infinite; opacity: 0.07;"
+      style="bottom: -15vw; left: -15vw; width: 50vw; height: 50vw; fill: #fbbf24; animation: rotateSlow 120s linear reverse infinite; opacity: 0.08;"
       viewBox="0 0 200 200">
       <path
         d="M100 0C100 0 110 50 150 50C190 50 200 100 200 100C200 100 150 110 150 150C150 190 100 200 100 200C100 200 90 150 50 150C10 150 0 100 0 100C0 100 50 90 50 50C50 10 100 0 100 0Z" />
@@ -599,6 +592,21 @@
 
 
     <form id="student-reg-form">
+      <div id="category-container" class="form-group">
+        <label class="form-label">Event Category</label>
+        <div class="custom-dropdown-container">
+          <input type="hidden" id="reg-category" value="On Stage" required>
+          <div class="custom-dropdown-trigger has-value" id="category-trigger">
+            <span id="category-selected-text">On Stage</span>
+            <span class="custom-dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="custom-dropdown-menu" id="category-menu">
+            <div class="custom-dropdown-item" data-value="On Stage">On Stage</div>
+            <div class="custom-dropdown-item" data-value="Off Stage">Off Stage</div>
+          </div>
+        </div>
+      </div>
+
       <div id="reg-type-container" class="form-group hidden">
         <label class="form-label">Registration Type</label>
         <div class="custom-dropdown-container">
@@ -767,16 +775,87 @@
     let systemYear = "";
     let programDates = {};
 
+    const DEPARTMENT_SLUG_MAP = {
+      "Department of English": "english",
+      "English": "english",
+      "Department of Economics": "economics",
+      "Economics": "economics",
+      "Department of History": "history",
+      "History": "history",
+      "Department of Microbiology": "microbiology",
+      "Microbiology": "microbiology",
+      "Department of Travel and Tourism": "tourism",
+      "Tourism": "tourism",
+      "Department of Journalism and Mass Communication": "journalism",
+      "Journalism": "journalism",
+      "Department of Biochemistry": "biochemistry",
+      "Biochemistry": "biochemistry",
+      "Department of Commerce": "commerce",
+      "Commerce": "commerce"
+    };
+
+    const SLUG_TO_DEPARTMENT_MAP = {
+      "english": "Department of English",
+      "economics": "Department of Economics",
+      "history": "Department of History",
+      "microbiology": "Department of Microbiology",
+      "tourism": "Department of Travel and Tourism",
+      "travel-and-tourism": "Department of Travel and Tourism",
+      "journalism": "Department of Journalism and Mass Communication",
+      "journalism-and-mass-communication": "Department of Journalism and Mass Communication",
+      "biochemistry": "Department of Biochemistry",
+      "commerce": "Department of Commerce"
+    };
+
+    const getDepartmentSlug = (deptName) => {
+      if (!deptName) return "english";
+      if (DEPARTMENT_SLUG_MAP[deptName]) return DEPARTMENT_SLUG_MAP[deptName];
+      for (const [name, slug] of Object.entries(DEPARTMENT_SLUG_MAP)) {
+        if (name.toLowerCase() === deptName.toLowerCase()) return slug;
+      }
+      return deptName
+        .toLowerCase()
+        .replace(/^department\s+of\s+/i, '')
+        .trim()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '') || "registration";
+    };
+
+    const getDepartmentFromSlug = (slug) => {
+      if (!slug) return "";
+      const s = slug.toLowerCase().trim();
+      if (SLUG_TO_DEPARTMENT_MAP[s]) return SLUG_TO_DEPARTMENT_MAP[s];
+      for (const [dept, courses] of Object.entries(departmentCourseMap)) {
+        if (getDepartmentSlug(dept) === s) return dept;
+      }
+      return "";
+    };
+
     const getLinkToken = () => {
       const urlParams = new URLSearchParams(window.location.search);
+      const queryDept = urlParams.get('dept');
+      if (queryDept) return queryDept.toLowerCase().trim();
       const queryToken = urlParams.get('token');
-      if (queryToken) return queryToken;
+      if (queryToken) return queryToken.trim();
 
-      const pathParts = window.location.pathname.split('/').filter(p => p);
+      const pathParts = window.location.pathname.split('/').filter(p => p && !p.endsWith('.html'));
+      if (pathParts.length === 0) return null;
+
       const studentIdx = pathParts.indexOf('student');
       if (studentIdx !== -1 && pathParts[studentIdx + 1]) {
-        return pathParts[studentIdx + 1];
+        return pathParts[studentIdx + 1].trim();
       }
+
+      const deptIdx = pathParts.indexOf('dept');
+      if (deptIdx !== -1 && pathParts[deptIdx + 1]) {
+        return pathParts[deptIdx + 1].trim();
+      }
+
+      const lastPart = pathParts[pathParts.length - 1];
+      if (lastPart) {
+        return lastPart.toLowerCase().trim();
+      }
+
       return null;
     };
 
@@ -812,12 +891,10 @@
     ];
 
     async function init() {
-
-
       const token = getLinkToken();
 
       if (!token) {
-        showError("Invalid link. Please use a link provided by your Secretary.");
+        showError("Invalid link. Please use the permanent link provided by your Secretary.");
         return;
       }
 
@@ -831,28 +908,46 @@
         const datesSnap = await getDocs(qDates);
         datesSnap.forEach(doc => { programDates[doc.id] = doc.data(); });
 
-        // Validate Token
+        // Match department
+        const matchedDept = getDepartmentFromSlug(token);
         const linkSnap = await getDoc(doc(db, "registration_links", token));
-        const linkDataFull = linkSnap.data();
-        if (!linkSnap.exists() || linkDataFull.status !== 'active') {
-          showError("This registration link has been invalidated or expired.");
+
+        if (linkSnap.exists()) {
+          linkData = linkSnap.data();
+          if (linkData.isOpen === false || linkData.status === 'closed') {
+            document.getElementById('loading-screen').classList.add('hidden');
+            document.getElementById('closed-screen').classList.remove('hidden');
+            const closedDesc = document.querySelector('#closed-screen p');
+            if (closedDesc) {
+              closedDesc.textContent = `Registration for ${linkData.department || 'this department'} is currently closed by the Department Secretary. Please contact your Secretary for more information.`;
+            }
+            return;
+          }
+        } else if (matchedDept) {
+          // Slug corresponds to a valid department, but link doc not yet initialized
+          document.getElementById('loading-screen').classList.add('hidden');
+          document.getElementById('closed-screen').classList.remove('hidden');
+          const closedDesc = document.querySelector('#closed-screen p');
+          if (closedDesc) {
+            closedDesc.textContent = `Registration for ${matchedDept} is not open yet. Please contact your Department Secretary.`;
+          }
+          return;
+        } else {
+          showError("Invalid registration link. Please use the link provided by your Department Secretary.");
           return;
         }
 
-        linkData = linkSnap.data();
-
         // Check Global Registration Locks (from settings/registration)
+        let globalOnStageLocked = false;
+        let globalOffStageLocked = false;
         try {
           const settingsSnap = await getDoc(doc(db, "settings", "registration"));
           if (settingsSnap.exists()) {
             const settings = settingsSnap.data();
-            const category = linkData.category;
-            
-            let isLocked = false;
-            if (category === "On Stage" && settings.onStageLocked) isLocked = true;
-            if (category === "Off Stage" && settings.offStageLocked) isLocked = true;
+            globalOnStageLocked = !!settings.onStageLocked;
+            globalOffStageLocked = !!settings.offStageLocked;
 
-            if (isLocked) {
+            if (globalOnStageLocked && globalOffStageLocked) {
               document.getElementById('loading-screen').classList.add('hidden');
               document.getElementById('closed-screen').classList.remove('hidden');
               return;
@@ -860,25 +955,16 @@
           }
         } catch (settingsErr) {
           console.error("Error checking reg status:", settingsErr);
-          // Continue if settings fetch fails to avoid breaking registration if it's just a minor fetch issue
         }
 
-        document.getElementById('dept-indicator').textContent = `${linkData.department} | ${linkData.category}`;
-
-        // Show Reg Type if Category is On Stage
-        if (linkData.category === "On Stage") {
-          document.getElementById('reg-type-container').classList.remove('hidden');
-        }
+        document.getElementById('dept-indicator').textContent = `${linkData.department || matchedDept}`;
 
         // Setup Dropdowns
-        setupCourseDropdown(linkData.allowedCourses || [], linkData.department);
+        setupCourseDropdown(linkData.allowedCourses || [], linkData.department || matchedDept);
         setupGenderDropdown();
         setupRollDropdown();
         setupRegTypeToggle();
-
-
-        // Initial Fetch of Programs
-        updateProgramList();
+        setupCategoryToggle(globalOnStageLocked, globalOffStageLocked);
 
         document.getElementById('loading-screen').classList.add('hidden');
         document.getElementById('registration-screen').classList.remove('hidden');
@@ -887,6 +973,66 @@
         console.error(err);
         showError("Failed to load registration data. Please try again.");
       }
+    }
+
+    function setupCategoryToggle(globalOnStageLocked = false, globalOffStageLocked = false) {
+      const catInput = document.getElementById('reg-category');
+      const catContainer = document.getElementById('category-container');
+      const catMenu = document.getElementById('category-menu');
+      const catText = document.getElementById('category-selected-text');
+
+      if (globalOnStageLocked) {
+        const item = catMenu.querySelector('[data-value="On Stage"]');
+        if (item) item.remove();
+        catInput.value = "Off Stage";
+        if (catText) catText.textContent = "Off Stage";
+      } else if (globalOffStageLocked) {
+        const item = catMenu.querySelector('[data-value="Off Stage"]');
+        if (item) item.remove();
+        catInput.value = "On Stage";
+        if (catText) catText.textContent = "On Stage";
+      }
+
+      // If legacy link specifies category strictly, lock and hide
+      if (linkData && linkData.category && !linkData.isPermanent) {
+        catInput.value = linkData.category;
+        if (catText) catText.textContent = linkData.category;
+        catContainer.classList.add('hidden');
+      } else {
+        setupDropdown('category-trigger', 'category-menu', 'reg-category', 'category-selected-text');
+      }
+
+      const syncCategory = () => {
+        const cat = catInput.value;
+        const regTypeContainer = document.getElementById('reg-type-container');
+        const regTypeInput = document.getElementById('reg-type');
+        const typeSelectedText = document.getElementById('type-selected-text');
+
+        // Reset Event selection on category change
+        const eventInput = document.getElementById('reg-event');
+        const eventText = document.getElementById('event-selected-text');
+        const eventTrigger = document.getElementById('event-trigger');
+        if (eventInput) eventInput.value = "";
+        if (eventText) eventText.textContent = "Select Event";
+        if (eventTrigger) eventTrigger.classList.remove('has-value');
+
+        if (cat === "Off Stage") {
+          regTypeContainer.classList.add('hidden');
+          regTypeInput.value = "Individual";
+          if (typeSelectedText) typeSelectedText.textContent = "Individual";
+          regTypeInput.setAttribute('value', 'Individual');
+        } else {
+          regTypeContainer.classList.remove('hidden');
+        }
+
+        updateProgramList();
+        setupCourseDropdown(linkData.allowedCourses || [], linkData.department);
+      };
+
+      const observer = new MutationObserver(syncCategory);
+      observer.observe(catInput, { attributes: true, attributeFilter: ['value'] });
+
+      syncCategory();
     }
 
     function showError(msg) {
@@ -1003,7 +1149,8 @@
     }
 
     async function updateProgramList() {
-      const category = linkData.category;
+      const catInput = document.getElementById('reg-category');
+      const category = (catInput && catInput.value) || (linkData && linkData.category) || "On Stage";
       const regType = document.getElementById('reg-type').value;
       const menu = document.getElementById('event-menu');
 
@@ -1133,6 +1280,9 @@
       }
 
       try {
+        const catInput = document.getElementById('reg-category');
+        const selectedCategory = (catInput && catInput.value) || (linkData && linkData.category) || "On Stage";
+
         const formData = {
           studentName: regType === "Group" ? "" : document.getElementById('reg-name').value.toUpperCase(),
           department: document.getElementById('reg-course').value,
@@ -1141,14 +1291,15 @@
           gender: regType === "Group" ? "" : document.getElementById('reg-gender').value,
           phone: document.getElementById('reg-phone').value,
           program: document.getElementById('reg-event').value,
-          category: linkData.category,
+          category: selectedCategory,
           regType: regType,
           groupName: regType === "Group" ? document.getElementById('reg-group-name').value.toUpperCase() : "",
           groupMembers: members,
           academicYear: systemYear,
           registeredBy: "student_link",
           linkToken: getLinkToken(),
-          departmentSecretaryEmail: linkData.createdBy,
+          departmentSecretaryEmail: (linkData && (linkData.departmentSecretaryEmail || linkData.createdBy)) || "",
+          linkGeneratedBy: (linkData && (linkData.createdBy || linkData.departmentSecretaryEmail)) || "",
           status: 'pending',
           submittedAt: serverTimestamp()
         };

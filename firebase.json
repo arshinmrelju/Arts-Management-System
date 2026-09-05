@@ -32,6 +32,50 @@
         {
           "source": "/leaderboard",
           "destination": "/leaderboard.html"
+        },
+        {
+          "source": "/english",
+          "destination": "/student.html"
+        },
+        {
+          "source": "/economics",
+          "destination": "/student.html"
+        },
+        {
+          "source": "/history",
+          "destination": "/student.html"
+        },
+        {
+          "source": "/microbiology",
+          "destination": "/student.html"
+        },
+        {
+          "source": "/tourism",
+          "destination": "/student.html"
+        },
+        {
+          "source": "/travel-and-tourism",
+          "destination": "/student.html"
+        },
+        {
+          "source": "/journalism",
+          "destination": "/student.html"
+        },
+        {
+          "source": "/journalism-and-mass-communication",
+          "destination": "/student.html"
+        },
+        {
+          "source": "/biochemistry",
+          "destination": "/student.html"
+        },
+        {
+          "source": "/commerce",
+          "destination": "/student.html"
+        },
+        {
+          "source": "/dept/**",
+          "destination": "/student.html"
         }
       ],
       "ignore": [

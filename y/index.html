@@ -130,13 +130,13 @@
     body::before {
       top: -10%;
       left: -10%;
-      background: radial-gradient(circle, rgba(124, 58, 237, 0.5) 0%, rgba(49, 46, 129, 0.25) 50%, transparent 75%);
+      background: radial-gradient(circle, rgba(79, 70, 229, 0.25) 0%, rgba(30, 27, 75, 0.15) 50%, transparent 75%);
     }
 
     body::after {
       bottom: -10%;
       right: -10%;
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.35) 0%, rgba(219, 39, 119, 0.25) 50%, transparent 75%);
+      background: radial-gradient(circle, rgba(217, 119, 6, 0.18) 0%, rgba(15, 23, 42, 0.2) 50%, transparent 75%);
       animation-delay: -10s;
     }
 
@@ -246,11 +246,7 @@
       font-size: 1.3rem;
       font-weight: 800;
       letter-spacing: -0.02em;
-      background: linear-gradient(to right, #f472b6, #a78bfa, #db2777);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 30px rgba(167, 139, 250, 0.3);
+      color: #ffffff;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -429,50 +425,50 @@
       display: inline-flex;
       align-items: center;
       gap: 0.55rem;
-      background: rgba(251, 191, 36, 0.12);
-      border: 1px solid rgba(251, 191, 36, 0.35);
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.25);
       backdrop-filter: blur(12px);
       padding: 0.45rem 1.25rem;
       border-radius: 9999px;
-      color: #fde047;
-      font-size: 0.82rem;
-      font-weight: 700;
+      color: #fcd34d;
+      font-size: 0.8rem;
+      font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       margin-bottom: 1.25rem;
-      box-shadow: 0 4px 20px rgba(251, 191, 36, 0.15);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
       animation: fadeIn 1s ease-out;
     }
 
     .hero-arts-badge i {
-      color: #fbbf24;
+      color: #f59e0b;
     }
 
     .hero-title {
       font-family: var(--font-hero);
       font-size: 5.5rem;
       font-weight: 800;
-      color: white;
+      color: #ffffff;
       margin: 0 0 0.8rem;
-      letter-spacing: -0.03em;
-      line-height: 1;
-      background: linear-gradient(135deg, #ffffff 0%, #fef08a 25%, #f59e0b 50%, #e879f9 75%, #ffffff 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 15px 40px rgba(245, 158, 11, 0.25), 0 0 60px rgba(124, 58, 237, 0.35);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      background: none;
+      -webkit-background-clip: unset;
+      background-clip: unset;
+      -webkit-text-fill-color: #ffffff;
+      text-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
       animation: fadeScaleIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     }
 
     .hero-subtitle {
       font-family: var(--font-heading);
       font-size: 1.15rem;
-      font-weight: 800;
-      color: #fbbf24;
+      font-weight: 700;
+      color: #e5b95c;
       text-transform: uppercase;
-      letter-spacing: 0.35em;
+      letter-spacing: 0.32em;
       margin: 0 0 1.25rem;
-      text-shadow: 0 2px 10px rgba(251, 191, 36, 0.3);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
       opacity: 0;
       animation: fadeInUp 1s 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     }
@@ -516,32 +512,33 @@
     }
 
     .primary-btn {
-      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-      color: #0f172a;
-      border: none;
-      box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.45);
-      font-weight: 800;
+      background: linear-gradient(135deg, #e5b95c 0%, #c9881e 100%);
+      color: #0b091a;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 22px -4px rgba(201, 136, 30, 0.35);
+      font-weight: 700;
     }
 
     .primary-btn:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 18px 35px -5px rgba(245, 158, 11, 0.6);
-      background: linear-gradient(135deg, #fef08a 0%, #fbbf24 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px -4px rgba(201, 136, 30, 0.45);
+      background: linear-gradient(135deg, #f0ca76 0%, #d99a26 100%);
     }
 
     .secondary-btn {
-      background: rgba(30, 27, 75, 0.55);
-      color: white;
-      border: 1.5px solid rgba(251, 191, 36, 0.35);
+      background: rgba(255, 255, 255, 0.06);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(12px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
     }
 
     .secondary-btn:hover {
-      background: rgba(49, 46, 129, 0.8);
-      border-color: rgba(251, 191, 36, 0.6);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 25px -5px rgba(99, 102, 241, 0.35);
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(229, 185, 92, 0.5);
+      color: #ffffff;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
     }
 
     /* Arts Pillars Row */
@@ -560,8 +557,8 @@
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       backdrop-filter: blur(12px);
       padding: 0.45rem 1rem;
       border-radius: 9999px;
@@ -572,13 +569,13 @@
     }
 
     .art-pill i {
-      color: #fbbf24;
+      color: #e5b95c;
       font-size: 0.85rem;
     }
 
     .art-pill:hover {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: rgba(251, 191, 36, 0.45);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(229, 185, 92, 0.45);
       transform: translateY(-2px);
       color: #fff;
     }
@@ -654,19 +651,20 @@
         line-height: 1.1;
         letter-spacing: -0.02em;
         margin-bottom: 0.75rem;
-        background: linear-gradient(135deg, #ffffff 0%, #fef08a 35%, #f59e0b 65%, #e879f9 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+        color: #ffffff;
+        background: none;
+        -webkit-background-clip: unset;
+        background-clip: unset;
+        -webkit-text-fill-color: #ffffff;
+        text-shadow: 0 4px 18px rgba(0, 0, 0, 0.7);
       }
 
       .hero-subtitle {
         font-size: 0.75rem;
         letter-spacing: 0.25em;
         margin-bottom: 0.85rem;
-        color: #fbbf24;
-        font-weight: 800;
+        color: #e5b95c;
+        font-weight: 700;
       }
 
       .hero-tagline {
@@ -4405,17 +4403,13 @@
           Secretary Hub
         </h2>
         <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1rem;">
-          Generate registration links for students and approve pending registrations.
+          Manage your department's registration link and approve pending registrations.
         </p>
 
         <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 3rem; flex-wrap: wrap;">
-          <button id="show-link-gen-btn" class="hero-btn secondary-btn active"
+          <button id="show-perm-link-btn" class="hero-btn secondary-btn active"
             style="padding: 0.6rem 1.5rem; font-size: 0.9rem;">
-            <i class="fas fa-link"></i> Link Generator
-          </button>
-          <button id="show-link-history-btn" class="hero-btn secondary-btn"
-            style="padding: 0.6rem 1.5rem; font-size: 0.9rem;">
-            <i class="fas fa-history"></i> Link History
+            <i class="fas fa-link"></i> Registration Link
           </button>
           <button id="show-pending-btn" class="hero-btn secondary-btn"
             style="padding: 0.6rem 1.5rem; font-size: 0.9rem; position: relative;">
@@ -4425,61 +4419,90 @@
           </button>
         </div>
 
-        <!-- Link Generator Content -->
-        <div id="link-gen-container" class="auth-container"
-          style="max-width: 600px; margin: 0 auto; text-align: left; background: rgba(30, 41, 59, 0.4);">
-          <h3 style="margin-top: 0; color: white; font-family: var(--font-heading);">Create Registration Link</h3>
-          <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">
-            Students using this link will have their registrations sent to you for approval.
-          </p>
+        <!-- Permanent Link Content -->
+        <div id="perm-link-container" class="auth-container"
+          style="max-width: 650px; margin: 0 auto; text-align: left; background: rgba(26, 21, 56, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(251, 191, 36, 0.2); border-radius: 1.5rem; padding: 2.25rem; box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 35px rgba(124, 58, 237, 0.12);">
+          
+          <!-- Admin Department Switcher (only shown for Main Admin) -->
+          <div id="admin-dept-select-box" class="hidden" style="margin-bottom: 1.75rem; padding: 1rem; background: rgba(18, 14, 40, 0.65); border-radius: 0.85rem; border: 1px solid rgba(251, 191, 36, 0.2);">
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--accent-color); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
+              <i class="fas fa-user-shield"></i> Admin View: Select Department
+            </label>
+            <select id="admin-sec-dept-select" class="form-input" style="width: 100%; background: rgba(26, 21, 56, 0.95); color: #fde047; border: 1px solid rgba(251, 191, 36, 0.3); padding: 0.6rem 0.85rem; border-radius: 0.6rem; cursor: pointer;">
+              <option value="Department of English">Department of English</option>
+              <option value="Department of Economics">Department of Economics</option>
+              <option value="Department of History">Department of History</option>
+              <option value="Department of Microbiology">Department of Microbiology</option>
+              <option value="Department of Travel and Tourism">Department of Travel and Tourism</option>
+              <option value="Department of Journalism and Mass Communication">Department of Journalism and Mass Communication</option>
+              <option value="Department of Biochemistry">Department of Biochemistry</option>
+              <option value="Department of Commerce">Department of Commerce</option>
+            </select>
+          </div>
 
-          <form id="link-gen-form" style="display: flex; flex-direction: column; gap: 1.25rem;">
-            <div class="form-group" style="margin-bottom: 0;">
-              <label class="reg-filter-label"
-                style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Event Category</label>
-              <div class="custom-dropdown-container">
-                <input type="hidden" id="link-category" value="On Stage" required>
-                <div class="custom-dropdown-trigger has-value" id="link-category-trigger">
-                  <span id="link-category-text">On Stage</span>
-                  <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="custom-dropdown-menu" id="link-category-menu">
-                  <div class="custom-dropdown-item" data-value="On Stage">On Stage</div>
-                  <div class="custom-dropdown-item" data-value="Off Stage">Off Stage</div>
-                </div>
-              </div>
+          <!-- Department Header & Live Status Badge -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-color); font-weight: 700; display: block; margin-bottom: 0.25rem;">Department Link</span>
+              <h3 id="sec-dept-name" style="margin: 0; color: white; font-family: var(--font-heading); font-size: 1.4rem;">Department of English</h3>
             </div>
-
-            <div id="generated-link-box" class="hidden"
-              style="margin-top: 1rem; padding: 1.25rem; background: rgba(16, 185, 129, 0.05); border: 1px dashed rgba(16, 185, 129, 0.3); border-radius: 1rem;">
-              <label class="reg-filter-label" style="display: block; margin-bottom: 0.5rem; color: #10b981;">Generated
-                Link</label>
-              <div style="display: flex; gap: 0.5rem;">
-                <input type="text" id="shareable-link-input" readonly class="form-input"
-                  style="flex: 1; font-size: 0.8rem; background: rgba(0,0,0,0.2);">
-                <button type="button" id="copy-link-btn" class="cta-btn"
-                  style="width: auto; margin-top: 0; padding: 0.5rem 1rem; border-radius: 0.75rem;">
-                  <i class="fas fa-copy"></i>
-                </button>
-              </div>
-              <p style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 0.5rem; font-style: italic;">
-                Share this link with students. It will expire after 24 hours.
-              </p>
-            </div>
-
-            <button type="submit" class="cta-btn" id="gen-link-submit-btn">Generate Shareable Link</button>
-          </form>
-        </div>
-
-        <!-- Pending Approvals Content -->
-        <!-- Link History Content -->
-        <div id="link-history-container" class="hidden" style="text-align: left;">
-          <div id="history-list"
-            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
-            <div style="grid-column: 1 / -1; padding: 3rem; text-align: center; color: var(--text-secondary);">
-              Loading link history...
+            <div id="sec-link-status-badge" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 1rem; border-radius: 2rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981;"></span>
+              <span id="sec-status-text">LINK OPEN</span>
             </div>
           </div>
+
+          <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.75rem; line-height: 1.5;">
+            This is the permanent registration link for your department. Students use this link to register for both On-Stage and Off-Stage events.
+          </p>
+
+          <!-- Permanent Link Box -->
+          <div style="margin-bottom: 1.75rem;">
+            <label style="display: block; margin-bottom: 0.6rem; color: var(--text-secondary); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+              Permanent Registration Link
+            </label>
+            <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+              <div style="position: relative; flex: 1; min-width: 250px;">
+                <input type="text" id="sec-perm-link-input" readonly class="form-input"
+                  style="width: 100%; font-size: 0.85rem; background: rgba(11, 9, 26, 0.6); border: 1px solid rgba(251, 191, 36, 0.25); padding: 0.75rem 1rem; border-radius: 0.75rem; color: #fde047; font-family: monospace; font-weight: 600;">
+              </div>
+              <button type="button" id="sec-copy-link-btn" class="cta-btn" title="Copy Link"
+                style="width: auto; margin-top: 0; padding: 0.75rem 1.25rem; border-radius: 0.75rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #0b091a; font-weight: 800; box-shadow: 0 8px 25px -4px rgba(245, 158, 11, 0.45);">
+                <i class="fas fa-copy"></i>
+                <span id="sec-copy-btn-text">Copy</span>
+              </button>
+              <a id="sec-open-link-btn" href="#" target="_blank" class="cta-btn secondary-btn" title="Open Link in New Tab"
+                style="width: auto; margin-top: 0; padding: 0.75rem 1rem; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; text-decoration: none; border: 1px solid rgba(251, 191, 36, 0.35); color: #fbbf24; background: rgba(251, 191, 36, 0.08);">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Open/Close Controls Box -->
+          <div id="sec-control-card" style="padding: 1.5rem; border-radius: 1rem; background: rgba(18, 14, 40, 0.6); border: 1px solid rgba(251, 191, 36, 0.12); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div style="flex: 1; min-width: 220px;">
+              <div id="sec-control-title" style="font-weight: 700; color: white; font-size: 0.95rem; margin-bottom: 0.25rem;">
+                Registration is currently Active
+              </div>
+              <div id="sec-control-desc" style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4;">
+                Students can open this link and submit registration entries.
+              </div>
+            </div>
+            <button type="button" id="sec-toggle-link-btn" class="cta-btn"
+              style="width: auto; margin-top: 0; padding: 0.75rem 1.25rem; border-radius: 0.75rem; font-size: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; background: #ef4444; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);">
+              <i class="fas fa-lock"></i>
+              <span id="sec-toggle-btn-text">Close Registration Link</span>
+            </button>
+          </div>
+
+          <!-- Notice / Guidance -->
+          <div style="margin-top: 1.5rem; display: flex; align-items: start; gap: 0.75rem; padding: 1rem; background: rgba(251, 191, 36, 0.07); border: 1px solid rgba(251, 191, 36, 0.22); border-radius: 0.85rem;">
+            <i class="fas fa-info-circle" style="color: #fbbf24; margin-top: 0.2rem; font-size: 0.9rem;"></i>
+            <span style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;">
+              This permanent link never changes or expires. You can open or close access anytime. Closing it prevents new student submissions while keeping previously approved entries intact.
+            </span>
+          </div>
+
         </div>
 
         <!-- Pending Approvals Content -->
@@ -5730,6 +5753,39 @@
       "Department of Commerce": ["BBA", "M.COM"]
     };
 
+    const DEPARTMENT_SLUG_MAP = {
+      "Department of English": "english",
+      "English": "english",
+      "Department of Economics": "economics",
+      "Economics": "economics",
+      "Department of History": "history",
+      "History": "history",
+      "Department of Microbiology": "microbiology",
+      "Microbiology": "microbiology",
+      "Department of Travel and Tourism": "tourism",
+      "Tourism": "tourism",
+      "Department of Journalism and Mass Communication": "journalism",
+      "Journalism": "journalism",
+      "Department of Biochemistry": "biochemistry",
+      "Biochemistry": "biochemistry",
+      "Department of Commerce": "commerce",
+      "Commerce": "commerce"
+    };
+
+    const getDepartmentSlug = (deptName) => {
+      if (!deptName) return "english";
+      if (DEPARTMENT_SLUG_MAP[deptName]) return DEPARTMENT_SLUG_MAP[deptName];
+      for (const [name, slug] of Object.entries(DEPARTMENT_SLUG_MAP)) {
+        if (name.toLowerCase() === deptName.toLowerCase()) return slug;
+      }
+      return deptName
+        .toLowerCase()
+        .replace(/^department\s+of\s+/i, '')
+        .trim()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '') || "registration";
+    };
+
     const getDisplayDept = (student) => {
       let dept = student.department || '-';
       if (student.category === 'On Stage' && student.regType === 'Group') {
@@ -6845,102 +6901,177 @@
           if (tabMyRegs) tabMyRegs.onclick = () => switchTab('my-regs');
           if (tabSecretary) tabSecretary.onclick = () => switchTab('secretary');
 
-          // Internal Secretary Hub Switching (Link Gen vs History vs Pending)
-          const btnLinkGen = document.getElementById('show-link-gen-btn');
-          const btnHistory = document.getElementById('show-link-history-btn');
+          // Internal Secretary Hub Switching (Registration Link vs Pending Approvals)
+          const btnPermLink = document.getElementById('show-perm-link-btn');
           const btnPending = document.getElementById('show-pending-btn');
-          const containerLinkGen = document.getElementById('link-gen-container');
-          const containerHistory = document.getElementById('link-history-container');
+          const containerPermLink = document.getElementById('perm-link-container');
           const containerPending = document.getElementById('pending-approvals-container');
 
-          if (btnLinkGen) btnLinkGen.onclick = () => {
-            btnLinkGen.classList.add('active');
-            btnHistory.classList.remove('active');
+          if (btnPermLink) btnPermLink.onclick = () => {
+            btnPermLink.classList.add('active');
             btnPending.classList.remove('active');
-            containerLinkGen.classList.remove('hidden');
-            containerHistory.classList.add('hidden');
+            containerPermLink.classList.remove('hidden');
             containerPending.classList.add('hidden');
-          };
-
-          if (btnHistory) btnHistory.onclick = () => {
-            btnHistory.classList.add('active');
-            btnLinkGen.classList.remove('active');
-            btnPending.classList.remove('active');
-            containerHistory.classList.remove('hidden');
-            containerLinkGen.classList.add('hidden');
-            containerPending.classList.add('hidden');
-            loadLinkHistory();
           };
 
           if (btnPending) btnPending.onclick = () => {
             btnPending.classList.add('active');
-            btnLinkGen.classList.remove('active');
-            btnHistory.classList.remove('active');
+            btnPermLink.classList.remove('active');
             containerPending.classList.remove('hidden');
-            containerLinkGen.classList.add('hidden');
-            containerHistory.classList.add('hidden');
+            containerPermLink.classList.add('hidden');
             loadPendingRegistrations();
           };
 
-          // Link Generation Logic
-          const linkForm = document.getElementById('link-gen-form');
-          const linkCategoryInput = document.getElementById('link-category');
-
-          if (linkForm) linkForm.onsubmit = async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('gen-link-submit-btn');
-            const originalText = btn.textContent;
-            btn.disabled = true;
-            btn.textContent = "Generating...";
-
-            try {
-              const category = linkCategoryInput.value;
-              const token = crypto.randomUUID().substring(0, 8); // Shorter token for URLs
-              const expiresAt = new Date();
-              expiresAt.setHours(expiresAt.getHours() + 24);
-
-              await setDoc(doc(db, "registration_links", token), {
-                token: token,
-                createdBy: auth.currentUser.email,
-                department: userDepartment,
-                category: category,
-                academicYear: systemYear,
-                expiresAt: expiresAt,
-                createdAt: firestoreTimestamp(),
-                status: 'active'
-              });
-
-              // Correct path for Firebase Hosting (serves content of /y at root)
-              // Professional clean URL format
-              const shareLink = `${window.location.protocol}//${window.location.host}/student/${token}`;
-              const linkBox = document.getElementById('generated-link-box');
-              const linkInput = document.getElementById('shareable-link-input');
-
-              if (linkInput) linkInput.value = shareLink;
-              if (linkBox) linkBox.classList.remove('hidden');
-
-              btn.textContent = "Regenerate Link";
-              btn.disabled = false;
-
-              showCustomAlert("Success!", "Registration link generated successfully.", "success");
-            } catch (error) {
-              console.error("Link generation failed:", error);
-              showCustomAlert("Error", "Failed to generate link: " + error.message, "error");
-              btn.disabled = false;
-              btn.textContent = originalText;
+          // Department Permanent Link Management
+          let activeDept = userDepartment;
+          if (activeDept === "Main Admin") {
+            activeDept = "Department of English";
+            const adminSelectBox = document.getElementById('admin-dept-select-box');
+            const adminSelect = document.getElementById('admin-sec-dept-select');
+            if (adminSelectBox) adminSelectBox.classList.remove('hidden');
+            if (adminSelect) {
+              adminSelect.value = activeDept;
+              adminSelect.onchange = () => {
+                activeDept = adminSelect.value;
+                initPermanentLink(activeDept);
+              };
             }
-          };
+          }
 
-          const copyBtn = document.getElementById('copy-link-btn');
-          if (copyBtn) copyBtn.onclick = () => {
-            const linkInput = document.getElementById('shareable-link-input');
-            if (linkInput) {
-              linkInput.select();
-              navigator.clipboard.writeText(linkInput.value);
-              copyBtn.innerHTML = '<i class="fas fa-check"></i>';
-              setTimeout(() => { copyBtn.innerHTML = '<i class="fas fa-copy"></i>'; }, 2000);
-            }
-          };
+          let permLinkUnsubscribe = null;
+          function initPermanentLink(deptName) {
+            if (permLinkUnsubscribe) permLinkUnsubscribe();
+            
+            const slug = getDepartmentSlug(deptName);
+            const deptHeading = document.getElementById('sec-dept-name');
+            const linkInput = document.getElementById('sec-perm-link-input');
+            const openLinkBtn = document.getElementById('sec-open-link-btn');
+
+            if (deptHeading) deptHeading.textContent = deptName;
+            
+            // Clean permanent URL, e.g. https://unionartsprc.web.app/english
+            const permUrl = `${window.location.protocol}//${window.location.host}/${slug}`;
+            if (linkInput) linkInput.value = permUrl;
+            if (openLinkBtn) openLinkBtn.href = permUrl;
+
+            // Listen to this department's registration link status
+            const docRef = doc(db, "registration_links", slug);
+            permLinkUnsubscribe = onSnapshot(docRef, async (snap) => {
+              const statusBadge = document.getElementById('sec-link-status-badge');
+              const statusText = document.getElementById('sec-status-text');
+              const toggleBtn = document.getElementById('sec-toggle-link-btn');
+              const toggleBtnText = document.getElementById('sec-toggle-btn-text');
+              const controlTitle = document.getElementById('sec-control-title');
+              const controlDesc = document.getElementById('sec-control-desc');
+
+              let isOpen = true; // default open
+
+              if (!snap.exists()) {
+                // Initialize document in Firestore
+                try {
+                  await setDoc(docRef, {
+                    slug: slug,
+                    department: deptName,
+                    isOpen: true,
+                    status: 'active',
+                    createdBy: auth.currentUser.email,
+                    departmentSecretaryEmail: auth.currentUser.email,
+                    academicYear: systemYear,
+                    isPermanent: true,
+                    createdAt: firestoreTimestamp(),
+                    updatedAt: firestoreTimestamp()
+                  });
+                  return;
+                } catch (e) {
+                  console.warn("Auto-init permanent link doc skipped/deferred:", e);
+                }
+              } else {
+                const data = snap.data();
+                isOpen = data.isOpen !== false && data.status !== 'closed';
+              }
+
+              // Update UI according to isOpen
+              if (isOpen) {
+                if (statusBadge) {
+                  statusBadge.style.background = 'rgba(16, 185, 129, 0.15)';
+                  statusBadge.style.color = '#10b981';
+                  statusBadge.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+                  statusBadge.innerHTML = '<span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981;"></span><span>LINK OPEN</span>';
+                }
+                if (controlTitle) controlTitle.textContent = "Registration is currently Active";
+                if (controlDesc) controlDesc.textContent = "Students can access the link and submit registration entries.";
+                if (toggleBtn) {
+                  toggleBtn.style.background = '#ef4444';
+                  toggleBtn.style.boxShadow = '0 4px 15px rgba(239, 68, 68, 0.3)';
+                  toggleBtn.innerHTML = '<i class="fas fa-lock"></i><span>Close Registration Link</span>';
+                }
+              } else {
+                if (statusBadge) {
+                  statusBadge.style.background = 'rgba(239, 68, 68, 0.15)';
+                  statusBadge.style.color = '#ef4444';
+                  statusBadge.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+                  statusBadge.innerHTML = '<span style="width: 8px; height: 8px; border-radius: 50%; background: #ef4444; box-shadow: 0 0 10px #ef4444;"></span><span>LINK CLOSED</span>';
+                }
+                if (controlTitle) controlTitle.textContent = "Registration is currently Closed";
+                if (controlDesc) controlDesc.textContent = "The link is closed. Students visiting the URL cannot submit entries.";
+                if (toggleBtn) {
+                  toggleBtn.style.background = '#10b981';
+                  toggleBtn.style.boxShadow = '0 4px 15px rgba(16, 185, 129, 0.3)';
+                  toggleBtn.innerHTML = '<i class="fas fa-lock-open"></i><span>Open Registration Link</span>';
+                }
+              }
+
+              // Bind Toggle Button click
+              if (toggleBtn) {
+                toggleBtn.onclick = async () => {
+                  const targetState = !isOpen;
+                  const actionWord = targetState ? "OPEN" : "CLOSE";
+                  if (!confirm(`Are you sure you want to ${actionWord} the registration link for ${deptName}?`)) return;
+
+                  toggleBtn.disabled = true;
+                  try {
+                    await setDoc(docRef, {
+                      slug: slug,
+                      department: deptName,
+                      isOpen: targetState,
+                      status: targetState ? 'active' : 'closed',
+                      academicYear: systemYear,
+                      departmentSecretaryEmail: auth.currentUser.email,
+                      updatedAt: firestoreTimestamp(),
+                      updatedBy: auth.currentUser.email
+                    }, { merge: true });
+
+                    showCustomAlert("Success!", `Registration link is now ${targetState ? 'OPEN' : 'CLOSED'}.`, "success");
+                  } catch (err) {
+                    console.error("Failed to toggle link:", err);
+                    showCustomAlert("Error", "Failed to update link status: " + err.message, "error");
+                  } finally {
+                    toggleBtn.disabled = false;
+                  }
+                };
+              }
+            }, (err) => {
+              console.warn("Permanent link listener error:", err);
+            });
+          }
+
+          initPermanentLink(activeDept);
+
+          // Copy link button handler
+          const copyBtn = document.getElementById('sec-copy-link-btn');
+          if (copyBtn) {
+            copyBtn.onclick = () => {
+              const linkInput = document.getElementById('sec-perm-link-input');
+              if (linkInput) {
+                linkInput.select();
+                navigator.clipboard.writeText(linkInput.value);
+                copyBtn.innerHTML = '<i class="fas fa-check"></i> <span>Copied!</span>';
+                setTimeout(() => {
+                  copyBtn.innerHTML = '<i class="fas fa-copy"></i> <span>Copy</span>';
+                }, 2000);
+              }
+            };
+          }
 
           // Pending Registrations Logic
           let pendingUnsubscribe = null;
@@ -6982,7 +7113,7 @@
                 const data = docSnap.data();
                 const id = docSnap.id;
                 html += `
-                  <div class="registration-card" style="border-left: 4px solid var(--accent-color); background: rgba(255,255,255,0.03);">
+                  <div class="registration-card" style="border-left: 4px solid #fbbf24; background: rgba(26, 21, 56, 0.65); border: 1px solid rgba(251, 191, 36, 0.15); box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
                     <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
                       <div>
                         <h4 style="margin: 0; color: white; font-size: 1.1rem;">${escapeHtml(data.studentName)}</h4>
@@ -7206,95 +7337,6 @@
           } catch (error) {
             console.error("Rejection failed:", error);
             showCustomAlert("Error", "Failed to reject: " + error.message, "error");
-          }
-        };
-
-        // --- Link History Logic ---
-        let historyUnsubscribe = null;
-        function loadLinkHistory() {
-          if (historyUnsubscribe) historyUnsubscribe();
-
-          const q = query(
-            collection(db, "registration_links"),
-            where("academicYear", "==", systemYear),
-            where("createdBy", "==", auth.currentUser.email),
-            orderBy("createdAt", "desc")
-          );
-
-          historyUnsubscribe = onSnapshot(q, (snapshot) => {
-            const historyList = document.getElementById('history-list');
-            if (!historyList) return;
-
-            if (snapshot.empty) {
-              historyList.innerHTML = `
-                <div style="grid-column: 1 / -1; padding: 3rem; text-align: center; color: var(--text-secondary);">
-                  <i class="fas fa-history" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
-                  <p>No links generated yet.</p>
-                </div>
-              `;
-              return;
-            }
-
-            let html = '';
-            snapshot.forEach((docSnap) => {
-              const data = docSnap.data();
-              const token = docSnap.id;
-              const createdAt = data.createdAt ? data.createdAt.toDate().toLocaleString() : 'N/A';
-              const expiresAt = data.expiresAt ? data.expiresAt.toDate().toLocaleString() : 'N/A';
-              const isExpired = data.expiresAt ? data.expiresAt.toDate() < new Date() : false;
-              const status = data.status || 'active';
-
-              html += `
-                <div class="registration-card" style="border-left: 4px solid ${status === 'active' && !isExpired ? '#10b981' : '#ef4444'}; background: rgba(255,255,255,0.03);">
-                  <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
-                    <div>
-                      <h4 style="margin: 0; color: white; font-size: 1.1rem;">${escapeHtml(data.category)} Link</h4>
-                      <span style="font-size: 0.8rem; color: var(--text-secondary);">Created: ${createdAt}</span>
-                    </div>
-                    <span class="category-badge" style="font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 1rem; background: ${status === 'active' && !isExpired ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)'}; color: ${status === 'active' && !isExpired ? '#10b981' : '#ef4444'}; border: 1px solid ${status === 'active' && !isExpired ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)'};">
-                      ${isExpired ? 'EXPIRED' : status.toUpperCase()}
-                    </span>
-                  </div>
-                  <div style="margin-bottom: 1.5rem; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 0.75rem;">
-                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.4rem;">Token: <code style="color: var(--accent-color);">${token}</code></div>
-                    <div style="font-size: 0.75rem; color: var(--text-secondary);">Expires: ${expiresAt}</div>
-                  </div>
-                  <div style="display: flex; gap: 0.75rem;">
-                    <button onclick="copyHistoryLink('${token}')" class="cta-btn secondary" style="flex: 1; padding: 0.6rem; font-size: 0.85rem; margin-top: 0;">Copy Link</button>
-                    ${status === 'active' ? `<button onclick="removeLink('${token}')" class="cta-btn" style="flex: 1; padding: 0.6rem; font-size: 0.85rem; background: #ef4444; margin-top: 0; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);">Remove</button>` : ''}
-                  </div>
-                </div>
-              `;
-            });
-            historyList.innerHTML = html;
-          }, (error) => {
-            console.error("History Listener Error:", error);
-            const historyList = document.getElementById('history-list');
-            if (historyList) historyList.innerHTML = `<div style="grid-column: 1 / -1; padding: 3rem; text-align: center; color: #ef4444;">Error loading history: ${error.message}</div>`;
-          });
-        }
-
-        window.copyHistoryLink = (token) => {
-          const shareLink = `${window.location.protocol}//${window.location.host}/student/${token}`;
-          navigator.clipboard.writeText(shareLink);
-          showCustomAlert("Copied!", "Link copied to clipboard.", "success");
-        };
-
-        window.removeLink = async (token) => {
-          if (!token) return;
-          if (!confirm("Are you sure you want to REMOVE this registration link? This will invalidate the link for any students who have it.")) return;
-
-          try {
-            const linkRef = doc(db, "registration_links", token);
-            await updateDoc(linkRef, {
-              status: 'removed',
-              removedAt: firestoreTimestamp(),
-              removedBy: auth.currentUser.email
-            });
-            showCustomAlert("Removed", "Registration link has been invalidated.", "info");
-          } catch (error) {
-            console.error("Removal failed:", error);
-            showCustomAlert("Error", "Failed to remove link: " + error.message, "error");
           }
         };
 
