@@ -1470,9 +1470,11 @@
       0% {
         transform: translate(-4%, -4%) scale(1) rotate(0deg);
       }
+
       50% {
         transform: translate(6%, 3%) scale(1.08) rotate(10deg);
       }
+
       100% {
         transform: translate(-2%, 8%) scale(1.15) rotate(-8deg);
       }
@@ -1588,8 +1590,17 @@
     }
 
     @keyframes pulseDot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.75); }
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.4;
+        transform: scale(0.75);
+      }
     }
 
     .auth-card .logo {
@@ -1607,9 +1618,12 @@
     }
 
     @keyframes logoFloat {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: translateY(0) scale(1);
       }
+
       50% {
         transform: translateY(-6px) scale(1.02);
       }
@@ -1631,8 +1645,13 @@
     }
 
     @keyframes shimmerTitle {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 200% 50%; }
+      0% {
+        background-position: 0% 50%;
+      }
+
+      100% {
+        background-position: 200% 50%;
+      }
     }
 
     .auth-card h2 {
@@ -1764,8 +1783,15 @@
     }
 
     @keyframes swipeBounce {
-      0%, 100% { transform: translateX(0); }
-      50% { transform: translateX(-4px); }
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      50% {
+        transform: translateX(-4px);
+      }
     }
 
     .auth-brand-footer {
@@ -1782,14 +1808,17 @@
     #public-leaderboard-content::-webkit-scrollbar {
       width: 5px;
     }
+
     #public-leaderboard-content::-webkit-scrollbar-track {
       background: rgba(255, 255, 255, 0.03);
       border-radius: 4px;
     }
+
     #public-leaderboard-content::-webkit-scrollbar-thumb {
       background: rgba(168, 85, 247, 0.4);
       border-radius: 4px;
     }
+
     #public-leaderboard-content::-webkit-scrollbar-thumb:hover {
       background: rgba(168, 85, 247, 0.7);
     }
@@ -4178,7 +4207,8 @@
         <div class="portal-auth-hero-overlay">
           <div class="portal-auth-hero-badge"><i class="fas fa-star"></i> PRC Arts Festival</div>
           <h2 class="portal-auth-hero-title">Pazhassiraja College Pulpally</h2>
-          <p class="portal-auth-hero-desc">Union Arts OS — the unified ecosystem for orchestrating talent, managing registrations, and celebrating creativity.</p>
+          <p class="portal-auth-hero-desc">Union Arts OS — the unified ecosystem for orchestrating talent, managing
+            registrations, and celebrating creativity.</p>
         </div>
       </div>
 
@@ -4191,7 +4221,8 @@
         </div>
 
         <h1 class="portal-auth-title">Login to continue</h1>
-        <p class="portal-auth-subtitle">Sign in with your Google Workspace account to access the arts management portal. Authorized personnel only.</p>
+        <p class="portal-auth-subtitle">Sign in with your Google Workspace account to access the arts management portal.
+          Authorized personnel only.</p>
 
         <button id="google-signin-btn" class="portal-btn-google" style="margin-top: 0.5rem;">
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
@@ -4216,15 +4247,22 @@
     </div>
 
     <!-- Public Leaderboard Panel (shown when View Standings is clicked) -->
-    <div id="leaderboard-panel" class="portal-auth-card" style="display:none; max-width: 500px; flex-direction: column; padding: 0; overflow: hidden;">
-      <div style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between;">
+    <div id="leaderboard-panel" class="portal-auth-card"
+      style="display:none; max-width: 500px; flex-direction: column; padding: 0; overflow: hidden;">
+      <div
+        style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between;">
         <div>
-          <div style="font-size: 0.7rem; color: #a5b4fc; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.25rem;">Global Ecosystem</div>
-          <h2 style="margin:0; font-size: 1.5rem; font-weight: 900; color: #fff; font-family: 'Outfit', sans-serif;">Live Standings</h2>
+          <div
+            style="font-size: 0.7rem; color: #a5b4fc; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.25rem;">
+            Global Ecosystem</div>
+          <h2 style="margin:0; font-size: 1.5rem; font-weight: 900; color: #fff; font-family: 'Outfit', sans-serif;">
+            Live Standings</h2>
         </div>
         <div style="display: flex; align-items: center; gap: 0.75rem;">
-          <span style="display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 2rem; padding: 0.3rem 0.85rem; font-size: 0.7rem; font-weight: 700; color: #fff; letter-spacing: 0.1em;">
-            <span style="width:6px; height:6px; border-radius:50%; background:#34d399; box-shadow: 0 0 8px #34d399; animation: pulseDot 1.8s infinite; display:inline-block;"></span>
+          <span
+            style="display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 2rem; padding: 0.3rem 0.85rem; font-size: 0.7rem; font-weight: 700; color: #fff; letter-spacing: 0.1em;">
+            <span
+              style="width:6px; height:6px; border-radius:50%; background:#34d399; box-shadow: 0 0 8px #34d399; animation: pulseDot 1.8s infinite; display:inline-block;"></span>
             Live
           </span>
           <button id="share-leaderboard-btn" title="Share"
@@ -4340,13 +4378,17 @@
         <!-- Event Cards -->
         <div class="event-card">
           <span class="event-date"><i class="fas fa-sparkles"></i> Grand Stage Events</span>
-          <div class="event-title"><i class="fas fa-microphone-lines" style="color: #fbbf24; margin-right: 0.5rem; font-size: 1.4rem;"></i> On Stage</div>
-          <div class="event-desc">Experience electrifying music, classical dance, mime, skit, and vibrant theatrical performances on the festival main stage.</div>
+          <div class="event-title"><i class="fas fa-microphone-lines"
+              style="color: #fbbf24; margin-right: 0.5rem; font-size: 1.4rem;"></i> On Stage</div>
+          <div class="event-desc">Experience electrifying music, classical dance, mime, skit, and vibrant theatrical
+            performances on the festival main stage.</div>
         </div>
         <div class="event-card">
           <span class="event-date"><i class="fas fa-palette"></i> Creative Arts</span>
-          <div class="event-title"><i class="fas fa-paintbrush" style="color: #ec4899; margin-right: 0.5rem; font-size: 1.4rem;"></i> Off Stage</div>
-          <div class="event-desc">Showcase your prowess in watercolor painting, pencil sketching, creative writing, debating, and diverse fine arts genres across campus.</div>
+          <div class="event-title"><i class="fas fa-paintbrush"
+              style="color: #ec4899; margin-right: 0.5rem; font-size: 1.4rem;"></i> Off Stage</div>
+          <div class="event-desc">Showcase your prowess in watercolor painting, pencil sketching, creative writing,
+            debating, and diverse fine arts genres across campus.</div>
         </div>
       </div>
 
@@ -4422,43 +4464,56 @@
         <!-- Permanent Link Content -->
         <div id="perm-link-container" class="auth-container"
           style="max-width: 650px; margin: 0 auto; text-align: left; background: rgba(26, 21, 56, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(251, 191, 36, 0.2); border-radius: 1.5rem; padding: 2.25rem; box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 35px rgba(124, 58, 237, 0.12);">
-          
+
           <!-- Admin Department Switcher (only shown for Main Admin) -->
-          <div id="admin-dept-select-box" class="hidden" style="margin-bottom: 1.75rem; padding: 1rem; background: rgba(18, 14, 40, 0.65); border-radius: 0.85rem; border: 1px solid rgba(251, 191, 36, 0.2);">
-            <label style="display: block; margin-bottom: 0.5rem; color: var(--accent-color); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
+          <div id="admin-dept-select-box" class="hidden"
+            style="margin-bottom: 1.75rem; padding: 1rem; background: rgba(18, 14, 40, 0.65); border-radius: 0.85rem; border: 1px solid rgba(251, 191, 36, 0.2);">
+            <label
+              style="display: block; margin-bottom: 0.5rem; color: var(--accent-color); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
               <i class="fas fa-user-shield"></i> Admin View: Select Department
             </label>
-            <select id="admin-sec-dept-select" class="form-input" style="width: 100%; background: rgba(26, 21, 56, 0.95); color: #fde047; border: 1px solid rgba(251, 191, 36, 0.3); padding: 0.6rem 0.85rem; border-radius: 0.6rem; cursor: pointer;">
+            <select id="admin-sec-dept-select" class="form-input"
+              style="width: 100%; background: rgba(26, 21, 56, 0.95); color: #fde047; border: 1px solid rgba(251, 191, 36, 0.3); padding: 0.6rem 0.85rem; border-radius: 0.6rem; cursor: pointer;">
               <option value="Department of English">Department of English</option>
               <option value="Department of Economics">Department of Economics</option>
               <option value="Department of History">Department of History</option>
               <option value="Department of Microbiology">Department of Microbiology</option>
               <option value="Department of Travel and Tourism">Department of Travel and Tourism</option>
-              <option value="Department of Journalism and Mass Communication">Department of Journalism and Mass Communication</option>
+              <option value="Department of Journalism and Mass Communication">Department of Journalism and Mass
+                Communication</option>
               <option value="Department of Biochemistry">Department of Biochemistry</option>
               <option value="Department of Commerce">Department of Commerce</option>
             </select>
           </div>
 
           <!-- Department Header & Live Status Badge -->
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+          <div
+            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
             <div>
-              <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-color); font-weight: 700; display: block; margin-bottom: 0.25rem;">Department Link</span>
-              <h3 id="sec-dept-name" style="margin: 0; color: white; font-family: var(--font-heading); font-size: 1.4rem;">Department of English</h3>
+              <span
+                style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-color); font-weight: 700; display: block; margin-bottom: 0.25rem;">Department
+                Link</span>
+              <h3 id="sec-dept-name"
+                style="margin: 0; color: white; font-family: var(--font-heading); font-size: 1.4rem;">Department of
+                English</h3>
             </div>
-            <div id="sec-link-status-badge" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 1rem; border-radius: 2rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">
-              <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981;"></span>
+            <div id="sec-link-status-badge"
+              style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 1rem; border-radius: 2rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">
+              <span
+                style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981;"></span>
               <span id="sec-status-text">LINK OPEN</span>
             </div>
           </div>
 
           <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.75rem; line-height: 1.5;">
-            This is the permanent registration link for your department. Students use this link to register for both On-Stage and Off-Stage events.
+            This is the permanent registration link for your department. Students use this link to register for both
+            On-Stage and Off-Stage events.
           </p>
 
           <!-- Permanent Link Box -->
           <div style="margin-bottom: 1.75rem;">
-            <label style="display: block; margin-bottom: 0.6rem; color: var(--text-secondary); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+            <label
+              style="display: block; margin-bottom: 0.6rem; color: var(--text-secondary); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
               Permanent Registration Link
             </label>
             <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
@@ -4471,7 +4526,8 @@
                 <i class="fas fa-copy"></i>
                 <span id="sec-copy-btn-text">Copy</span>
               </button>
-              <a id="sec-open-link-btn" href="#" target="_blank" class="cta-btn secondary-btn" title="Open Link in New Tab"
+              <a id="sec-open-link-btn" href="#" target="_blank" class="cta-btn secondary-btn"
+                title="Open Link in New Tab"
                 style="width: auto; margin-top: 0; padding: 0.75rem 1rem; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; text-decoration: none; border: 1px solid rgba(251, 191, 36, 0.35); color: #fbbf24; background: rgba(251, 191, 36, 0.08);">
                 <i class="fas fa-external-link-alt"></i>
               </a>
@@ -4479,9 +4535,11 @@
           </div>
 
           <!-- Open/Close Controls Box -->
-          <div id="sec-control-card" style="padding: 1.5rem; border-radius: 1rem; background: rgba(18, 14, 40, 0.6); border: 1px solid rgba(251, 191, 36, 0.12); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div id="sec-control-card"
+            style="padding: 1.5rem; border-radius: 1rem; background: rgba(18, 14, 40, 0.6); border: 1px solid rgba(251, 191, 36, 0.12); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
             <div style="flex: 1; min-width: 220px;">
-              <div id="sec-control-title" style="font-weight: 700; color: white; font-size: 0.95rem; margin-bottom: 0.25rem;">
+              <div id="sec-control-title"
+                style="font-weight: 700; color: white; font-size: 0.95rem; margin-bottom: 0.25rem;">
                 Registration is currently Active
               </div>
               <div id="sec-control-desc" style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4;">
@@ -4496,10 +4554,12 @@
           </div>
 
           <!-- Notice / Guidance -->
-          <div style="margin-top: 1.5rem; display: flex; align-items: start; gap: 0.75rem; padding: 1rem; background: rgba(251, 191, 36, 0.07); border: 1px solid rgba(251, 191, 36, 0.22); border-radius: 0.85rem;">
+          <div
+            style="margin-top: 1.5rem; display: flex; align-items: start; gap: 0.75rem; padding: 1rem; background: rgba(251, 191, 36, 0.07); border: 1px solid rgba(251, 191, 36, 0.22); border-radius: 0.85rem;">
             <i class="fas fa-info-circle" style="color: #fbbf24; margin-top: 0.2rem; font-size: 0.9rem;"></i>
             <span style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;">
-              This permanent link never changes or expires. You can open or close access anytime. Closing it prevents new student submissions while keeping previously approved entries intact.
+              This permanent link never changes or expires. You can open or close access anytime. Closing it prevents
+              new student submissions while keeping previously approved entries intact.
             </span>
           </div>
 
@@ -4668,21 +4728,14 @@
         </div>
 
         <div class="footer-column">
-          <h4 class="footer-heading">Tech Support</h4>
-          <div class="footer-nav-list">
-            <a href="mailto:ashinmrelu@gmail.com" class="contact-item">
-              <i class="fas fa-at"></i>
-              <span>arshinmrelju@gmail.com</span>
-            </a>
-            <a href="https://www.instagram.com/arshin_m_relju" target="_blank" class="contact-item">
-              <i class="fab fa-instagram"></i>
-              <span>@arshin_m_relju</span>
-            </a>
-            <a href="javascript:void(0)" onclick="openComplaintModal()" class="contact-item"
-              style="margin-top: 0.5rem;">
-              <i class="fas fa-circle-exclamation"></i>
-              <span>Raise a Complaint</span>
-            </a>
+          <h4 class="footer-heading">Managed By</h4>
+          <div style="display: flex; align-items: center; gap: 0.85rem; margin-top: 0.35rem;">
+            <img src="assets/yellow%20svg.svg" alt="Jesus Youth Logo"
+              style="width: 44px; height: 44px; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.35)); flex-shrink: 0;">
+            <div style="display: flex; flex-direction: column; line-height: 1.35;">
+              <span style="font-weight: 700; font-size: 0.98rem; color: #ffffff;">Jesus Youth</span>
+              <span style="font-size: 0.82rem; color: var(--text-secondary);">Pazhassiraja College</span>
+            </div>
           </div>
         </div>
 
@@ -6941,14 +6994,14 @@
           let permLinkUnsubscribe = null;
           function initPermanentLink(deptName) {
             if (permLinkUnsubscribe) permLinkUnsubscribe();
-            
+
             const slug = getDepartmentSlug(deptName);
             const deptHeading = document.getElementById('sec-dept-name');
             const linkInput = document.getElementById('sec-perm-link-input');
             const openLinkBtn = document.getElementById('sec-open-link-btn');
 
             if (deptHeading) deptHeading.textContent = deptName;
-            
+
             // Clean permanent URL, e.g. https://unionartsprc.web.app/english
             const permUrl = `${window.location.protocol}//${window.location.host}/${slug}`;
             if (linkInput) linkInput.value = permUrl;
